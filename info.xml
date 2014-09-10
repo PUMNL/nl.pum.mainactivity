@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<extension key="nl.pum.mainactivity" type="module">
+  <file>mainactivity</file>
+  <name>Functionality for Main activities</name>
+  <description>
+       This extension includes:
+      - a report to show all main activities for a prof
+      - custom fields for main activities: Travel Information and Activity Information
+      - cron job for automatic setting case status to execution (after prep and departure date has passed) and to debriefing (afert execution and activity end date has passed)
+  </description>
+  <license>AGPL-3.0</license>
+  <maintainer>
+    <author>Jaap Jansma</author>
+    <email>helpdesk@civicoop.org</email>
+  </maintainer>
+  <releaseDate>2014-09-10</releaseDate>
+  <version>1.0</version>
+  <develStage>alpha</develStage>
+  <compatibility>
+    <ver>4.2</ver>
+  </compatibility>
+  <comments>This is a new, undeveloped module</comments>
+  <civix>
+    <namespace>CRM/Mainactivity</namespace>
+  </civix>
+</extension>
