@@ -66,6 +66,24 @@ class CRM_Mainactivity_Form_Report_Summary extends CRM_Report_Form {
           ),
         ),
       ),
+      'civicrm_c3' =>
+      array(
+        'dao' => 'CRM_Contact_DAO_Contact',
+        'fields' =>
+        array(
+          'expert_name' =>
+          array(
+            'name' => 'display_name',
+            'title' => ts('Expert'),
+            'default' => TRUE,
+          ),
+          'id' =>
+          array(
+            'no_display' => TRUE,
+            'required' => TRUE,
+          ),
+        ),
+      ),
       'civicrm_address' =>
       array(
         'dao' => 'CRM_Core_DAO_Address',
@@ -159,6 +177,10 @@ class CRM_Mainactivity_Form_Report_Summary extends CRM_Report_Form {
       array(
         'dao' => 'CRM_Contact_DAO_Relationship',
       ),
+      'civicrm_expert_relationship' =>
+      array(
+        'dao' => 'CRM_Contact_DAO_Relationship',
+      ),
       'civicrm_case_contact' =>
       array(
         'dao' => 'CRM_Case_DAO_CaseContact',
@@ -201,19 +223,30 @@ class CRM_Mainactivity_Form_Report_Summary extends CRM_Report_Form {
     $session   = CRM_Core_Session::singleton();
     $userID    = $session->get('userID');
     
+    $expert_rel_type_id = civicrm_api3('RelationshipType', 'getvalue', array('return' => 'id', 'name_a_b' => 'Expert'));
+    
     $cc  = $this->_aliases['civicrm_case'];
     $c2  = $this->_aliases['civicrm_c2'];
+    $c3  = $this->_aliases['civicrm_c3'];
     $cr  = $this->_aliases['civicrm_relationship'];
+    $cr2  = $this->_aliases['civicrm_expert_relationship'];
     $ccc = $this->_aliases['civicrm_case_contact'];
 
 
     $this->_from = "
           FROM civicrm_case {$cc}
-          inner join civicrm_relationship $cr on {$cc}.id = ${cr}.case_id AND ({$cr}.contact_id_a = {$userID} OR {$cr}.contact_id_b = {$userID})
-          inner join civicrm_case_contact $ccc on ${ccc}.case_id = ${cc}.id
-          inner join civicrm_contact $c2 on ${c2}.id=${ccc}.contact_id
+          inner join civicrm_relationship {$cr} on {$cc}.id = {$cr}.case_id AND ({$cr}.contact_id_a = {$userID} OR {$cr}.contact_id_b = {$userID})
+          inner join civicrm_case_contact {$ccc} on {$ccc}.case_id = {$cc}.id
+          inner join civicrm_contact {$c2} on {$c2}.id={$ccc}.contact_id
       ";
-    
+    if ($this->isTableSelected('civicrm_c3')) {
+      $this->_from .= "
+          LEFT JOIN civicrm_relationship {$cr2} ON {$cc}.id = {$cr2}.case_id AND {$cr2}.contact_id_a = {$ccc}.contact_id AND {$cr2}.relationship_type_id = '{$expert_rel_type_id}'
+          LEFT JOIN civicrm_contact {$c3} ON {$cr2}.contact_id_b = {$c3}.id
+          ";
+          
+    }
+          
     if ($this->isTableSelected('civicrm_country') || $this->isTableSelected('civicrm_address')) {
       $this->_from .= "
         LEFT JOIN civicrm_address {$this->_aliases['civicrm_address']}
@@ -327,6 +360,14 @@ class CRM_Mainactivity_Form_Report_Summary extends CRM_Report_Form {
           }
         }
         $rows[$rowNum]['civicrm_case_case_type_id'] = implode(', ', $value);
+        $entryFound = TRUE;
+      }
+      
+      // convert Client ID to contact page
+      if (CRM_Utils_Array::value('civicrm_c3_expert_name', $rows[$rowNum])) {
+        $url = CRM_Utils_System::url("civicrm/contact/view?action=view&reset=1&cid". $row['civicrm_c3_id'], $this->_absoluteUrl);
+        $rows[$rowNum]['civicrm_c3_expert_name_link'] = $url;
+        $rows[$rowNum]['civicrm_c3_expert_name_hover'] = ts("View client");
         $entryFound = TRUE;
       }
       
