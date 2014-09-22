@@ -60,5 +60,90 @@
       <column_name>return_date</column_name>
       <custom_group_name>mission_travel_data</custom_group_name>
     </CustomField>
+    <CustomField>
+      <name>Name_of_Pick_Up_person_at_the_airport</name>
+      <label>Name of Pick Up person at the airport</label>
+      <data_type>String</data_type>
+      <html_type>Text</html_type>
+      <is_required>0</is_required>
+      <is_searchable>0</is_searchable>
+      <is_search_range>0</is_search_range>
+      <weight>17</weight>
+      <is_active>1</is_active>
+      <is_view>0</is_view>
+      <text_length>255</text_length>
+      <note_columns>60</note_columns>
+      <note_rows>4</note_rows>
+      <column_name>name_of_pick_up_person_at_the_ai_642</column_name>
+      <custom_group_name>mission_travel_data</custom_group_name>
+    </CustomField>
+    <CustomField>
+      <name>Phonenumber_of_Pick_Up_person_at_airport_</name>
+      <label>Phonenumber of Pick Up person at airport:</label>
+      <data_type>Float</data_type>
+      <html_type>Text</html_type>
+      <is_required>0</is_required>
+      <is_searchable>0</is_searchable>
+      <is_search_range>0</is_search_range>
+      <weight>18</weight>
+      <is_active>1</is_active>
+      <is_view>0</is_view>
+      <text_length>255</text_length>
+      <note_columns>60</note_columns>
+      <note_rows>4</note_rows>
+      <column_name>phonenumber_of_pick_up_person_at_643</column_name>
+      <custom_group_name>mission_travel_data</custom_group_name>
+    </CustomField>
+    <CustomField>
+      <name>Name_of_Hotel_or_Guesthouse</name>
+      <label>Name of Hotel or Guesthouse</label>
+      <data_type>String</data_type>
+      <html_type>Text</html_type>
+      <is_required>0</is_required>
+      <is_searchable>0</is_searchable>
+      <is_search_range>0</is_search_range>
+      <weight>19</weight>
+      <is_active>1</is_active>
+      <is_view>0</is_view>
+      <text_length>255</text_length>
+      <note_columns>60</note_columns>
+      <note_rows>4</note_rows>
+      <column_name>name_of_hotel_or_guesthouse_644</column_name>
+      <custom_group_name>mission_travel_data</custom_group_name>
+    </CustomField>
+    <CustomField>
+      <name>Address_of_Hotel_or_Guesthouse</name>
+      <label>Address of Hotel or Guesthouse</label>
+      <data_type>String</data_type>
+      <html_type>Text</html_type>
+      <is_required>0</is_required>
+      <is_searchable>0</is_searchable>
+      <is_search_range>0</is_search_range>
+      <weight>20</weight>
+      <is_active>1</is_active>
+      <is_view>0</is_view>
+      <text_length>255</text_length>
+      <note_columns>60</note_columns>
+      <note_rows>4</note_rows>
+      <column_name>address_of_hotel_or_guesthouse_645</column_name>
+      <custom_group_name>mission_travel_data</custom_group_name>
+    </CustomField>
+    <CustomField>
+      <name>Telephone_number_Hotel_or_Guesthouse</name>
+      <label>Telephone number Hotel or Guesthouse</label>
+      <data_type>Float</data_type>
+      <html_type>Text</html_type>
+      <is_required>0</is_required>
+      <is_searchable>0</is_searchable>
+      <is_search_range>0</is_search_range>
+      <weight>21</weight>
+      <is_active>1</is_active>
+      <is_view>0</is_view>
+      <text_length>255</text_length>
+      <note_columns>60</note_columns>
+      <note_rows>4</note_rows>
+      <column_name>telephone_number_hotel_or_guesth_646</column_name>
+      <custom_group_name>mission_travel_data</custom_group_name>
+    </CustomField>
   </CustomFields>
 </CustomData>
