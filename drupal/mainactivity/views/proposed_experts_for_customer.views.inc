@@ -28,6 +28,7 @@ $handler->display->display_options['access']['type'] = 'role';
 $handler->display->display_options['access']['role'] = mainactivity_get_role_ids(array('Customer (contact)'));
 $handler->display->display_options['cache']['type'] = 'none';
 $handler->display->display_options['query']['type'] = 'views_query';
+$handler->display->display_options['query']['options']['distinct'] = TRUE;
 $handler->display->display_options['exposed_form']['type'] = 'basic';
 $handler->display->display_options['pager']['type'] = 'none';
 $handler->display->display_options['style_plugin'] = 'table';
