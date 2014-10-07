@@ -2,7 +2,7 @@
 
 $view = new view();
 $view->name = 'expert_info_for_customer';
-$view->description = '';
+$view->description = 'CV of proposed expert for customer';
 $view->tag = 'main activity';
 $view->base_table = 'civicrm_contact';
 $view->human_name = 'Expert info for customer';

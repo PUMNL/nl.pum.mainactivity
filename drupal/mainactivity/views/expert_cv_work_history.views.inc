@@ -14,7 +14,7 @@ $countries_visited = civicrm_api3('CustomField', 'getvalue', array('name' => 'Co
 
 $view = new view();
 $view->name = 'expert_cv_work_experience_';
-$view->description = '';
+$view->description = 'Work history of expert CV';
 $view->tag = 'expert cv';
 $view->base_table = 'civicrm_contact';
 $view->human_name = 'Expert CV (Work experience)';

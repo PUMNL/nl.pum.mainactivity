@@ -12,7 +12,7 @@ $to = civicrm_api3('CustomField', 'getvalue', array('name' => 'To', 'return' => 
 
 $view = new view();
 $view->name = 'expert_cv_education_';
-$view->description = '';
+$view->description = 'Education of expert cv';
 $view->tag = 'expert cv';
 $view->base_table = 'civicrm_contact';
 $view->human_name = 'Expert CV (Education)';
