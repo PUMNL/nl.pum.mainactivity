@@ -94,6 +94,15 @@ $handler->display->display_options['fields']['id']['table'] = 'civicrm_contact';
 $handler->display->display_options['fields']['id']['field'] = 'id';
 $handler->display->display_options['fields']['id']['exclude'] = TRUE;
 $handler->display->display_options['fields']['id']['separator'] = '';
+/* Field: CiviCRM Cases: Case ID */
+$handler->display->display_options['fields']['id_2']['id'] = 'id_2';
+$handler->display->display_options['fields']['id_2']['table'] = 'civicrm_case';
+$handler->display->display_options['fields']['id_2']['field'] = 'id';
+$handler->display->display_options['fields']['id_2']['relationship'] = 'case_id';
+$handler->display->display_options['fields']['id_2']['label'] = '';
+$handler->display->display_options['fields']['id_2']['exclude'] = TRUE;
+$handler->display->display_options['fields']['id_2']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['id_2']['separator'] = '';
 /* Field: CiviCRM Contacts: Contact ID */
 $handler->display->display_options['fields']['id_1']['id'] = 'id_1';
 $handler->display->display_options['fields']['id_1']['table'] = 'civicrm_contact';
@@ -115,7 +124,7 @@ $handler->display->display_options['fields']['display_name']['table'] = 'civicrm
 $handler->display->display_options['fields']['display_name']['field'] = 'display_name';
 $handler->display->display_options['fields']['display_name']['label'] = 'Expert';
 $handler->display->display_options['fields']['display_name']['alter']['make_link'] = TRUE;
-$handler->display->display_options['fields']['display_name']['alter']['path'] = 'customer/expert/[id]';
+$handler->display->display_options['fields']['display_name']['alter']['path'] = 'customer/expert/[id]/[id_2]';
 $handler->display->display_options['fields']['display_name']['alter']['absolute'] = TRUE;
 $handler->display->display_options['fields']['display_name']['link_to_civicrm_contact'] = 0;
 /* Field: CiviCRM Custom: (Main) Activity information: Activity Start Date */

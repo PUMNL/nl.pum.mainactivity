@@ -1,5 +1,7 @@
 <?php
 
+$expert_rel_type_id = civicrm_api3('RelationshipType', 'getvalue', array('name_a_b' => 'Expert', 'return' => 'id'));
+
 $view = new view();
 $view->name = 'expert_info_for_customer';
 $view->description = 'CV of proposed expert for customer';
@@ -22,6 +24,13 @@ $handler->display->display_options['pager']['type'] = 'none';
 $handler->display->display_options['pager']['options']['offset'] = '0';
 $handler->display->display_options['style_plugin'] = 'default';
 $handler->display->display_options['row_plugin'] = 'fields';
+/* Relationship: CiviCRM Contacts: CiviCRM Relationship (starting from Contact B) */
+$handler->display->display_options['relationships']['relationship_id_b']['id'] = 'relationship_id_b';
+$handler->display->display_options['relationships']['relationship_id_b']['table'] = 'civicrm_contact';
+$handler->display->display_options['relationships']['relationship_id_b']['field'] = 'relationship_id_b';
+$handler->display->display_options['relationships']['relationship_id_b']['label'] = 'Expert';
+$handler->display->display_options['relationships']['relationship_id_b']['required'] = TRUE;
+$handler->display->display_options['relationships']['relationship_id_b']['relationship_type'] = $expert_rel_type_id;
 /* Field: CiviCRM Contacts: Contact ID */
 $handler->display->display_options['fields']['id']['id'] = 'id';
 $handler->display->display_options['fields']['id']['table'] = 'civicrm_contact';
@@ -68,6 +77,15 @@ $handler->display->display_options['fields']['view_2']['element_label_type'] = '
 $handler->display->display_options['fields']['view_2']['element_label_colon'] = FALSE;
 $handler->display->display_options['fields']['view_2']['view'] = 'expert_cv_work_experience_';
 $handler->display->display_options['fields']['view_2']['arguments'] = '[id]';
+/* Field: Project qualifications */
+$handler->display->display_options['fields']['view_3']['id'] = 'view_3';
+$handler->display->display_options['fields']['view_3']['table'] = 'views';
+$handler->display->display_options['fields']['view_3']['field'] = 'view';
+$handler->display->display_options['fields']['view_3']['ui_name'] = 'Project qualifications';
+$handler->display->display_options['fields']['view_3']['label'] = 'Submitted project qualifications';
+$handler->display->display_options['fields']['view_3']['element_label_type'] = 'h2';
+$handler->display->display_options['fields']['view_3']['view'] = 'expert_cv_project_qualifications_';
+$handler->display->display_options['fields']['view_3']['arguments'] = '!1/!2';
 /* Contextual filter: CiviCRM Contacts: Contact ID */
 $handler->display->display_options['arguments']['id']['id'] = 'id';
 $handler->display->display_options['arguments']['id']['table'] = 'civicrm_contact';
@@ -77,6 +95,16 @@ $handler->display->display_options['arguments']['id']['default_argument_type'] =
 $handler->display->display_options['arguments']['id']['summary']['number_of_records'] = '0';
 $handler->display->display_options['arguments']['id']['summary']['format'] = 'default_summary';
 $handler->display->display_options['arguments']['id']['summary_options']['items_per_page'] = '25';
+/* Contextual filter: CiviCRM Relationships: Case ID */
+$handler->display->display_options['arguments']['case_id']['id'] = 'case_id';
+$handler->display->display_options['arguments']['case_id']['table'] = 'civicrm_relationship';
+$handler->display->display_options['arguments']['case_id']['field'] = 'case_id';
+$handler->display->display_options['arguments']['case_id']['relationship'] = 'relationship_id_b';
+$handler->display->display_options['arguments']['case_id']['default_action'] = 'access denied';
+$handler->display->display_options['arguments']['case_id']['default_argument_type'] = 'fixed';
+$handler->display->display_options['arguments']['case_id']['summary']['number_of_records'] = '0';
+$handler->display->display_options['arguments']['case_id']['summary']['format'] = 'default_summary';
+$handler->display->display_options['arguments']['case_id']['summary_options']['items_per_page'] = '25';
 
 /* Display: Page */
 $handler = $view->new_display('page', 'Page', 'page');
