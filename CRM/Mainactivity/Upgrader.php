@@ -11,6 +11,12 @@ class CRM_Mainactivity_Upgrader extends CRM_Mainactivity_Upgrader_Base {
   public function install() {
     $this->executeCustomDataFile('xml/mission_travel_data.xml');
     $this->executeCustomDataFile('xml/main_activity_info.xml');
+    $this->executeCustomDataFile('xml/main_activity_visibility.xml');
+  }
+  
+  public function upgrade_1001() {
+    $this->executeCustomDataFile('xml/main_activity_visibility.xml');
+    return true;
   }
 
   /**

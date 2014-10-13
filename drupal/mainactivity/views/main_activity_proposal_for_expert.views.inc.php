@@ -3,6 +3,8 @@
 $case_status_option_group = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'name' => 'case_status'));
 $matching_case_status_id = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Matching', 'option_group_id' => $case_status_option_group));
 $expert_rel_type_id = civicrm_api3('RelationshipType', 'getvalue', array('name_a_b' => 'Expert', 'return' => 'id'));
+$visibility_data = civicrm_api3('CustomGroup', 'getsingle', array('name' => 'visibility_of_main_activity'));
+$show_to_expert = civicrm_api3('CustomField', 'getvalue', array('name' => 'show_proposed_project_to_expert', 'return' => 'column_name', 'custom_group_id' => $visibility_data['id']));
 
 $view = new view();
 $view->name = 'main_activity_proposals_for_expert';
@@ -128,7 +130,12 @@ $handler->display->display_options['filters']['uid_current']['table'] = 'users';
 $handler->display->display_options['filters']['uid_current']['field'] = 'uid_current';
 $handler->display->display_options['filters']['uid_current']['relationship'] = 'drupal_id';
 $handler->display->display_options['filters']['uid_current']['value'] = '1';
-
+/* Filter criterion: CiviCRM Custom: Visibility of case: Show project as proposed to expert */
+$handler->display->display_options['filters']['show_proposed_project_to_expert']['id'] = 'show_proposed_project_to_expert';
+$handler->display->display_options['filters']['show_proposed_project_to_expert']['table'] = $visibility_data['table_name'];
+$handler->display->display_options['filters']['show_proposed_project_to_expert']['field'] = $show_to_expert;
+$handler->display->display_options['filters']['show_proposed_project_to_expert']['relationship'] = 'case_id';
+$handler->display->display_options['filters']['show_proposed_project_to_expert']['value'] = '1';
 /* Display: Page */
 $handler = $view->new_display('page', 'Page', 'page');
 $handler->display->display_options['path'] = 'expert/main-activity-proposals';
