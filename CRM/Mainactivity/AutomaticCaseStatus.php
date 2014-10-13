@@ -7,21 +7,17 @@
 
 class CRM_Mainactivity_AutomaticCaseStatus {
   
-  protected $travel_info;
-  protected $departure_date;
-  
   protected $main_activity_info;
+  protected $start_date;
   protected $end_date;
   
   protected $preperation;
   protected $execution;
   protected $debriefing;
   
-  public function __construct() {
-     $this->travel_info = civicrm_api3('CustomGroup', 'getsingle', array('name' => 'mission_travel_data'));
-     $this->departure_date = civicrm_api3('CustomField', 'getsingle', array('name' => 'departure_date', 'custom_group_id' => $this->travel_info['id']));
-     
+  public function __construct() {     
      $this->main_activity_info = civicrm_api3('CustomGroup', 'getsingle', array('name' => 'main_activity_info'));
+     $this->start_date = civicrm_api3('CustomField', 'getsingle', array('name' => 'main_activity_start_date', 'custom_group_id' => $this->main_activity_info['id']));
      $this->end_date = civicrm_api3('CustomField', 'getsingle', array('name' => 'main_activity_end_date', 'custom_group_id' => $this->main_activity_info['id']));
      
      $case_status_id = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'name' => 'case_status'));
@@ -31,7 +27,7 @@ class CRM_Mainactivity_AutomaticCaseStatus {
   }
   
   public function parseFromPreperationToExecution() {
-    $this->parseCaseStatus($this->preperation['value'], $this->travel_info['table_name'], 'entity_id', $this->departure_date['column_name'], $this->execution['value']);
+    $this->parseCaseStatus($this->preperation['value'], $this->main_activity_info['table_name'], 'entity_id', $this->start_date['column_name'], $this->execution['value']);
   }
   
   public function parseFromExecutionToDebriefing() {
