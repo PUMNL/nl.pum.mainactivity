@@ -41,6 +41,10 @@ class CRM_Mainactivity_Form_Report_Summary extends CRM_Report_Form {
 
   protected $_customGroupExtends = array('Case');
   
+  protected $_activityLastCompleted = FALSE;
+  
+  protected $_activityNextScheduled = FALSE;
+  
   function __construct() {
     $this->case_types    = CRM_Case_PseudoConstant::caseType();
     $this->case_statuses = CRM_Case_PseudoConstant::caseStatus();
@@ -185,6 +189,58 @@ class CRM_Mainactivity_Form_Report_Summary extends CRM_Report_Form {
       array(
         'dao' => 'CRM_Case_DAO_CaseContact',
       ),
+      'civicrm_activity_next_scheduled' =>
+      array(
+        'dao' => 'CRM_Activity_DAO_Activity',
+        'fields' =>
+        array(
+          'next_scheduled_activity_date' =>
+          array(
+            'name' => 'activity_date_time',
+            'title' => ts('Date of the next scheduled activity in the case'),
+            'default' => TRUE,
+            'type' => CRM_Utils_Type::T_DATE,
+          ),
+          'next_scheduled_activity_subject' =>
+          array(
+            'name' => 'subject',
+            'default' => true,
+            'title' => ts('Subject of the next scheduled activity in the case'),
+          ),
+          'next_scheduled_activity_type' =>
+          array(
+            'name' => 'activity_type_id',
+            'default' => true,
+            'title' => ts('Activity type of the next scheduled activity'),
+          ),
+        ),
+      ),
+     'civicrm_activity_last_completed' =>
+      array(
+        'dao' => 'CRM_Activity_DAO_Activity',
+        'fields' =>
+        array(
+          'last_completed_activity_date' =>
+          array(
+            'name' => 'activity_date_time',
+            'title' => ts('Date of the last completed activity in the case'),
+            'default' => TRUE,
+            'type' => CRM_Utils_Type::T_DATE,
+          ),
+          'last_completed_activity_subject' =>
+          array(
+            'name' => 'subject',
+            'default' => true,
+            'title' => ts('Subject of the last completed activity in the case'),
+          ),
+          'last_completed_activity_type' =>
+          array(
+            'name' => 'activity_type_id',
+            'default' => true,
+            'title' => ts('Activity type of the last completed activity'),
+          ),
+        ),
+      ),
     );
 
     parent::__construct();
@@ -209,6 +265,12 @@ class CRM_Mainactivity_Form_Report_Summary extends CRM_Report_Form {
             else {
               $select[] = "{$field['dbAlias']} as {$tableName}_{$fieldName}";
             }
+            if ($tableName == 'civicrm_activity_next_scheduled') {
+              $this->_activityNextScheduled = TRUE;
+            }
+            if ($tableName == 'civicrm_activity_last_completed') {
+              $this->_activityLastCompleted = TRUE;
+            }
             $this->_columnHeaders["{$tableName}_{$fieldName}"]['type'] = CRM_Utils_Array::value('type', $field);
             $this->_columnHeaders["{$tableName}_{$fieldName}"]['title'] = $field['title'];
           }
@@ -231,7 +293,7 @@ class CRM_Mainactivity_Form_Report_Summary extends CRM_Report_Form {
     $cr  = $this->_aliases['civicrm_relationship'];
     $cr2  = $this->_aliases['civicrm_expert_relationship'];
     $ccc = $this->_aliases['civicrm_case_contact'];
-
+    $case = $this->_aliases['civicrm_case'];
 
     $this->_from = "
           FROM civicrm_case {$cc}
@@ -258,6 +320,14 @@ class CRM_Mainactivity_Form_Report_Summary extends CRM_Report_Form {
         LEFT JOIN civicrm_country {$this->_aliases['civicrm_country']}
         ON {$this->_aliases['civicrm_address']}.country_id = {$this->_aliases['civicrm_country']}.id
       ";
+    }
+    // Include clause for next scheduled activity of the case
+    if ($this->_activityNextScheduled) {
+      $this->_from .= " LEFT JOIN civicrm_activity {$this->_aliases['civicrm_activity_next_scheduled']} ON ( {$this->_aliases['civicrm_activity_next_scheduled']}.id = ( SELECT ca.id FROM civicrm_case_activity cca, civicrm_activity ca WHERE ca.id = cca.activity_id AND cca.case_id = {$case}.id AND ca.status_id = 1 ORDER BY ca.activity_date_time ASC LIMIT 1 ) )";
+    }
+    // Include clause for last completed activity of the case
+    if ($this->_activityLastCompleted) {
+      $this->_from .= " LEFT JOIN civicrm_activity {$this->_aliases['civicrm_activity_last_completed']} ON ( {$this->_aliases['civicrm_activity_last_completed']}.id = ( SELECT ca.id FROM civicrm_case_activity cca, civicrm_activity ca WHERE ca.id = cca.activity_id AND cca.case_id = {$case}.id AND ca.status_id = 2 ORDER BY ca.activity_date_time DESC LIMIT 1) )";
     }
   }
 
@@ -340,6 +410,7 @@ class CRM_Mainactivity_Form_Report_Summary extends CRM_Report_Form {
 
   function alterDisplay(&$rows) {
     $entryFound = FALSE;
+    $activityTypes = CRM_Core_PseudoConstant::activityType(TRUE, TRUE);
     foreach ($rows as $rowNum => $row) {
       if (array_key_exists('civicrm_case_status_id', $row)) {
         if ($value = $row['civicrm_case_status_id']) {
@@ -441,6 +512,34 @@ class CRM_Mainactivity_Form_Report_Summary extends CRM_Report_Form {
       if (array_key_exists('civicrm_case_is_deleted', $row)) {
         $value = $row['civicrm_case_is_deleted'];
         $rows[$rowNum]['civicrm_case_is_deleted'] = $this->deleted_labels[$value];
+        $entryFound = TRUE;
+      }
+      
+      if (array_key_exists('civicrm_activity_next_scheduled_next_scheduled_activity_subject', $row) &&
+        !CRM_Utils_Array::value('civicrm_activity_next_scheduled_next_scheduled_activity_subject', $row)
+      ) {
+        $rows[$rowNum]['civicrm_activity_next_scheduled_next_scheduled_activity_subject'] = ts('(No Subject)');
+        $entryFound = TRUE;
+      }
+      
+      if (array_key_exists('civicrm_activity_next_scheduled_next_scheduled_activity_type', $row)) {
+        if ($value = $row['civicrm_activity_next_scheduled_next_scheduled_activity_type']) {
+          $rows[$rowNum]['civicrm_activity_next_scheduled_next_scheduled_activity_type'] = $activityTypes[$value];
+        }
+        $entryFound = TRUE;
+      }
+      
+      if (array_key_exists('civicrm_activity_last_completed_last_completed_activity_subject', $row) &&
+        !CRM_Utils_Array::value('civicrm_activity_last_completed_last_completed_activity_subject', $row)
+      ) {
+        $rows[$rowNum]['civicrm_activity_last_completed_last_completed_activity_subject'] = ts('(No Subject)');
+        $entryFound = TRUE;
+      }
+      
+      if (array_key_exists('civicrm_activity_last_completed_last_completed_activity_type', $row)) {
+        if ($value = $row['civicrm_activity_last_completed_last_completed_activity_type']) {
+          $rows[$rowNum]['civicrm_activity_last_completed_last_completed_activity_type'] = $activityTypes[$value];
+        }
         $entryFound = TRUE;
       }
 
