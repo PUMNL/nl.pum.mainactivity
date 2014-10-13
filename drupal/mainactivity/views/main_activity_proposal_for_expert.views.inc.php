@@ -3,6 +3,9 @@
 $case_status_option_group = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'name' => 'case_status'));
 $matching_case_status_id = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Matching', 'option_group_id' => $case_status_option_group));
 $expert_rel_type_id = civicrm_api3('RelationshipType', 'getvalue', array('name_a_b' => 'Expert', 'return' => 'id'));
+$sc_rel_type_id = civicrm_api3('RelationshipType', 'getvalue', array('name_a_b' => 'Sector Coordinator', 'return' => 'id'));
+$cc_rel_type_id = civicrm_api3('RelationshipType', 'getvalue', array('name_a_b' => 'Country Coordinator is', 'return' => 'id'));
+$prof_rel_type_id = civicrm_api3('RelationshipType', 'getvalue', array('name_a_b' => 'Project Officer for', 'return' => 'id'));
 $visibility_data = civicrm_api3('CustomGroup', 'getsingle', array('name' => 'visibility_of_main_activity'));
 $show_to_expert = civicrm_api3('CustomField', 'getvalue', array('name' => 'show_proposed_project_to_expert', 'return' => 'column_name', 'custom_group_id' => $visibility_data['id']));
 
@@ -61,6 +64,45 @@ $handler->display->display_options['relationships']['case_id']['table'] = 'civic
 $handler->display->display_options['relationships']['case_id']['field'] = 'case_id';
 $handler->display->display_options['relationships']['case_id']['relationship'] = 'relationship_id_a';
 $handler->display->display_options['relationships']['case_id']['required'] = TRUE;
+/* Relationship: CiviCRM Contacts: CiviCRM Relationship (starting from contact case ID) */
+$handler->display->display_options['relationships']['relationship_id_a_1']['id'] = 'relationship_id_a_1';
+$handler->display->display_options['relationships']['relationship_id_a_1']['table'] = 'civicrm_case';
+$handler->display->display_options['relationships']['relationship_id_a_1']['field'] = 'relationship_id';
+$handler->display->display_options['relationships']['relationship_id_a_1']['relationship'] = 'case_id';
+$handler->display->display_options['relationships']['relationship_id_a_1']['label'] = 'SC of customer';
+$handler->display->display_options['relationships']['relationship_id_a_1']['relationship_type'] = $sc_rel_type_id;
+/* Relationship: CiviCRM Relationships: Contact ID B */
+$handler->display->display_options['relationships']['contact_id_b__1']['id'] = 'contact_id_b__1';
+$handler->display->display_options['relationships']['contact_id_b__1']['table'] = 'civicrm_relationship';
+$handler->display->display_options['relationships']['contact_id_b__1']['field'] = 'contact_id_b_';
+$handler->display->display_options['relationships']['contact_id_b__1']['relationship'] = 'relationship_id_a_1';
+$handler->display->display_options['relationships']['contact_id_b__1']['label'] = 'SC';
+/* Relationship: CiviCRM Contacts: CiviCRM Relationship (starting from contact case ID) */
+$handler->display->display_options['relationships']['relationship_id_a_2']['id'] = 'relationship_id_a_2';
+$handler->display->display_options['relationships']['relationship_id_a_2']['table'] = 'civicrm_case';
+$handler->display->display_options['relationships']['relationship_id_a_2']['field'] = 'relationship_id';
+$handler->display->display_options['relationships']['relationship_id_a_2']['relationship'] = 'case_id';
+$handler->display->display_options['relationships']['relationship_id_a_2']['label'] = 'CC of customer';
+$handler->display->display_options['relationships']['relationship_id_a_2']['relationship_type'] = $cc_rel_type_id;
+/* Relationship: CiviCRM Relationships: Contact ID B */
+$handler->display->display_options['relationships']['contact_id_b__2']['id'] = 'contact_id_b__2';
+$handler->display->display_options['relationships']['contact_id_b__2']['table'] = 'civicrm_relationship';
+$handler->display->display_options['relationships']['contact_id_b__2']['field'] = 'contact_id_b_';
+$handler->display->display_options['relationships']['contact_id_b__2']['relationship'] = 'relationship_id_a_2';
+$handler->display->display_options['relationships']['contact_id_b__2']['label'] = 'CC';
+/* Relationship: CiviCRM Contacts: CiviCRM Relationship (starting from contact case ID) */
+$handler->display->display_options['relationships']['relationship_id_a_3']['id'] = 'relationship_id_a_3';
+$handler->display->display_options['relationships']['relationship_id_a_3']['table'] = 'civicrm_case';
+$handler->display->display_options['relationships']['relationship_id_a_3']['field'] = 'relationship_id';
+$handler->display->display_options['relationships']['relationship_id_a_3']['relationship'] = 'case_id';
+$handler->display->display_options['relationships']['relationship_id_a_3']['label'] = 'Prof of customer';
+$handler->display->display_options['relationships']['relationship_id_a_3']['relationship_type'] = $prof_rel_type_id;
+/* Relationship: CiviCRM Relationships: Contact ID B */
+$handler->display->display_options['relationships']['contact_id_b__3']['id'] = 'contact_id_b__3';
+$handler->display->display_options['relationships']['contact_id_b__3']['table'] = 'civicrm_relationship';
+$handler->display->display_options['relationships']['contact_id_b__3']['field'] = 'contact_id_b_';
+$handler->display->display_options['relationships']['contact_id_b__3']['relationship'] = 'relationship_id_a_3';
+$handler->display->display_options['relationships']['contact_id_b__3']['label'] = 'Proj. off.';
 /* Field: CiviCRM Contacts: Contact ID */
 $handler->display->display_options['fields']['id']['id'] = 'id';
 $handler->display->display_options['fields']['id']['table'] = 'civicrm_contact';
@@ -96,6 +138,27 @@ $handler->display->display_options['fields']['case_type']['relationship'] = 'cas
 $handler->display->display_options['fields']['case_type']['alter']['make_link'] = TRUE;
 $handler->display->display_options['fields']['case_type']['alter']['path'] = 'civicrm/contact/view/case?reset=1&action=view&cid=[id]&id=[id_1]&show=1';
 $handler->display->display_options['fields']['case_type']['alter']['absolute'] = TRUE;
+/* Field: CiviCRM Contacts: Display Name */
+$handler->display->display_options['fields']['display_name_1']['id'] = 'display_name_1';
+$handler->display->display_options['fields']['display_name_1']['table'] = 'civicrm_contact';
+$handler->display->display_options['fields']['display_name_1']['field'] = 'display_name';
+$handler->display->display_options['fields']['display_name_1']['relationship'] = 'contact_id_b__1';
+$handler->display->display_options['fields']['display_name_1']['label'] = 'SC';
+$handler->display->display_options['fields']['display_name_1']['link_to_civicrm_contact'] = 1;
+/* Field: CiviCRM Contacts: Display Name */
+$handler->display->display_options['fields']['display_name_2']['id'] = 'display_name_2';
+$handler->display->display_options['fields']['display_name_2']['table'] = 'civicrm_contact';
+$handler->display->display_options['fields']['display_name_2']['field'] = 'display_name';
+$handler->display->display_options['fields']['display_name_2']['relationship'] = 'contact_id_b__2';
+$handler->display->display_options['fields']['display_name_2']['label'] = 'CC';
+$handler->display->display_options['fields']['display_name_2']['link_to_civicrm_contact'] = 1;
+/* Field: CiviCRM Contacts: Display Name */
+$handler->display->display_options['fields']['display_name_3']['id'] = 'display_name_3';
+$handler->display->display_options['fields']['display_name_3']['table'] = 'civicrm_contact';
+$handler->display->display_options['fields']['display_name_3']['field'] = 'display_name';
+$handler->display->display_options['fields']['display_name_3']['relationship'] = 'contact_id_b__3';
+$handler->display->display_options['fields']['display_name_3']['label'] = 'Proj. off.';
+$handler->display->display_options['fields']['display_name_3']['link_to_civicrm_contact'] = 1;
 /* Field: Global: Custom text */
 $handler->display->display_options['fields']['nothing_1']['id'] = 'nothing_1';
 $handler->display->display_options['fields']['nothing_1']['table'] = 'views';
