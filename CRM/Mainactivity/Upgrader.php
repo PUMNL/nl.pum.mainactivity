@@ -9,7 +9,6 @@ class CRM_Mainactivity_Upgrader extends CRM_Mainactivity_Upgrader_Base {
   // upgrade tasks. They are executed in order (like Drupal's hook_update_N).
 
   public function install() {
-    $this->executeCustomDataFile('xml/mission_travel_data.xml');
     $this->executeCustomDataFile('xml/main_activity_info.xml');
     $this->executeCustomDataFile('xml/main_activity_visibility.xml');
   }
