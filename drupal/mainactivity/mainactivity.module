@@ -31,3 +31,60 @@ function mainactivity_get_role_ids($roles) {
   
   return $rids;
 }
+
+function mainactivity_form_webform_component_edit_form_alter(&$form, &$form_state) {
+  $component = $form_state['build_info']['args'][1];
+  if (!in_array($component['type'], array('hidden'))) {
+    return;
+  }
+  
+  if (!isset($form['#node']->webform_civicrm)) {
+    return;
+  }
+  
+  $form['civicrm_options_fieldset']['force_default_value'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Force default value'),
+    '#default_value' => _mainactivity_get_force_default_value($component),
+  );
+}
+
+function mainactivity_webform_component_presave(&$component) {
+  if (!isset($component['civicrm_options_fieldset']['force_default_value'])) {
+    return;
+  }
+  $component['extra']['force_default_value'] = $component['civicrm_options_fieldset']['force_default_value'] ? true : false;
+}
+
+function _mainactivity_get_force_default_value(array $component) {
+  $enabled = false;
+  if (isset($component['extra']['force_default_value'])) {
+    $enabled = (bool) $component['extra']['force_default_value'];
+  }
+  return $enabled;
+}
+
+function mainactivity_webform_submission_presave($node, &$submission) {
+  foreach($submission->data as $cid => $value) {
+    //check if this component has force default value
+    $component = $node->webform['components'][$cid];
+    if (isset($component['extra']["force_default_value"]) && $component['extra']["force_default_value"]) {
+      $submission->data[$cid][0] = $component['value'];
+    }
+  }
+}
+
+function mainactivity_module_implements_alter(&$module_list, $context){
+  if($context === "webform_submission_presave"){
+    $old_module_list = $module_list;
+    $module_list = array();
+    foreach($old_module_list as $module => $key) {
+      if ($module == 'webform_civicrm') {
+        $module_list['mainactivity'] = $old_module_list['mainactivity'];
+      }
+      if ($module != 'mainactivity') {
+        $module_list[$module] = $key;
+      }
+    }
+  }
+}
