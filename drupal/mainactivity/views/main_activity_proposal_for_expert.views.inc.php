@@ -164,7 +164,7 @@ $handler->display->display_options['fields']['nothing_1']['id'] = 'nothing_1';
 $handler->display->display_options['fields']['nothing_1']['table'] = 'views';
 $handler->display->display_options['fields']['nothing_1']['field'] = 'nothing';
 $handler->display->display_options['fields']['nothing_1']['label'] = '';
-$handler->display->display_options['fields']['nothing_1']['alter']['text'] = 'Accept advisory mission';
+$handler->display->display_options['fields']['nothing_1']['alter']['text'] = 'Accept proposal';
 $handler->display->display_options['fields']['nothing_1']['alter']['make_link'] = TRUE;
 $handler->display->display_options['fields']['nothing_1']['alter']['path'] = 'expert/accept-advisory-mission?cid1=[id]&cid2=[id_2]&caseid=[id_1]';
 $handler->display->display_options['fields']['nothing_1']['alter']['absolute'] = TRUE;
