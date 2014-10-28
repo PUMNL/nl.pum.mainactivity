@@ -436,7 +436,7 @@ class CRM_Mainactivity_Form_Report_Summary extends CRM_Report_Form {
       
       // convert Client ID to contact page
       if (CRM_Utils_Array::value('civicrm_c3_expert_name', $rows[$rowNum])) {
-        $url = CRM_Utils_System::url("civicrm/contact/view?action=view&reset=1&cid". $row['civicrm_c3_id'], $this->_absoluteUrl);
+        $url = CRM_Utils_System::url("civicrm/contact/view" , "action=view&reset=1&cid". $row['civicrm_c3_id'], $this->_absoluteUrl);
         $rows[$rowNum]['civicrm_c3_expert_name_link'] = $url;
         $rows[$rowNum]['civicrm_c3_expert_name_hover'] = ts("View client");
         $entryFound = TRUE;
@@ -444,7 +444,7 @@ class CRM_Mainactivity_Form_Report_Summary extends CRM_Report_Form {
       
       // convert Client ID to contact page
       if (CRM_Utils_Array::value('civicrm_c2_client_name', $rows[$rowNum])) {
-        $url = CRM_Utils_System::url("civicrm/contact/view?action=view&reset=1&cid". $row['civicrm_c2_id'], $this->_absoluteUrl);
+        $url = CRM_Utils_System::url("civicrm/contact/view" , "action=view&reset=1&cid". $row['civicrm_c2_id'], $this->_absoluteUrl);
         $rows[$rowNum]['civicrm_c2_client_name_link'] = $url;
         $rows[$rowNum]['civicrm_c2_client_name_hover'] = ts("View client");
         $entryFound = TRUE;
