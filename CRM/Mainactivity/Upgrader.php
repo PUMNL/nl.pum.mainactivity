@@ -17,6 +17,11 @@ class CRM_Mainactivity_Upgrader extends CRM_Mainactivity_Upgrader_Base {
     $this->executeCustomDataFile('xml/main_activity_visibility.xml');
     return true;
   }
+  
+  public function upgrade_1002() {
+    $this->executeCustomDataFile('xml/sponsor_info.xml');
+    return true;
+  }
 
   /**
    * Example: Run an external SQL script when the module is uninstalled
