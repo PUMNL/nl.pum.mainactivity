@@ -11,27 +11,20 @@ class CRM_Mainactivity_AutomaticCaseStatus {
   protected $start_date;
   protected $end_date;
   
-  protected $preperation;
-  protected $execution;
-  protected $debriefing;
-  
   public function __construct() {     
      $this->main_activity_info = civicrm_api3('CustomGroup', 'getsingle', array('name' => 'main_activity_info'));
      $this->start_date = civicrm_api3('CustomField', 'getsingle', array('name' => 'main_activity_start_date', 'custom_group_id' => $this->main_activity_info['id']));
      $this->end_date = civicrm_api3('CustomField', 'getsingle', array('name' => 'main_activity_end_date', 'custom_group_id' => $this->main_activity_info['id']));
-     
-     $case_status_id = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'name' => 'case_status'));
-     $this->preperation = civicrm_api3('OptionValue', 'getsingle', array('name' => 'Preparation', 'option_group_id' => $case_status_id));
-     $this->execution = civicrm_api3('OptionValue', 'getsingle', array('name' => 'Execution', 'option_group_id' => $case_status_id));
-     $this->debriefing = civicrm_api3('OptionValue', 'getsingle', array('name' => 'Debriefing', 'option_group_id' => $case_status_id));
   }
   
   public function parseFromPreperationToExecution() {
-    $this->parseCaseStatus($this->preperation['value'], $this->main_activity_info['table_name'], 'entity_id', $this->start_date['column_name'], $this->execution['value']);
+    $config = CRM_Mainactivity_CaseStatusConfig::singleton();
+    $this->parseCaseStatus($config->getCaseStatusPreperation('value'), $this->main_activity_info['table_name'], 'entity_id', $this->start_date['column_name'], $config->getCaseStatusExecution('value'));
   }
   
   public function parseFromExecutionToDebriefing() {
-    $this->parseCaseStatus($this->execution['value'], $this->main_activity_info['table_name'], 'entity_id', $this->end_date['column_name'], $this->debriefing['value']);
+    $config = CRM_Mainactivity_CaseStatusConfig::singleton();
+    $this->parseCaseStatus($config->getCaseStatusExecution('value'), $this->main_activity_info['table_name'], 'entity_id', $this->end_date['column_name'], $config->getCaseStatusDebriefing('value'));
   }
   
   protected function parseCaseStatus($current_status, $join_table, $join_field, $date_field, $new_status) {

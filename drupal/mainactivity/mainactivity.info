@@ -8,3 +8,5 @@ dependencies[] = webform (>=4.0-beta1)
 dependencies[] = views
 dependencies[] = pum_civicrm_views
 dependencies[] = expertaccess
+
+files[] = debriefing.inc

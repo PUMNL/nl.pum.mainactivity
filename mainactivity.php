@@ -2,6 +2,11 @@
 
 require_once 'mainactivity.civix.php';
 
+function mainactivity_civicrm_pre($op, $objectName, $id, &$params ) {
+  //create debriefing activities upon debriefing status change
+  CRM_Mainactivity_Hooks_DebriefingActivity::pre($op, $objectName, $id, $params);
+}
+
 /**
  * Implementation of hook_civicrm_config
  *

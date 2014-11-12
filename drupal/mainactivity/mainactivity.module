@@ -1,5 +1,20 @@
 <?php
 
+require_once('debriefing.inc');
+
+function _mainactivity_debriefing_link($activity_type, $case_type) {
+  $c = mainactivity_debriefing::singleton();
+  $case_types = explode(CRM_Core_DAO::VALUE_SEPARATOR, $case_type);
+  if (((int) $activity_type) == $c->expert_act && in_array($c->advice, $case_types)) { 
+    return 'expert/debriefing/advice'; 
+  } elseif (((int) $activity_type == $c->customer_act) && in_array($c->advice, $case_types)) { 
+    return 'customer/debriefing/advice';
+  } elseif (((int) $activity_type == $c->rep_act) && in_array($c->advice, $case_types)) { 
+    return 'representative/debriefing/advice';
+  }
+  return 'hoi';
+}
+
 function mainactivity_views_api() {
   return array('api' => 3.0);
 }
