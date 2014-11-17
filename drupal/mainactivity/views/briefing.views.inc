@@ -1,28 +1,23 @@
 <?php
 
-/*$case_type_id = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'name' => 'case_type'));
-$advice = civicrm_api3('OptionValue', 'getsingle', array('name' => 'Advice', 'option_group_id' => $case_type_id));
-$expert_act = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Debriefing Expert', 'option_group_id' => 2));
-$customer_act = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Debriefing Customer', 'option_group_id' => 2));
-$rep_act = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Debriefing Representative', 'option_group_id' => 2));*/
 $c = mainactivity_debriefing::singleton();
 
 $view = new view();
-$view->name = 'debriefing';
+$view->name = 'briefing';
 $view->description = '';
 $view->tag = 'default';
 $view->base_table = 'civicrm_activity';
-$view->human_name = 'Debriefing';
+$view->human_name = 'Briefing';
 $view->core = 7;
 $view->api_version = '3.0';
 $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
 /* Display: Master */
 $handler = $view->new_display('default', 'Master', 'default');
-$handler->display->display_options['title'] = 'Debriefing';
+$handler->display->display_options['title'] = 'Briefing';
 $handler->display->display_options['use_more_always'] = FALSE;
 $handler->display->display_options['access']['type'] = 'role';
-$handler->display->display_options['access']['role'] = mainactivity_get_role_ids(array('Expert', 'Customer', 'Customer (Contact)', 'Representative'));
+$handler->display->display_options['access']['role'] = mainactivity_get_role_ids(array('Expert'));
 $handler->display->display_options['cache']['type'] = 'none';
 $handler->display->display_options['query']['type'] = 'views_query';
 $handler->display->display_options['exposed_form']['type'] = 'basic';
@@ -157,16 +152,16 @@ $handler->display->display_options['fields']['activity_type']['table'] = 'civicr
 $handler->display->display_options['fields']['activity_type']['field'] = 'activity_type';
 $handler->display->display_options['fields']['activity_type']['label'] = 'Activity';
 $handler->display->display_options['fields']['activity_type']['alter']['strip_tags'] = TRUE;
-/* Field: debriefing_link */
+/* Field: briefing_link */
 $handler->display->display_options['fields']['php']['id'] = 'php';
 $handler->display->display_options['fields']['php']['table'] = 'views';
 $handler->display->display_options['fields']['php']['field'] = 'php';
-$handler->display->display_options['fields']['php']['ui_name'] = 'debriefing_link';
+$handler->display->display_options['fields']['php']['ui_name'] = 'briefing_link';
 $handler->display->display_options['fields']['php']['label'] = '';
 $handler->display->display_options['fields']['php']['exclude'] = TRUE;
 $handler->display->display_options['fields']['php']['element_label_colon'] = FALSE;
 $handler->display->display_options['fields']['php']['use_php_setup'] = 0;
-$handler->display->display_options['fields']['php']['php_value'] = 'return _mainactivity_debriefing_link($row->activity_type,$row->case_type);';
+$handler->display->display_options['fields']['php']['php_value'] = 'return _mainactivity_briefing_link($row->activity_type,$row->case_type);';
 $handler->display->display_options['fields']['php']['use_php_click_sortable'] = '0';
 $handler->display->display_options['fields']['php']['php_click_sortable'] = '';
 /* Field: Global: Custom text */
@@ -174,7 +169,7 @@ $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
 $handler->display->display_options['fields']['nothing']['table'] = 'views';
 $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
 $handler->display->display_options['fields']['nothing']['label'] = '';
-$handler->display->display_options['fields']['nothing']['alter']['text'] = 'Debriefing form';
+$handler->display->display_options['fields']['nothing']['alter']['text'] = 'Briefing form';
 $handler->display->display_options['fields']['nothing']['alter']['make_link'] = TRUE;
 $handler->display->display_options['fields']['nothing']['alter']['path'] = '[php]?cid2=[id_2]&case_id=[id_1]&aid=[id]';
 $handler->display->display_options['fields']['nothing']['alter']['absolute'] = TRUE;
@@ -196,7 +191,9 @@ $handler->display->display_options['filters']['status']['value'] = array(
 $handler->display->display_options['filters']['activity_type']['id'] = 'activity_type';
 $handler->display->display_options['filters']['activity_type']['table'] = 'civicrm_activity';
 $handler->display->display_options['filters']['activity_type']['field'] = 'activity_type';
-$handler->display->display_options['filters']['activity_type']['value'] = $c->getValidCaseTypesForView();
+$handler->display->display_options['filters']['activity_type']['value'] = array(
+  $c->briefing_expert_act => $c->briefing_expert_act,
+);
 /* Filter criterion: CiviCRM Activities: Current Revision */
 $handler->display->display_options['filters']['is_current_revision']['id'] = 'is_current_revision';
 $handler->display->display_options['filters']['is_current_revision']['table'] = 'civicrm_activity';
@@ -207,11 +204,7 @@ $handler->display->display_options['filters']['case_type']['id'] = 'case_type';
 $handler->display->display_options['filters']['case_type']['table'] = 'civicrm_case';
 $handler->display->display_options['filters']['case_type']['field'] = 'case_type';
 $handler->display->display_options['filters']['case_type']['relationship'] = 'case_id';
-$handler->display->display_options['filters']['case_type']['value'] = array(
-  $c->advice => $c->advice,
-  $c->seminar => $c->seminar,
-  $c->remote_coaching => $c->remote_coaching,
-);
+$handler->display->display_options['filters']['case_type']['value'] = $c->getValidCaseTypesForView();
 /* Filter criterion: CiviCRM Activities: Is Deleted */
 $handler->display->display_options['filters']['is_deleted']['id'] = 'is_deleted';
 $handler->display->display_options['filters']['is_deleted']['table'] = 'civicrm_activity';
@@ -220,15 +213,15 @@ $handler->display->display_options['filters']['is_deleted']['value'] = '0';
 
 /* Display: Page */
 $handler = $view->new_display('page', 'Page', 'page');
-$handler->display->display_options['path'] = 'debriefing';
+$handler->display->display_options['path'] = 'expert/briefing';
 $handler->display->display_options['menu']['type'] = 'normal';
-$handler->display->display_options['menu']['title'] = 'Debriefing';
+$handler->display->display_options['menu']['title'] = 'Briefing';
 $handler->display->display_options['menu']['weight'] = '2';
 $handler->display->display_options['menu']['context'] = 0;
 $handler->display->display_options['menu']['context_only_inline'] = 0;
-$translatables['debriefing'] = array(
+$translatables['briefing'] = array(
   t('Master'),
-  t('Debriefing'),
+  t('Briefing'),
   t('more'),
   t('Apply'),
   t('Reset'),
@@ -253,6 +246,6 @@ $translatables['debriefing'] = array(
   t('Date'),
   t('Case Type'),
   t('Activity'),
-  t('Debriefing form'),
+  t('Briefing form'),
   t('Page'),
 );
