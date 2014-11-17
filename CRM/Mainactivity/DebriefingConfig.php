@@ -18,6 +18,12 @@ class CRM_Mainactivity_DebriefingConfig {
     $advice = civicrm_api3('OptionValue', 'getsingle', array('name' => 'Advice', 'option_group_id' => $case_type_id));
     $this->valid_case_types[$advice['value']] = $advice;
     
+    $seminar = civicrm_api3('OptionValue', 'getsingle', array('name' => 'Seminar', 'option_group_id' => $case_type_id));
+    $this->valid_case_types[$seminar['value']] = $seminar;
+    
+    $RemoteCoaching = civicrm_api3('OptionValue', 'getsingle', array('name' => 'RemoteCoaching', 'option_group_id' => $case_type_id));
+    $this->valid_case_types[$RemoteCoaching['value']] = $RemoteCoaching;
+    
     $this->loadDebriefingActivities();
   }
   

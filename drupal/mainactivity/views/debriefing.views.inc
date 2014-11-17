@@ -213,6 +213,8 @@ $handler->display->display_options['filters']['case_type']['field'] = 'case_type
 $handler->display->display_options['filters']['case_type']['relationship'] = 'case_id';
 $handler->display->display_options['filters']['case_type']['value'] = array(
   $c->advice => $c->advice,
+  $c->seminar => $c->seminar,
+  $c->remote_coaching => $c->remote_coaching,
 );
 /* Filter criterion: CiviCRM Activities: Is Deleted */
 $handler->display->display_options['filters']['is_deleted']['id'] = 'is_deleted';
