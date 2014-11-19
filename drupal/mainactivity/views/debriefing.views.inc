@@ -196,7 +196,7 @@ $handler->display->display_options['filters']['status']['value'] = array(
 $handler->display->display_options['filters']['activity_type']['id'] = 'activity_type';
 $handler->display->display_options['filters']['activity_type']['table'] = 'civicrm_activity';
 $handler->display->display_options['filters']['activity_type']['field'] = 'activity_type';
-$handler->display->display_options['filters']['activity_type']['value'] = $c->getValidCaseTypesForView();
+$handler->display->display_options['filters']['activity_type']['value'] = $c->getValidDebriefingActivityTypesForView();
 /* Filter criterion: CiviCRM Activities: Current Revision */
 $handler->display->display_options['filters']['is_current_revision']['id'] = 'is_current_revision';
 $handler->display->display_options['filters']['is_current_revision']['table'] = 'civicrm_activity';
@@ -207,11 +207,7 @@ $handler->display->display_options['filters']['case_type']['id'] = 'case_type';
 $handler->display->display_options['filters']['case_type']['table'] = 'civicrm_case';
 $handler->display->display_options['filters']['case_type']['field'] = 'case_type';
 $handler->display->display_options['filters']['case_type']['relationship'] = 'case_id';
-$handler->display->display_options['filters']['case_type']['value'] = array(
-  $c->advice => $c->advice,
-  $c->seminar => $c->seminar,
-  $c->remote_coaching => $c->remote_coaching,
-);
+$handler->display->display_options['filters']['case_type']['value'] = $c->getValidCaseTypesForView();
 /* Filter criterion: CiviCRM Activities: Is Deleted */
 $handler->display->display_options['filters']['is_deleted']['id'] = 'is_deleted';
 $handler->display->display_options['filters']['is_deleted']['table'] = 'civicrm_activity';

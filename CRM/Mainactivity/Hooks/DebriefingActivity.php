@@ -22,7 +22,7 @@ class CRM_Mainactivity_Hooks_DebriefingActivity {
     }
     
     $date = new DateTime();    
-    foreach($config->getDebriefingActivityDefinition() as $act) {
+    foreach($config->getDebriefingActivityDefinition($currentCase['case_type_id']) as $act) {
       $role_contact_id = false;
       try {
         $relParams = array(

@@ -49,47 +49,116 @@ class CRM_Mainactivity_DebriefingConfig {
     return false;
   }
   
-  public function getDebriefingActivityDefinition() {
-    return $this->debriefing_act_rel;
+  public function getDebriefingActivityDefinition($case_type_id) {
+    $case_name = false;
+    if (isset($this->valid_case_types[$case_type_id]) && isset($this->valid_case_types[$case_type_id]['name'])) {
+      $case_name = $this->valid_case_types[$case_type_id]['name'];
+    }
+    if (!$case_name) {
+      return false;
+    }
+    if (!isset($this->debriefing_act_rel[$case_name])) {
+      return false;
+    }
+    return $this->debriefing_act_rel[$case_name];
   }
   
   protected function debriefingActivityDefinition() {
-    return array(
-      array(
-        'activity_type' => 'Debriefing CC',
-        'relationship_type' => 'Country Coordinator is',
-      ),
-      array(
-        'activity_type' => 'Debriefing Customer',
-        'relationship_type' => 'Has authorised',
-      ),
-      array(
-        'activity_type' => 'Debriefing Expert',
-        'relationship_type' => 'Expert',
-      ),
-      array(
-        'activity_type' => 'Debriefing PrOf',
-        'relationship_type' => 'Project Officer for',
-      ),
-      array(
-        'activity_type' => 'Debriefing Representative',
-        'relationship_type' => 'Representative is',
-      ),
-      array(
-        'activity_type' => 'Debriefing SC',
-        'relationship_type' => 'Sector Coordinator',
-      ),
-    );
+    return array (
+      'Advice' =>
+        array(
+          array(
+            'activity_type' => 'Advice Debriefing CC',
+            'relationship_type' => 'Country Coordinator is',
+          ),
+          array(
+            'activity_type' => 'Advice Debriefing Customer',
+            'relationship_type' => 'Has authorised',
+          ),
+          array(
+            'activity_type' => 'Advice Debriefing Expert',
+            'relationship_type' => 'Expert',
+          ),
+          array(
+            'activity_type' => 'Advice Debriefing PrOf',
+            'relationship_type' => 'Project Officer for',
+          ),
+          array(
+            'activity_type' => 'Advice Debriefing Representative',
+            'relationship_type' => 'Representative is',
+          ),
+          array(
+            'activity_type' => 'Advice Debriefing SC',
+            'relationship_type' => 'Sector Coordinator',
+          ),
+        ),
+      'Seminar' =>
+        array(
+          array(
+            'activity_type' => 'Seminar Debriefing CC',
+            'relationship_type' => 'Country Coordinator is',
+          ),
+          array(
+            'activity_type' => 'Seminar Debriefing Customer',
+            'relationship_type' => 'Has authorised',
+          ),
+          array(
+            'activity_type' => 'Seminar Debriefing Expert',
+            'relationship_type' => 'Expert',
+          ),
+          array(
+            'activity_type' => 'Seminar Debriefing PrOf',
+            'relationship_type' => 'Project Officer for',
+          ),
+          array(
+            'activity_type' => 'Seminar Debriefing Representative',
+            'relationship_type' => 'Representative is',
+          ),
+          array(
+            'activity_type' => 'Seminar Debriefing SC',
+            'relationship_type' => 'Sector Coordinator',
+          ),
+        ),
+      'RemoteCoaching' =>
+        array(
+          array(
+            'activity_type' => 'Remote Coaching Debriefing CC',
+            'relationship_type' => 'Country Coordinator is',
+          ),
+          array(
+            'activity_type' => 'Remote Coaching Debriefing Customer',
+            'relationship_type' => 'Has authorised',
+          ),
+          array(
+            'activity_type' => 'Remote Coaching Debriefing Expert',
+            'relationship_type' => 'Expert',
+          ),
+          array(
+            'activity_type' => 'Remote Coaching Debriefing PrOf',
+            'relationship_type' => 'Project Officer for',
+          ),
+          array(
+            'activity_type' => 'Remote Coaching Debriefing Representative',
+            'relationship_type' => 'Representative is',
+          ),
+          array(
+            'activity_type' => 'Remote Coaching Debriefing SC',
+            'relationship_type' => 'Sector Coordinator',
+          ),
+        ),
+      );
   }
   
   protected function loadDebriefingActivities() {
-    $activities = $this->debriefingActivityDefinition();
-    foreach($activities as $key => $act) {
-      $activities[$key]['activity_type_id'] = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => $act['activity_type'], 'option_group_id' => 2));
-      $activities[$key]['relationship_type_id'] = civicrm_api3('RelationshipType', 'getvalue', array('return' => 'id', 'name_a_b' => $act['relationship_type']));
+    $case_activities = $this->debriefingActivityDefinition();
+    foreach ($case_activities as $case => $activities) {
+      foreach($activities as $key => $act) {
+        $case_activities[$case][$key]['activity_type_id'] = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => $act['activity_type'], 'option_group_id' => 2));
+        $case_activities[$case][$key]['relationship_type_id'] = civicrm_api3('RelationshipType', 'getvalue', array('return' => 'id', 'name_a_b' => $act['relationship_type']));
+      }
     }
     
-    $this->debriefing_act_rel = $activities;
+    $this->debriefing_act_rel = $case_activities;
   }
   
 }
