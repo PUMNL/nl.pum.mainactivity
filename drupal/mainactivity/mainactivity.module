@@ -11,6 +11,8 @@ function _mainactivity_dis_agree_expert_link($case_type) {
     return 'customer/proposed-experts/dis-agree-seminar'; 
   } elseif (in_array($c->remote_coaching, $case_types)) { 
     return 'customer/proposed-experts/dis-agree-remote-coaching'; 
+  } elseif (in_array($c->business, $case_types)) { 
+    return 'customer/proposed-experts/dis-agree-business'; 
   }
   return '';
 }
