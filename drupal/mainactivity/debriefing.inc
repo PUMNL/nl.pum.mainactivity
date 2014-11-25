@@ -10,6 +10,12 @@ class mainactivity_debriefing {
   
   public $seminar;
   
+  public $business;
+  
+  public $business_debriefing_expert;
+  
+  //public $business_debriefing_customer;
+  
   public $advice_debriefing_expert;
   
   public $advice_debriefing_customer;
@@ -45,7 +51,10 @@ class mainactivity_debriefing {
     $case_type_id = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'name' => 'case_type'));
     $this->advice = civicrm_api3('OptionValue', 'getvalue', array('name' => 'Advice', 'option_group_id' => $case_type_id, 'return' => 'value'));
     $this->seminar = civicrm_api3('OptionValue', 'getvalue', array('name' => 'Seminar', 'option_group_id' => $case_type_id, 'return' => 'value'));
+    $this->business = civicrm_api3('OptionValue', 'getvalue', array('name' => 'Business', 'option_group_id' => $case_type_id, 'return' => 'value'));
     $this->remote_coaching = civicrm_api3('OptionValue', 'getvalue', array('name' => 'RemoteCoaching', 'option_group_id' => $case_type_id, 'return' => 'value'));
+    $this->business_debriefing_expert = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Business Debriefing Expert', 'option_group_id' => 2));
+    //$this->business_debriefing_customer = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Business Debriefing Customer', 'option_group_id' => 2));
     $this->advice_debriefing_expert = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Advice Debriefing Expert', 'option_group_id' => 2));
     $this->advice_debriefing_customer = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Advice Debriefing Customer', 'option_group_id' => 2));
     $this->advice_debriefing_rep = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Advice Debriefing Representative', 'option_group_id' => 2));
@@ -64,11 +73,14 @@ class mainactivity_debriefing {
       $this->advice => $this->advice,
       $this->remote_coaching => $this->remote_coaching,
       $this->seminar => $this->seminar,
+      $this->business => $this->business,
     );
   }
   
   public function getValidDebriefingActivityTypesForView() {
     return array (
+      $this->business_debriefing_expert => $this->business_debriefing_expert,
+      //$this->business_debriefing_customer => $this->business_debriefing_customer,
       $this->advice_debriefing_expert => $this->advice_debriefing_expert,
       $this->advice_debriefing_customer => $this->advice_debriefing_customer,
       $this->advice_debriefing_rep => $this->advice_debriefing_rep,

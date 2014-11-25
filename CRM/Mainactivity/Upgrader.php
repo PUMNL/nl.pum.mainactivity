@@ -33,12 +33,29 @@ class CRM_Mainactivity_Upgrader extends CRM_Mainactivity_Upgrader_Base {
     return true;
   }
   
-  private function getCaseTypeIds() {
+  public function upgrade_1005() {
+    $case_types_main_activity_visibility = array('Advice', 'RemoteCoaching', 'Seminar', 'Business');
+    $case_types = $this->getCaseTypeIds($case_types_main_activity_visibility);
+    $case_type_ids = CRM_Core_DAO::VALUE_SEPARATOR . implode(CRM_Core_DAO::VALUE_SEPARATOR, $case_types) . CRM_Core_DAO::VALUE_SEPARATOR;
+    $sql = "UPDATE `civicrm_custom_group` SET `extends_entity_column_value` = '".$case_type_ids."' WHERE `name` = 'visibility_of_main_activity'";
+    CRM_Core_DAO::executeQuery($sql);
+    return true;
+  }
+  
+  public function upgrade_1006() {
+    $case_types_main_activity_info = array('Advice', 'RemoteCoaching', 'Seminar', 'Business', 'CTM', 'PDV', 'Projectevaluation');
+    $case_types = $this->getCaseTypeIds($case_types_main_activity_info);
+    $case_type_ids = CRM_Core_DAO::VALUE_SEPARATOR . implode(CRM_Core_DAO::VALUE_SEPARATOR, $case_types) . CRM_Core_DAO::VALUE_SEPARATOR;
+    $sql = "UPDATE `civicrm_custom_group` SET `extends_entity_column_value` = '".$case_type_ids."' WHERE `name` = 'visibility_of_main_activity'";
+    CRM_Core_DAO::executeQuery($sql);
+    return true;
+  }
+  
+  private function getCaseTypeIds($case_types) {
     if (empty($this->case_type_id)) {
       $this->case_type_id = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'name' => 'case_type'));
     }
     
-    $case_types = array('Advice', 'RemoteCoaching', 'Seminar');
     $case_type_ids = array();
     foreach($case_types as $case_type) {
       $case_type_ids[] = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'option_group_id' => $this->case_type_id, 'name' => $case_type));
