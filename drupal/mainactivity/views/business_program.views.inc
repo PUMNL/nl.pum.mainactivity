@@ -34,6 +34,7 @@ $handler->display->display_options['style_options']['columns'] = array(
   'start_date' => 'start_date',
   'end_date' => 'end_date',
   'nothing' => 'nothing',
+  'nothing_1' => 'nothing_1',
 );
 $handler->display->display_options['style_options']['default'] = 'start_date';
 $handler->display->display_options['style_options']['info'] = array(
@@ -59,6 +60,11 @@ $handler->display->display_options['style_options']['info'] = array(
     'empty_column' => 0,
   ),
   'nothing' => array(
+    'align' => '',
+    'separator' => '',
+    'empty_column' => 0,
+  ),
+  'nothing_1' => array(
     'align' => '',
     'separator' => '',
     'empty_column' => 0,
@@ -129,6 +135,16 @@ $handler->display->display_options['fields']['nothing']['alter']['make_link'] = 
 $handler->display->display_options['fields']['nothing']['alter']['path'] = 'business-link-program-details/[id]';
 $handler->display->display_options['fields']['nothing']['alter']['absolute'] = TRUE;
 $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
+/* Field: Global: Custom text */
+$handler->display->display_options['fields']['nothing_1']['id'] = 'nothing_1';
+$handler->display->display_options['fields']['nothing_1']['table'] = 'views';
+$handler->display->display_options['fields']['nothing_1']['field'] = 'nothing';
+$handler->display->display_options['fields']['nothing_1']['label'] = '';
+$handler->display->display_options['fields']['nothing_1']['alter']['text'] = 'View/register participants';
+$handler->display->display_options['fields']['nothing_1']['alter']['make_link'] = TRUE;
+$handler->display->display_options['fields']['nothing_1']['alter']['path'] = 'customer/business/participants/[id]';
+$handler->display->display_options['fields']['nothing_1']['alter']['absolute'] = TRUE;
+$handler->display->display_options['fields']['nothing_1']['element_label_colon'] = FALSE;
 /* Filter criterion: CiviCRM Cases: Case Type */
 $handler->display->display_options['filters']['case_type']['id'] = 'case_type';
 $handler->display->display_options['filters']['case_type']['table'] = 'civicrm_case';
