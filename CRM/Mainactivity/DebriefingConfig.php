@@ -24,6 +24,9 @@ class CRM_Mainactivity_DebriefingConfig {
     $RemoteCoaching = civicrm_api3('OptionValue', 'getsingle', array('name' => 'RemoteCoaching', 'option_group_id' => $case_type_id));
     $this->valid_case_types[$RemoteCoaching['value']] = $RemoteCoaching;
     
+    $Business = civicrm_api3('OptionValue', 'getsingle', array('name' => 'Business', 'option_group_id' => $case_type_id));
+    $this->valid_case_types[$Business['value']] = $Business;
+    
     $this->loadDebriefingActivities();
   }
   
@@ -143,6 +146,29 @@ class CRM_Mainactivity_DebriefingConfig {
           ),
           array(
             'activity_type' => 'Remote Coaching Debriefing SC',
+            'relationship_type' => 'Sector Coordinator',
+          ),
+        ),
+      'Business' =>
+        array(
+          array(
+            'activity_type' => 'Business Debriefing CC',
+            'relationship_type' => 'Country Coordinator is',
+          ),
+          /*array(
+            'activity_type' => 'Business Customer',
+            'relationship_type' => 'Has authorised',
+          ),*/
+          array(
+            'activity_type' => 'Business Debriefing Expert',
+            'relationship_type' => 'Expert',
+          ),
+          array(
+            'activity_type' => 'Business Debriefing PrOf',
+            'relationship_type' => 'Project Officer for',
+          ),
+          array(
+            'activity_type' => 'Business Debriefing SC',
             'relationship_type' => 'Sector Coordinator',
           ),
         ),

@@ -205,6 +205,30 @@ $handler->display->display_options['fields']['display_name_3']['label'] = 'Proj.
 $handler->display->display_options['fields']['display_name_3']['alter']['alter_text'] = TRUE;
 $handler->display->display_options['fields']['display_name_3']['alter']['text'] = '[display_name_3] ([email_3])';
 $handler->display->display_options['fields']['display_name_3']['link_to_civicrm_contact'] = 0;
+/* Field: accept-main-proposal link */
+$handler->display->display_options['fields']['php']['id'] = 'php';
+$handler->display->display_options['fields']['php']['table'] = 'views';
+$handler->display->display_options['fields']['php']['field'] = 'php';
+$handler->display->display_options['fields']['php']['ui_name'] = 'accept_main_proposal_link';
+$handler->display->display_options['fields']['php']['label'] = '';
+$handler->display->display_options['fields']['php']['exclude'] = TRUE;
+$handler->display->display_options['fields']['php']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['php']['use_php_setup'] = 0;
+$handler->display->display_options['fields']['php']['php_value'] = 'return _mainactivity_accept_main_proposal_link($row->case_type);';
+$handler->display->display_options['fields']['php']['use_php_click_sortable'] = '0';
+$handler->display->display_options['fields']['php']['php_click_sortable'] = '';
+/* Field: reject-main-proposal link */
+$handler->display->display_options['fields']['php_1']['id'] = 'php_1';
+$handler->display->display_options['fields']['php_1']['table'] = 'views';
+$handler->display->display_options['fields']['php_1']['field'] = 'php';
+$handler->display->display_options['fields']['php_1']['ui_name'] = 'reject_main_proposal_link';
+$handler->display->display_options['fields']['php_1']['label'] = '';
+$handler->display->display_options['fields']['php_1']['exclude'] = TRUE;
+$handler->display->display_options['fields']['php_1']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['php_1']['use_php_setup'] = 0;
+$handler->display->display_options['fields']['php_1']['php_value'] = 'return _mainactivity_reject_main_proposal_link($row->case_type);';
+$handler->display->display_options['fields']['php_1']['use_php_click_sortable'] = '0';
+$handler->display->display_options['fields']['php_1']['php_click_sortable'] = '';
 /* Field: Global: Custom text */
 $handler->display->display_options['fields']['nothing_1']['id'] = 'nothing_1';
 $handler->display->display_options['fields']['nothing_1']['table'] = 'views';
@@ -212,7 +236,7 @@ $handler->display->display_options['fields']['nothing_1']['field'] = 'nothing';
 $handler->display->display_options['fields']['nothing_1']['label'] = '';
 $handler->display->display_options['fields']['nothing_1']['alter']['text'] = 'Accept proposal';
 $handler->display->display_options['fields']['nothing_1']['alter']['make_link'] = TRUE;
-$handler->display->display_options['fields']['nothing_1']['alter']['path'] = 'expert/accept-advisory-mission?cid1=[id]&cid2=[id_2]&caseid=[id_1]';
+$handler->display->display_options['fields']['nothing_1']['alter']['path'] = '[php]?cid1=[id]&cid2=[id_2]&caseid=[id_1]';
 $handler->display->display_options['fields']['nothing_1']['alter']['absolute'] = TRUE;
 $handler->display->display_options['fields']['nothing_1']['element_label_colon'] = FALSE;
 /* Field: Global: Custom text */
@@ -222,7 +246,7 @@ $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
 $handler->display->display_options['fields']['nothing']['label'] = '';
 $handler->display->display_options['fields']['nothing']['alter']['text'] = 'Reject proposal';
 $handler->display->display_options['fields']['nothing']['alter']['make_link'] = TRUE;
-$handler->display->display_options['fields']['nothing']['alter']['path'] = 'expert/reject-main-activity-proposal?cid1=[id]&cid2=[id_2]&caseid=[id_1]';
+$handler->display->display_options['fields']['nothing']['alter']['path'] = '[php_1]?cid1=[id]&cid2=[id_2]&caseid=[id_1]';
 $handler->display->display_options['fields']['nothing']['alter']['absolute'] = TRUE;
 $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
 /* Filter criterion: CiviCRM Cases: Case Status */

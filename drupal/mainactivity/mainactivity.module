@@ -3,6 +3,51 @@
 require_once('debriefing.inc');
 require_once('businesslink.inc');
 
+function _mainactivity_dis_agree_expert_link($case_type) {
+  $c = mainactivity_debriefing::singleton();
+  $case_types = explode(CRM_Core_DAO::VALUE_SEPARATOR, $case_type);
+  if (in_array($c->advice, $case_types)) { 
+    return 'customer/proposed-experts/dis-agree-advice'; 
+  } elseif (in_array($c->seminar, $case_types)) { 
+    return 'customer/proposed-experts/dis-agree-seminar'; 
+  } elseif (in_array($c->remote_coaching, $case_types)) { 
+    return 'customer/proposed-experts/dis-agree-remote-coaching'; 
+  } elseif (in_array($c->business, $case_types)) { 
+    return 'customer/proposed-experts/dis-agree-business'; 
+  }
+  return '';
+}
+
+function _mainactivity_accept_main_proposal_link($case_type) {
+  $c = mainactivity_debriefing::singleton();
+  $case_types = explode(CRM_Core_DAO::VALUE_SEPARATOR, $case_type);
+  if (in_array($c->advice, $case_types)) { 
+    return 'expert/accept-advisory-mission'; 
+  } elseif (in_array($c->seminar, $case_types)) { 
+    return 'expert/accept-seminar'; 
+  } elseif (in_array($c->remote_coaching, $case_types)) { 
+    return 'expert/accept-remote-coaching'; 
+  } elseif (in_array($c->business, $case_types)) { 
+    return 'expert/accept-business'; 
+  }
+  return '';
+}
+
+function _mainactivity_reject_main_proposal_link($case_type) {
+  $c = mainactivity_debriefing::singleton();
+  $case_types = explode(CRM_Core_DAO::VALUE_SEPARATOR, $case_type);
+  if (in_array($c->advice, $case_types)) { 
+    return 'expert/reject-advice-proposal'; 
+  } elseif (in_array($c->seminar, $case_types)) { 
+    return 'expert/reject-seminar-proposal'; 
+  } elseif (in_array($c->remote_coaching, $case_types)) { 
+    return 'expert/reject-remote-coaching-proposal'; 
+  } elseif (in_array($c->business, $case_types)) { 
+    return 'expert/reject-business-proposal'; 
+  }
+  return '';
+}
+
 function _mainactivity_debriefing_link($activity_type, $case_type) {
   $c = mainactivity_debriefing::singleton();
   $case_types = explode(CRM_Core_DAO::VALUE_SEPARATOR, $case_type);
@@ -12,6 +57,10 @@ function _mainactivity_debriefing_link($activity_type, $case_type) {
     return 'customer/debriefing/advice';
   } elseif (((int) $activity_type == $c->advice_debriefing_rep) && in_array($c->advice, $case_types)) { 
     return 'representative/debriefing/advice';
+  } elseif (((int) $activity_type) == $c->business_debriefing_expert && in_array($c->business, $case_types)) { 
+    return 'expert/debriefing/business'; 
+  //} elseif (((int) $activity_type == $c->business_debriefing_customer) && in_array($c->business, $case_types)) { 
+  //  return 'customer/debriefing/business';
   } elseif (((int) $activity_type) == $c->seminar_debriefing_expert && in_array($c->seminar, $case_types)) { 
     return 'expert/debriefing/seminar'; 
   } elseif (((int) $activity_type == $c->seminar_debriefing_customer) && in_array($c->seminar, $case_types)) { 
