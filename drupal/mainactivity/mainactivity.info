@@ -10,3 +10,5 @@ dependencies[] = pum_civicrm_views
 dependencies[] = expertaccess
 
 files[] = debriefing.inc
+files[] = businessconfig.inc
+files[] = businesscase.inc

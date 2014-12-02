@@ -1,6 +1,7 @@
 <?php
 
 require_once('debriefing.inc');
+require_once('businesslink.inc');
 
 function _mainactivity_debriefing_link($activity_type, $case_type) {
   $c = mainactivity_debriefing::singleton();
@@ -123,4 +124,45 @@ function mainactivity_module_implements_alter(&$module_list, $context){
       }
     }
   }
+}
+
+function mainactivity_menu() {
+  $items = array();
+  $items['customer/business/participants/%'] = array( //this creates a URL that will call this form at "examples/form-example"
+    'title' => 'Register participants', //page title
+    'description' => 'Register participants for business',
+    'page callback' => 'drupal_get_form', //this is the function that will be called when the page is accessed.  for a form, use drupal_get_form
+    'page arguments' => array('businesslink_registration_form', 3), //put the name of the form here
+    'access callback' => 'mainactivity_user_has_role',   
+    'access arguments' => array(array('Customer (contact)')), // arg 1 loads the user, arg 2 is the role name
+  );
+  $items['customer/business/participants/%/newperson'] = array( //this creates a URL that will call this form at "examples/form-example"
+    'title' => 'Register new participant', //page title
+    'description' => 'Register new participants for business',
+    'page callback' => 'drupal_get_form', //this is the function that will be called when the page is accessed.  for a form, use drupal_get_form
+    'page arguments' => array('businesslink_register_newperson_form', 3), //put the name of the form here
+    'access callback' => 'mainactivity_user_has_role',   
+    'access arguments' => array(array('Customer (contact)')), // arg 1 loads the user, arg 2 is the role name
+  );
+  $items['customer/business/participants/%/change/%'] = array( //this creates a URL that will call this form at "examples/form-example"
+    'title' => 'Edit personal details', //page title
+    'description' => 'Edit personal details',
+    'page callback' => 'drupal_get_form', //this is the function that will be called when the page is accessed.  for a form, use drupal_get_form
+    'page arguments' => array('businesslink_change_person_form', 3, 5), //put the name of the form here
+    'access callback' => 'mainactivity_user_has_role',   
+    'access arguments' => array(array('Customer (contact)')), // arg 1 loads the user, arg 2 is the role name
+  );
+  return 
+
+$items;
+}
+
+function mainactivity_user_has_role($roles = array()) {  
+  global $user;
+  foreach ($roles as $role) {
+    if (in_array($role, $user->roles)) {
+      return TRUE;
+    }
+  }
+  return FALSE; 
 }
