@@ -16,14 +16,14 @@ $view->name = 'business_link_program_details';
 $view->description = '';
 $view->tag = 'default';
 $view->base_table = 'civicrm_activity';
-$view->human_name = 'Business link program details';
+$view->human_name = 'Business link programme details';
 $view->core = 7;
 $view->api_version = '3.0';
 $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
 /* Display: Master */
 $handler = $view->new_display('default', 'Master', 'default');
-$handler->display->display_options['title'] = 'Business program';
+$handler->display->display_options['title'] = 'Business programme';
 $handler->display->display_options['use_more_always'] = FALSE;
 $handler->display->display_options['access']['type'] = 'none';
 $handler->display->display_options['cache']['type'] = 'none';
@@ -77,6 +77,12 @@ $handler->display->display_options['style_options']['info'] = array(
     'empty_column' => 0,
   ),
 );
+/* Header: Global: Text area */
+$handler->display->display_options['header']['area']['id'] = 'area';
+$handler->display->display_options['header']['area']['table'] = 'views';
+$handler->display->display_options['header']['area']['field'] = 'area';
+$handler->display->display_options['header']['area']['content'] = 'if you have any questions regarding the program please contact the expert';
+$handler->display->display_options['header']['area']['format'] = 'filtered_html';
 /* Relationship: CiviCRM Case Activity: Case ID */
 $handler->display->display_options['relationships']['case_id']['id'] = 'case_id';
 $handler->display->display_options['relationships']['case_id']['table'] = 'civicrm_case_activity';
@@ -129,10 +135,10 @@ $handler->display->display_options['filters']['activity_type']['value'] = array(
 
 /* Display: Page */
 $handler = $view->new_display('page', 'Page', 'page');
-$handler->display->display_options['path'] = 'business-link-program-details';
+$handler->display->display_options['path'] = 'business-link-programme-details';
 $translatables['business_link_program_details'] = array(
   t('Master'),
-  t('Business program'),
+  t('Business programme'),
   t('more'),
   t('Apply'),
   t('Reset'),

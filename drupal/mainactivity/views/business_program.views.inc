@@ -11,14 +11,14 @@ $view->name = 'business_link_program';
 $view->description = '';
 $view->tag = 'default';
 $view->base_table = 'civicrm_case';
-$view->human_name = 'Business link program';
+$view->human_name = 'Business link programme';
 $view->core = 7;
 $view->api_version = '3.0';
 $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
 /* Display: Master */
 $handler = $view->new_display('default', 'Master', 'default');
-$handler->display->display_options['title'] = 'Business program';
+$handler->display->display_options['title'] = 'Business programme';
 $handler->display->display_options['use_more_always'] = FALSE;
 $handler->display->display_options['access']['type'] = 'role';
 $handler->display->display_options['access']['role'] = mainactivity_get_role_ids(array('Customer (contact)'));
@@ -130,9 +130,9 @@ $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
 $handler->display->display_options['fields']['nothing']['table'] = 'views';
 $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
 $handler->display->display_options['fields']['nothing']['label'] = '';
-$handler->display->display_options['fields']['nothing']['alter']['text'] = 'View program';
+$handler->display->display_options['fields']['nothing']['alter']['text'] = 'View programme';
 $handler->display->display_options['fields']['nothing']['alter']['make_link'] = TRUE;
-$handler->display->display_options['fields']['nothing']['alter']['path'] = 'business-link-program-details/[id]';
+$handler->display->display_options['fields']['nothing']['alter']['path'] = 'business-link-programme-details/[id]';
 $handler->display->display_options['fields']['nothing']['alter']['absolute'] = TRUE;
 $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
 /* Field: Global: Custom text */
@@ -161,15 +161,15 @@ $handler->display->display_options['filters']['uid_current']['value'] = '1';
 
 /* Display: Page */
 $handler = $view->new_display('page', 'Page', 'page');
-$handler->display->display_options['path'] = 'customer/business-program';
+$handler->display->display_options['path'] = 'customer/business-programme';
 $handler->display->display_options['menu']['type'] = 'normal';
-$handler->display->display_options['menu']['title'] = 'Business program';
+$handler->display->display_options['menu']['title'] = 'Business programme';
 $handler->display->display_options['menu']['weight'] = '0';
 $handler->display->display_options['menu']['context'] = 0;
 $handler->display->display_options['menu']['context_only_inline'] = 0;
 $translatables['business_link_program'] = array(
   t('Master'),
-  t('Business program'),
+  t('Business programme'),
   t('more'),
   t('Apply'),
   t('Reset'),
