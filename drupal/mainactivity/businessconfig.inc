@@ -86,7 +86,12 @@ class businessconfig {
     $addressParameters['contact_id'] = $contact_id;
     $addressParameters['is_primary'] = 1;
     
-    $address = civicrm_api3('Address', 'getsingle', $addressParameters);
+    $address = false;
+    try {
+      $address = civicrm_api3('Address', 'getsingle', $addressParameters);
+    } catch (Exception $e) {
+      //do nothing
+    }
     
     $phone = false;
     try {
@@ -95,13 +100,18 @@ class businessconfig {
       //do nothing
     }
     
-    $email = civicrm_api3('Email', 'getsingle', array('contact_id' => $contact_id, 'is_primary' => 1));
+    $email = false;
+    try {
+      $email = civicrm_api3('Email', 'getsingle', array('contact_id' => $contact_id, 'is_primary' => 1));
+    } catch (Exception $e) {
+      //do nothing
+    }
     
-    $contact['address_id'] = $address['id'];
-    $contact['address'] = $address['street_address'];
-    $contact['postal_code'] = $address['postal_code'];
-    $contact['city'] = $address['city'];
-    $contact['country'] = $address['country_id'];
+    $contact['address_id'] = $address ? $address['id'] : false;
+    $contact['address'] = $address ? $address['street_address'] : '';
+    $contact['postal_code'] = $address ? $address['postal_code'] : '';
+    $contact['city'] = $address ? $address['city'] : '';
+    $contact['country'] = $address ? $address['country_id'] : false;
     
     if ($phone) {
       $contact['phone_id'] = $phone['id'];
@@ -110,8 +120,8 @@ class businessconfig {
       $contact['phone_id'] = false;
       $contact['phone'] = '';
     }
-    $contact['email_id'] = $email['id'];
-    $contact['email'] = $email['email'];
+    $contact['email_id'] = $email ? $email['id'] : false;
+    $contact['email'] = $email ? $email['email'] : '';
     
     return $contact;
   } 
