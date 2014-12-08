@@ -46,11 +46,15 @@ function businesslink_change_person_form_submit($form, &$form_state) {
     if ($contact['phone_id']) {
       $phone_parameters['id'] = $contact['phone_id'];
     }
-    $phone_parameters['phone'] = $form_state['values']['telephone'];
-    $phone_parameters['contact_id'] = $contact['id'];
-    $phone_parameters['is_primary'] = 1;
+    if (!empty($form_state['values']['telephone'])) {
+      $phone_parameters['phone'] = $form_state['values']['telephone'];
+      $phone_parameters['contact_id'] = $contact['id'];
+      $phone_parameters['is_primary'] = 1;
 
-    civicrm_api3('Phone', 'create', $phone_parameters);
+      civicrm_api3('Phone', 'create', $phone_parameters);
+    } elseif (empty($form_state['values']['telephone']) && $contact['phone_id']) {
+      civicrm_api3('Phone', 'delete', array('id' => $contact['phone_id']));
+    }
 
     $email_parameters['id'] = $contact['email_id'];
     $email_parameters['email'] = $form_state['values']['email'];
@@ -237,12 +241,14 @@ function businesslink_register_newperson_form_submit($form, &$form_state) {
 
     civicrm_api3('Address', 'create', $address_parameters);
 
-    $phone_parameters['phone'] = $form_state['values']['telephone'];
-    $phone_parameters['contact_id'] = $contact['id'];
-    $phone_parameters['is_primary'] = 1;
-    $phone_parameters['location_type_id'] = 1; //home
+    if (!empty($form_state['values']['telephone'])) {
+      $phone_parameters['phone'] = $form_state['values']['telephone'];
+      $phone_parameters['contact_id'] = $contact['id'];
+      $phone_parameters['is_primary'] = 1;
+      $phone_parameters['location_type_id'] = 1; //home
 
-    civicrm_api3('Phone', 'create', $phone_parameters);
+      civicrm_api3('Phone', 'create', $phone_parameters);
+    }
 
     $email_parameters['email'] = $form_state['values']['email'];
     $email_parameters['contact_id'] = $contact['id'];
