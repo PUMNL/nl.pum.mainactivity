@@ -91,12 +91,14 @@ $handler->display->display_options['relationships']['case_id']['required'] = TRU
 /* Field: CiviCRM Custom: Business Programme: Visit from */
 $handler->display->display_options['fields']['visit_from_869']['id'] = 'visit_from_869';
 $handler->display->display_options['fields']['visit_from_869']['table'] = $business_programm_data['table_name'];
+$handler->display->display_options['fields']['visit_from_869']['label'] = 'Visit from';
 $handler->display->display_options['fields']['visit_from_869']['field'] = $from;
 $handler->display->display_options['fields']['visit_from_869']['date_format'] = 'd_m_y';
 /* Field: CiviCRM Custom: Business Programme: Visit ot */
 $handler->display->display_options['fields']['visit_ot_870']['id'] = 'visit_ot_870';
 $handler->display->display_options['fields']['visit_ot_870']['table'] = $business_programm_data['table_name'];
 $handler->display->display_options['fields']['visit_ot_870']['field'] = $to;
+$handler->display->display_options['fields']['visit_ot_870']['label'] = 'Visit to';
 $handler->display->display_options['fields']['visit_ot_870']['date_format'] = 'd_m_y';
 /* Field: CiviCRM Custom: Business Programme: Location */
 $handler->display->display_options['fields']['location_868']['id'] = 'location_868';
@@ -132,6 +134,11 @@ $handler->display->display_options['filters']['activity_type']['field'] = 'activ
 $handler->display->display_options['filters']['activity_type']['value'] = array(
   $business_programm => $business_programm,
 );
+/* Filter criterion: CiviCRM Activities: Current Revision */
+$handler->display->display_options['filters']['is_current_revision']['id'] = 'is_current_revision';
+$handler->display->display_options['filters']['is_current_revision']['table'] = 'civicrm_activity';
+$handler->display->display_options['filters']['is_current_revision']['field'] = 'is_current_revision';
+$handler->display->display_options['filters']['is_current_revision']['value'] = '1';
 
 /* Display: Page */
 $handler = $view->new_display('page', 'Page', 'page');

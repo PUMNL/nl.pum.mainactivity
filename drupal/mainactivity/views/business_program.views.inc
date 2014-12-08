@@ -122,7 +122,7 @@ $handler->display->display_options['fields']['start_date']['date_format'] = 'd_m
 /* Field: CiviCRM Custom: (Main) Activity information: Activity End Date */
 $handler->display->display_options['fields']['end_date']['id'] = 'end_date';
 $handler->display->display_options['fields']['end_date']['table'] = $main_activity_info['table_name'];
-$handler->display->display_options['fields']['end_date']['field'] = $start_date['column_name'];
+$handler->display->display_options['fields']['end_date']['field'] = $end_date['column_name'];
 $handler->display->display_options['fields']['end_date']['label'] = 'Visit to';
 $handler->display->display_options['fields']['end_date']['date_format'] = 'd_m_y';
 /* Field: Global: Custom text */
