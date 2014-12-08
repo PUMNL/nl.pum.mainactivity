@@ -426,10 +426,12 @@ function businesslink_registration_form($form, &$form_state, $case_id) {
     $form['participants']['#rows'][] = array($i, $participant, $travel_status, $change);
   }
 
-  $form['submit_button'] = array(
-    '#type' => 'submit',
-    '#value' => t('Update registration'),
-  );
+  if ($open_for_registration) {
+    $form['submit_button'] = array(
+      '#type' => 'submit',
+      '#value' => t('Update registration'),
+    );
+  }
   
   return $form;
 }
