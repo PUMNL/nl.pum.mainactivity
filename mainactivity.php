@@ -5,6 +5,16 @@ require_once 'mainactivity.civix.php';
 function mainactivity_civicrm_pre($op, $objectName, $id, &$params ) {
   //create debriefing activities upon debriefing status change
   CRM_Mainactivity_Hooks_DebriefingActivity::pre($op, $objectName, $id, $params);
+  //check if a status change of activity is allowed
+  CRM_Mainactivity_Hooks_ConditionStatusChangeCheck::pre($op, $objectName, $id, $params);
+}
+
+function mainactivity_civicrm_permission( &$permissions ) {
+  $prefix = ts('CiviCRM Main activity') . ': ';
+  if (!is_array($permissions)) {
+    $permissions = array();
+  }
+  $permissions['approve MA condition/contribution activity'] = $prefix . ts('approve condition/contribution activity');
 }
 
 /**
