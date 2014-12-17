@@ -79,7 +79,10 @@ function businesslink_change_person_form($form, &$form_state, $case_id, $contact
     '#default_value' => $contact['custom_'.$config->custom_groups['Passport_Information']['fields']['Passport_Name']['id']],
   );
   
-  $birth_date = new DateTime($contact['birth_date']);
+  $birth_date = null;
+  if ($contact['birth_date']) {
+    $birth_date = new DateTime($contact['birth_date']);
+  }
   $form['birth_date'] = array(
     '#type' => 'date',
     '#required' => true,
@@ -89,6 +92,7 @@ function businesslink_change_person_form($form, &$form_state, $case_id, $contact
       'month' => $birth_date->format('m'),
       'year' => $birth_date->format('Y'),
     ),
+    '#pre_render' => array('_businesslink_form_pre_render_date'),
   );
   
   $form['nationality'] = array(
@@ -106,7 +110,10 @@ function businesslink_change_person_form($form, &$form_state, $case_id, $contact
     '#default_value' => $contact['custom_'.$config->custom_groups['Passport_Information']['fields']['Passport_Number']['id']],
   );
   
-  $expire_date = new DateTime($contact['custom_'.$config->custom_groups['Passport_Information']['fields']['Passport_Valid_until']['id']]);
+  $expire_date = null;
+  if ($contact['custom_'.$config->custom_groups['Passport_Information']['fields']['Passport_Valid_until']['id']]) {
+    $expire_date = new DateTime($contact['custom_'.$config->custom_groups['Passport_Information']['fields']['Passport_Valid_until']['id']]);
+  }
   $form['passport_expire_date'] = array(
     '#type' => 'date',
     '#required' => true,
@@ -115,7 +122,8 @@ function businesslink_change_person_form($form, &$form_state, $case_id, $contact
        'day' => $expire_date->format('d'),
       'month' => $expire_date->format('m'),
       'year' => $expire_date->format('Y'),
-    )
+    ),
+    '#pre_render' => array('_businesslink_form_pre_render_date'),
   );
   
   $form['job_title'] = array(
@@ -231,6 +239,7 @@ function businesslink_register_newperson_form($form, &$form_state, $case_id) {
     '#type' => 'date',
     '#required' => true,
     '#title' => t('Birthdate'),
+    '#pre_render' => array('_businesslink_form_pre_render_date'),
   );
   
   $form['nationality'] = array(
@@ -250,6 +259,7 @@ function businesslink_register_newperson_form($form, &$form_state, $case_id) {
     '#type' => 'date',
     '#required' => true,
     '#title' => t('Passport expire date'),
+    '#pre_render' => array('_businesslink_form_pre_render_date'),
   );
   
   
@@ -388,4 +398,27 @@ function businesslink_registration_form_submit($form, &$form_state) {
       drupal_goto('customer/business/participants/'.$case_id.'/newperson', array('absolute' => true));
     }
   }
+}
+
+function _businesslink_form_pre_render_date(&$element)
+{
+    // Don't put empty values if a date has already been set
+    if (!empty($element['#default_value']) && date('Ynj') !== implode('', array_values($element['#default_value']))) {
+        return $element;
+    }
+
+    // Loop through each field, add empty option and unset value
+    foreach (array('year', 'month', 'day') as $field) {
+        if (!isset($element[$field])) {
+            continue;
+        }
+
+        unset($element[$field]['#value']);
+        $element[$field]['#default_value'] = '0';
+        $element[$field]['#options'] = array(
+            '0' => '',
+        ) + $element[$field]['#options'];
+    }
+
+    return $element;
 }
