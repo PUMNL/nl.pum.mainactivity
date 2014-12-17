@@ -83,6 +83,13 @@ $handler->display->display_options['header']['area']['table'] = 'views';
 $handler->display->display_options['header']['area']['field'] = 'area';
 $handler->display->display_options['header']['area']['content'] = 'if you have any questions regarding the program please contact the expert';
 $handler->display->display_options['header']['area']['format'] = 'filtered_html';
+/* No results behavior: Global: Text area */
+$handler->display->display_options['empty']['area']['id'] = 'area';
+$handler->display->display_options['empty']['area']['table'] = 'views';
+$handler->display->display_options['empty']['area']['field'] = 'area';
+$handler->display->display_options['empty']['area']['empty'] = TRUE;
+$handler->display->display_options['empty']['area']['content'] = 'Programme will be available soon. In case of questions please contact the expert.';
+$handler->display->display_options['empty']['area']['format'] = 'filtered_html';
 /* Relationship: CiviCRM Case Activity: Case ID */
 $handler->display->display_options['relationships']['case_id']['id'] = 'case_id';
 $handler->display->display_options['relationships']['case_id']['table'] = 'civicrm_case_activity';
