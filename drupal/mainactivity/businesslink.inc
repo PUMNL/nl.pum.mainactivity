@@ -32,30 +32,6 @@ function businesslink_change_person_form_submit($form, &$form_state) {
 
     $c = civicrm_api3('Contact', 'create', $parameters);
 
-    $address_parameters['id'] = $contact['address_id'];
-    $address_parameters['street_address'] = $form_state['values']['address'];
-    $address_parameters['postal_code'] = $form_state['values']['postal_code'];
-    $address_parameters['city'] = $form_state['values']['city'];
-    $address_parameters['country_id'] = $form_state['values']['Country'];
-    $address_parameters['contact_id'] = $contact['id'];
-    $address_parameters['is_primary'] = 1;
-    $address_parameters['location_type_id'] = 1; //home
-
-    civicrm_api3('Address', 'create', $address_parameters);
-
-    if ($contact['phone_id']) {
-      $phone_parameters['id'] = $contact['phone_id'];
-    }
-    if (!empty($form_state['values']['telephone'])) {
-      $phone_parameters['phone'] = $form_state['values']['telephone'];
-      $phone_parameters['contact_id'] = $contact['id'];
-      $phone_parameters['is_primary'] = 1;
-      
-      civicrm_api3('Phone', 'create', $phone_parameters);
-    } elseif (empty($form_state['values']['telephone']) && $contact['phone_id']) {
-      civicrm_api3('Phone', 'delete', array('id' => $contact['phone_id']));
-    }
-
     $email_parameters['id'] = $contact['email_id'];
     $email_parameters['email'] = $form_state['values']['email'];
     $email_parameters['contact_id'] = $contact['id'];
@@ -80,18 +56,6 @@ function businesslink_change_person_form($form, &$form_state, $case_id, $contact
   $form['case_id']['#type'] = 'hidden';
   $form['case_id']['#name'] = 'case_id';
   $form['case_id']['#value'] = $case_id;
-    
-  $birth_date = new DateTime($contact['birth_date']);
-  $form['birth_date'] = array(
-    '#type' => 'date',
-    '#required' => true,
-    '#title' => t('Birthdate'),
-    '#default_value' => array(
-      'day' => $birth_date->format('d'),
-      'month' => $birth_date->format('m'),
-      'year' => $birth_date->format('Y'),
-    ),
-  );
   
   $form['gender'] = array(
     '#type' => 'select',
@@ -99,64 +63,6 @@ function businesslink_change_person_form($form, &$form_state, $case_id, $contact
     '#title' => t('Gender'),
     '#options' => $config->gender_options,
     '#default_value' => $contact['gender_id'],
-  );
-  
-  $form['nationality'] = array(
-    '#type' => 'select',
-    '#required' => true,
-    '#title' => t('Nationality'),
-    '#options' => $config->nationality_options,
-    '#default_value' => $contact['custom_'.$config->custom_groups['Nationality']['fields']['Nationality']['id']],
-  );
-  
-  $form['address'] = array(
-    '#type' => 'textfield',
-    '#required' => true,
-    '#title' => t('Address'),
-    '#default_value' => $contact['address'],
-  );
-  
-  $form['postal_code'] = array(
-    '#type' => 'textfield',
-    '#required' => true,
-    '#title' => t('Postal code'),
-    '#default_value' => $contact['postal_code'],
-  );
-  
-  $form['city'] = array(
-    '#type' => 'textfield',
-    '#required' => true,
-    '#title' => t('City'),
-    '#default_value' => $contact['city'],
-  );
-  
-  $form['Country'] = array(
-    '#type' => 'select',
-    '#required' => true,
-    '#title' => t('Country'),
-    '#options' => $config->country_options,
-    '#default_value' => $contact['country'],
-  );
-  
-  $form['telephone'] = array(
-    '#type' => 'textfield',
-    '#required' => false,
-    '#title' => t('Telephone'),
-    '#default_value' => $contact['phone'],
-  );
-  
-  $form['email'] = array(
-    '#type' => 'textfield',
-    '#required' => true,
-    '#title' => t('E-mail address'),
-    '#default_value' => $contact['email'],
-  );
-  
-  $form['job_title'] = array(
-    '#type' => 'textfield',
-    '#required' => true,
-    '#title' => t('Job title'),
-    '#default_value' => $contact['job_title'],
   );
   
   $form['passport_last_name'] = array(
@@ -171,6 +77,26 @@ function businesslink_change_person_form($form, &$form_state, $case_id, $contact
     '#required' => true,
     '#title' => t('First name in passport'),
     '#default_value' => $contact['custom_'.$config->custom_groups['Passport_Information']['fields']['Passport_Name']['id']],
+  );
+  
+  $birth_date = new DateTime($contact['birth_date']);
+  $form['birth_date'] = array(
+    '#type' => 'date',
+    '#required' => true,
+    '#title' => t('Birthdate'),
+    '#default_value' => array(
+      'day' => $birth_date->format('d'),
+      'month' => $birth_date->format('m'),
+      'year' => $birth_date->format('Y'),
+    ),
+  );
+  
+  $form['nationality'] = array(
+    '#type' => 'select',
+    '#required' => true,
+    '#title' => t('Nationality'),
+    '#options' => $config->nationality_options,
+    '#default_value' => $contact['custom_'.$config->custom_groups['Nationality']['fields']['Nationality']['id']],
   );
   
   $form['passport_number'] = array(
@@ -190,6 +116,20 @@ function businesslink_change_person_form($form, &$form_state, $case_id, $contact
       'month' => $expire_date->format('m'),
       'year' => $expire_date->format('Y'),
     )
+  );
+  
+  $form['job_title'] = array(
+    '#type' => 'textfield',
+    '#required' => true,
+    '#title' => t('Job title'),
+    '#default_value' => $contact['job_title'],
+  );
+  
+  $form['email'] = array(
+    '#type' => 'textfield',
+    '#required' => true,
+    '#title' => t('E-mail address'),
+    '#default_value' => $contact['email'],
   );
   
   $form['submit_button'] = array(
@@ -231,25 +171,6 @@ function businesslink_register_newperson_form_submit($form, &$form_state) {
 
     $contact = civicrm_api3('Contact', 'create', $parameters);
 
-    $address_parameters['street_address'] = $form_state['values']['address'];
-    $address_parameters['postal_code'] = $form_state['values']['postal_code'];
-    $address_parameters['city'] = $form_state['values']['city'];
-    $address_parameters['country_id'] = $form_state['values']['Country'];
-    $address_parameters['contact_id'] = $contact['id'];
-    $address_parameters['is_primary'] = 1;
-    $address_parameters['location_type_id'] = 1; //home
-
-    civicrm_api3('Address', 'create', $address_parameters);
-
-    if (!empty($form_state['values']['telephone'])) {
-      $phone_parameters['phone'] = $form_state['values']['telephone'];
-      $phone_parameters['contact_id'] = $contact['id'];
-      $phone_parameters['is_primary'] = 1;
-      $phone_parameters['location_type_id'] = 1; //home
-
-      civicrm_api3('Phone', 'create', $phone_parameters);
-    }
-
     $email_parameters['email'] = $form_state['values']['email'];
     $email_parameters['contact_id'] = $contact['id'];
     $email_parameters['is_primary'] = 1;
@@ -287,67 +208,11 @@ function businesslink_register_newperson_form($form, &$form_state, $case_id) {
     '#title' => t('Last name'),
   );
   
-  $form['birth_date'] = array(
-    '#type' => 'date',
-    '#required' => true,
-    '#title' => t('Birthdate'),
-  );
-  
   $form['gender'] = array(
     '#type' => 'select',
     '#required' => true,
     '#title' => t('Gender'),
     '#options' => $config->gender_options,
-  );
-  
-  $form['nationality'] = array(
-    '#type' => 'select',
-    '#required' => true,
-    '#title' => t('Nationality'),
-    '#options' => $config->nationality_options,
-  );
-  
-  $form['address'] = array(
-    '#type' => 'textfield',
-    '#required' => true,
-    '#title' => t('Address'),
-  );
-  
-  $form['postal_code'] = array(
-    '#type' => 'textfield',
-    '#required' => true,
-    '#title' => t('Postal code'),
-  );
-  
-  $form['city'] = array(
-    '#type' => 'textfield',
-    '#required' => true,
-    '#title' => t('City'),
-  );
-  
-  $form['Country'] = array(
-    '#type' => 'select',
-    '#required' => true,
-    '#title' => t('Country'),
-    '#options' => $config->country_options,
-  );
-  
-  $form['telephone'] = array(
-    '#type' => 'textfield',
-    '#required' => false,
-    '#title' => t('Telephone'),
-  );
-  
-  $form['email'] = array(
-    '#type' => 'textfield',
-    '#required' => true,
-    '#title' => t('E-mail address'),
-  );
-  
-  $form['job_title'] = array(
-    '#type' => 'textfield',
-    '#required' => true,
-    '#title' => t('Job title'),
   );
   
   $form['passport_last_name'] = array(
@@ -362,6 +227,19 @@ function businesslink_register_newperson_form($form, &$form_state, $case_id) {
     '#title' => t('First name in passport'),
   );
   
+  $form['birth_date'] = array(
+    '#type' => 'date',
+    '#required' => true,
+    '#title' => t('Birthdate'),
+  );
+  
+  $form['nationality'] = array(
+    '#type' => 'select',
+    '#required' => true,
+    '#title' => t('Nationality'),
+    '#options' => $config->nationality_options,
+  );
+  
   $form['passport_number'] = array(
     '#type' => 'textfield',
     '#required' => true,
@@ -372,6 +250,19 @@ function businesslink_register_newperson_form($form, &$form_state, $case_id) {
     '#type' => 'date',
     '#required' => true,
     '#title' => t('Passport expire date'),
+  );
+  
+  
+  $form['job_title'] = array(
+    '#type' => 'textfield',
+    '#required' => true,
+    '#title' => t('Job title'),
+  );
+  
+  $form['email'] = array(
+    '#type' => 'textfield',
+    '#required' => true,
+    '#title' => t('E-mail address'),
   );
   
   $form['submit_button'] = array(
