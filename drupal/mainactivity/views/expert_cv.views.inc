@@ -49,6 +49,15 @@ $handler->display->display_options['fields']['display_name']['label'] = '';
 $handler->display->display_options['fields']['display_name']['element_type'] = 'h2';
 $handler->display->display_options['fields']['display_name']['element_label_colon'] = FALSE;
 $handler->display->display_options['fields']['display_name']['link_to_civicrm_contact'] = 0;
+/* Field: Project qualifications */
+$handler->display->display_options['fields']['view_3']['id'] = 'view_3';
+$handler->display->display_options['fields']['view_3']['table'] = 'views';
+$handler->display->display_options['fields']['view_3']['field'] = 'view';
+$handler->display->display_options['fields']['view_3']['ui_name'] = 'Project qualifications';
+$handler->display->display_options['fields']['view_3']['label'] = 'Project qualifications';
+$handler->display->display_options['fields']['view_3']['element_label_type'] = 'h2';
+$handler->display->display_options['fields']['view_3']['view'] = 'expert_cv_project_qualifications_';
+$handler->display->display_options['fields']['view_3']['arguments'] = '!1/!2';
 /* Field: Languages */
 $handler->display->display_options['fields']['view_1']['id'] = 'view_1';
 $handler->display->display_options['fields']['view_1']['table'] = 'views';
@@ -79,15 +88,6 @@ $handler->display->display_options['fields']['view_2']['element_label_type'] = '
 $handler->display->display_options['fields']['view_2']['element_label_colon'] = FALSE;
 $handler->display->display_options['fields']['view_2']['view'] = 'expert_cv_work_experience_';
 $handler->display->display_options['fields']['view_2']['arguments'] = '[id]';
-/* Field: Project qualifications */
-$handler->display->display_options['fields']['view_3']['id'] = 'view_3';
-$handler->display->display_options['fields']['view_3']['table'] = 'views';
-$handler->display->display_options['fields']['view_3']['field'] = 'view';
-$handler->display->display_options['fields']['view_3']['ui_name'] = 'Project qualifications';
-$handler->display->display_options['fields']['view_3']['label'] = 'Submitted project qualifications';
-$handler->display->display_options['fields']['view_3']['element_label_type'] = 'h2';
-$handler->display->display_options['fields']['view_3']['view'] = 'expert_cv_project_qualifications_';
-$handler->display->display_options['fields']['view_3']['arguments'] = '!1/!2';
 /* Contextual filter: CiviCRM Contacts: Contact ID */
 $handler->display->display_options['arguments']['id']['id'] = 'id';
 $handler->display->display_options['arguments']['id']['table'] = 'civicrm_contact';
