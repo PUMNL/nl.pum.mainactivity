@@ -6,6 +6,8 @@ class CRM_Mainactivity_DebriefingConfig {
 
   protected $debriefing;
   
+  protected $execution;
+  
   protected $valid_case_types = array();
   
   protected $debriefing_act_rel = array();
@@ -13,19 +15,24 @@ class CRM_Mainactivity_DebriefingConfig {
   protected function __construct() {
     $case_status_id = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'name' => 'case_status'));
     $this->debriefing = civicrm_api3('OptionValue', 'getsingle', array('name' => 'Debriefing', 'option_group_id' => $case_status_id));
+    $this->execution = civicrm_api3('OptionValue', 'getsingle', array('name' => 'Execution', 'option_group_id' => $case_status_id));
     
     $case_type_id = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'name' => 'case_type'));
     $advice = civicrm_api3('OptionValue', 'getsingle', array('name' => 'Advice', 'option_group_id' => $case_type_id));
     $this->valid_case_types[$advice['value']] = $advice;
+    $this->valid_case_types[$advice['value']]['case_status'] = $this->debriefing; 
     
     $seminar = civicrm_api3('OptionValue', 'getsingle', array('name' => 'Seminar', 'option_group_id' => $case_type_id));
     $this->valid_case_types[$seminar['value']] = $seminar;
+    $this->valid_case_types[$seminar['value']]['case_status'] = $this->debriefing;
     
     $RemoteCoaching = civicrm_api3('OptionValue', 'getsingle', array('name' => 'RemoteCoaching', 'option_group_id' => $case_type_id));
     $this->valid_case_types[$RemoteCoaching['value']] = $RemoteCoaching;
+    $this->valid_case_types[$RemoteCoaching['value']]['case_status'] = $this->debriefing;
     
     $Business = civicrm_api3('OptionValue', 'getsingle', array('name' => 'Business', 'option_group_id' => $case_type_id));
     $this->valid_case_types[$Business['value']] = $Business;
+    $this->valid_case_types[$Business['value']]['case_status'] = $this->execution;
     
     $this->loadDebriefingActivities();
   }
@@ -41,8 +48,8 @@ class CRM_Mainactivity_DebriefingConfig {
     return self::$singleton;
   }
   
-  public function getCaseStatusDebriefing($key) {
-    return $this->debriefing[$key];
+  public function getCaseStatusDebriefing($key, $case_type_id) {
+    return $this->valid_case_types[$case_type_id]['case_status'][$key];
   }
   
   public function isValidCaseType($case_type_id) {

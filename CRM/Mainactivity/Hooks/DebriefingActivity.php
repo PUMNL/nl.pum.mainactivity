@@ -6,18 +6,18 @@ class CRM_Mainactivity_Hooks_DebriefingActivity {
     if ($op != 'edit' || $objectName != 'Case') {
       return;
     }
-    
-    $config = CRM_Mainactivity_DebriefingConfig::singleton();
-    if (!isset($params['case_status_id']) || $params['case_status_id'] != $config->getCaseStatusDebriefing('value')) {
-      return;
-    }
-        
+            
     $currentCase = civicrm_api3('Case', 'getsingle', array('id' => $id));
     if ($params['case_status_id'] == $currentCase['status_id']) {
       return;
     }
     
+    $config = CRM_Mainactivity_DebriefingConfig::singleton();
     if (!$config->isValidCaseType($currentCase['case_type_id'])) {
+      return;
+    }
+    
+    if (!isset($params['case_status_id']) || $params['case_status_id'] != $config->getCaseStatusDebriefing('value', $currentCase['case_type_id'])) {
       return;
     }
     
