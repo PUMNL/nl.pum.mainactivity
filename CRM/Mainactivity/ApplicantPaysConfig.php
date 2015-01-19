@@ -7,7 +7,7 @@ class CRM_Mainactivity_ApplicantPaysConfig {
   protected $activity_type_id;
   
   protected function __construct() {
-    $this->activity_type_id = civicrm_api3('OptionValue', 'getvalue', array('name' => 'Condition: Applicant Pays', 'option_group_id' => 2, 'return' => 'value'));
+    $this->activity_type_id = civicrm_api3('OptionValue', 'getvalue', array('name' => 'Condition: Customer Contribution.', 'option_group_id' => 2, 'return' => 'value'));
   }
   
   /**
