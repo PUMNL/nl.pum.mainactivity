@@ -152,6 +152,25 @@ $handler->display->display_options['fields']['display_name']['field'] = 'display
 $handler->display->display_options['fields']['display_name']['relationship'] = 'contact_id';
 $handler->display->display_options['fields']['display_name']['label'] = 'Customer';
 $handler->display->display_options['fields']['display_name']['link_to_civicrm_contact'] = 0;
+/* Field: Global: Custom text */
+$handler->display->display_options['fields']['nothing']['id'] = 'nothing';
+$handler->display->display_options['fields']['nothing']['table'] = 'views';
+$handler->display->display_options['fields']['nothing']['field'] = 'nothing';
+$handler->display->display_options['fields']['nothing']['label'] = '';
+$handler->display->display_options['fields']['nothing']['alter']['text'] = 'Mark as completed';
+$handler->display->display_options['fields']['nothing']['alter']['make_link'] = TRUE;
+$handler->display->display_options['fields']['nothing']['alter']['path'] = 'customer/condition/update/[id]?destination=customer/conditions/!1';
+$handler->display->display_options['fields']['nothing']['alter']['absolute'] = TRUE;
+$handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
+/* Contextual filter: CiviCRM Cases: Case ID */
+$handler->display->display_options['arguments']['id']['id'] = 'id';
+$handler->display->display_options['arguments']['id']['table'] = 'civicrm_case';
+$handler->display->display_options['arguments']['id']['field'] = 'id';
+$handler->display->display_options['arguments']['id']['relationship'] = 'case_id';
+$handler->display->display_options['arguments']['id']['default_argument_type'] = 'fixed';
+$handler->display->display_options['arguments']['id']['summary']['number_of_records'] = '0';
+$handler->display->display_options['arguments']['id']['summary']['format'] = 'default_summary';
+$handler->display->display_options['arguments']['id']['summary_options']['items_per_page'] = '25';
 /* Sort criterion: CiviCRM Custom: (Main) Activity information: Activity Start Date */
 $handler->display->display_options['sorts']['start_date']['id'] = 'start_date';
 $handler->display->display_options['sorts']['start_date']['table'] = $main_activity_info['table_name'];

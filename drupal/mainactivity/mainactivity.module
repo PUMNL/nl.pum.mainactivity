@@ -2,6 +2,7 @@
 
 require_once('debriefing.inc');
 require_once('businesslink.inc');
+require_once('conditions.inc');
 
 function _mainactivity_dis_agree_expert_link($case_type) {
   $c = mainactivity_debriefing::singleton();
@@ -200,6 +201,14 @@ function mainactivity_menu() {
     'page arguments' => array('businesslink_change_person_form', 3, 5), //put the name of the form here
     'access callback' => 'mainactivity_user_has_role',   
     'access arguments' => array(array('Customer (contact)')), // arg 1 loads the user, arg 2 is the role name
+  );
+  $items['customer/condition/update/%'] = array( //this creates a URL that will call this form at "examples/form-example"
+    'title' => 'Update condition', //page title
+    'description' => 'Update condition',
+    'page callback' => 'drupal_get_form', //this is the function that will be called when the page is accessed.  for a form, use drupal_get_form
+    'page arguments' => array('condition_update_form', 3), //put the name of the form here
+    'access callback' => 'mainactivity_user_has_role',   
+    'access arguments' => array(array('Customer (contact)', 'Representative')), // arg 1 loads the user, arg 2 is the role name
   );
   return 
 
