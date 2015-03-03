@@ -402,23 +402,5 @@ function businesslink_registration_form_submit($form, &$form_state) {
 
 function _businesslink_form_pre_render_date(&$element)
 {
-    // Don't put empty values if a date has already been set
-    if (!empty($element['#default_value']) && date('Ynj') !== implode('', array_values($element['#default_value']))) {
-        return $element;
-    }
-
-    // Loop through each field, add empty option and unset value
-    foreach (array('year', 'month', 'day') as $field) {
-        if (!isset($element[$field])) {
-            continue;
-        }
-
-        unset($element[$field]['#value']);
-        $element[$field]['#default_value'] = '0';
-        $element[$field]['#options'] = array(
-            '0' => '',
-        ) + $element[$field]['#options'];
-    }
-
-    return $element;
+   return _mainactivity_form_pre_render_date($element);
 }

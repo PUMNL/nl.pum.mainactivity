@@ -1,5 +1,4 @@
 <?php
-
 $config = businessconfig::singleton();
 $business_programm_data = $config->custom_groups['Business_Programme'];
 $location = $config->custom_groups['Business_Programme']['fields']['Location']['column_name'];
@@ -8,22 +7,22 @@ $to = $config->custom_groups['Business_Programme']['fields']['Visit_to']['column
 $aim = $config->custom_groups['Business_Programme']['fields']['Aim_of_Visit']['column_name'];
 $result = $config->custom_groups['Business_Programme']['fields']['Result_of_Visit']['column_name'];
 
-$config = businessconfig::singleton();
+
 
 
 $view = new view();
-$view->name = 'business_link_program_details';
+$view->name = 'expert_business_link_program_details';
 $view->description = '';
 $view->tag = 'default';
 $view->base_table = 'civicrm_activity';
-$view->human_name = 'Business link programme details';
+$view->human_name = 'Business link programme details (for expert)';
 $view->core = 7;
 $view->api_version = '3.0';
 $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
 /* Display: Master */
 $handler = $view->new_display('default', 'Master', 'default');
-$handler->display->display_options['title'] = 'Business programme';
+$handler->display->display_options['title'] = 'Business programme proposal';
 $handler->display->display_options['use_more_always'] = FALSE;
 $handler->display->display_options['access']['type'] = 'none';
 $handler->display->display_options['cache']['type'] = 'none';
@@ -81,14 +80,16 @@ $handler->display->display_options['style_options']['info'] = array(
 $handler->display->display_options['header']['area']['id'] = 'area';
 $handler->display->display_options['header']['area']['table'] = 'views';
 $handler->display->display_options['header']['area']['field'] = 'area';
-$handler->display->display_options['header']['area']['content'] = 'if you have any questions regarding the program please contact the expert';
+$handler->display->display_options['header']['area']['empty'] = TRUE;
+$handler->display->display_options['header']['area']['content'] = '<a href="/expert/business-programme-proposal/add/!1?destination=/expert/business-programme-proposal/!1" class="button">Add a visit</a>';
 $handler->display->display_options['header']['area']['format'] = 'filtered_html';
+$handler->display->display_options['header']['area']['tokenize'] = TRUE;
 /* No results behavior: Global: Text area */
 $handler->display->display_options['empty']['area']['id'] = 'area';
 $handler->display->display_options['empty']['area']['table'] = 'views';
 $handler->display->display_options['empty']['area']['field'] = 'area';
 $handler->display->display_options['empty']['area']['empty'] = TRUE;
-$handler->display->display_options['empty']['area']['content'] = 'Programme will be available soon. In case of questions please contact the expert.';
+$handler->display->display_options['empty']['area']['content'] = 'No program defined yet';
 $handler->display->display_options['empty']['area']['format'] = 'filtered_html';
 /* Relationship: CiviCRM Case Activity: Case ID */
 $handler->display->display_options['relationships']['case_id']['id'] = 'case_id';
@@ -112,6 +113,8 @@ $handler->display->display_options['fields']['location_868']['id'] = 'location_8
 $handler->display->display_options['fields']['location_868']['table'] = $business_programm_data['table_name'];
 $handler->display->display_options['fields']['location_868']['field'] = $location;
 $handler->display->display_options['fields']['location_868']['alter']['strip_tags'] = TRUE;
+$handler->display->display_options['fields']['location_868']['empty'] = '<em>No location given</em>';
+$handler->display->display_options['fields']['location_868']['empty_zero'] = TRUE;
 /* Field: CiviCRM Custom: Business Programme: Short description Aim of Visit */
 $handler->display->display_options['fields']['short_description_aim_of_visit_871']['id'] = 'short_description_aim_of_visit_871';
 $handler->display->display_options['fields']['short_description_aim_of_visit_871']['table'] = $business_programm_data['table_name'];
@@ -124,6 +127,34 @@ $handler->display->display_options['fields']['short_description_result_of_visi_8
 $handler->display->display_options['fields']['short_description_result_of_visi_872']['field'] = $result;
 $handler->display->display_options['fields']['short_description_result_of_visi_872']['label'] = 'Result of Visit';
 $handler->display->display_options['fields']['short_description_result_of_visi_872']['alter']['strip_tags'] = TRUE;
+/* Field: CiviCRM Activities: Activity ID */
+$handler->display->display_options['fields']['id']['id'] = 'id';
+$handler->display->display_options['fields']['id']['table'] = 'civicrm_activity';
+$handler->display->display_options['fields']['id']['field'] = 'id';
+$handler->display->display_options['fields']['id']['label'] = '';
+$handler->display->display_options['fields']['id']['exclude'] = TRUE;
+$handler->display->display_options['fields']['id']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['id']['separator'] = '';
+/* Field: Global: Custom text */
+$handler->display->display_options['fields']['nothing']['id'] = 'nothing';
+$handler->display->display_options['fields']['nothing']['table'] = 'views';
+$handler->display->display_options['fields']['nothing']['field'] = 'nothing';
+$handler->display->display_options['fields']['nothing']['label'] = '';
+$handler->display->display_options['fields']['nothing']['alter']['text'] = 'Edit';
+$handler->display->display_options['fields']['nothing']['alter']['make_link'] = TRUE;
+$handler->display->display_options['fields']['nothing']['alter']['path'] = 'expert/business-programme-proposal/edit/[id]?destination=/expert/business-programme-proposal/!1';
+$handler->display->display_options['fields']['nothing']['alter']['absolute'] = TRUE;
+$handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
+/* Field: Global: Custom text */
+$handler->display->display_options['fields']['nothing_1']['id'] = 'nothing_1';
+$handler->display->display_options['fields']['nothing_1']['table'] = 'views';
+$handler->display->display_options['fields']['nothing_1']['field'] = 'nothing';
+$handler->display->display_options['fields']['nothing_1']['label'] = '';
+$handler->display->display_options['fields']['nothing_1']['alter']['text'] = 'Remove';
+$handler->display->display_options['fields']['nothing_1']['alter']['make_link'] = TRUE;
+$handler->display->display_options['fields']['nothing_1']['alter']['path'] = 'expert/business-programme-proposal/delete/[id]?destination=/expert/business-programme-proposal/!1';
+$handler->display->display_options['fields']['nothing_1']['alter']['absolute'] = TRUE;
+$handler->display->display_options['fields']['nothing_1']['element_label_colon'] = FALSE;
 /* Contextual filter: CiviCRM Cases: Case ID */
 $handler->display->display_options['arguments']['id']['id'] = 'id';
 $handler->display->display_options['arguments']['id']['table'] = 'civicrm_case';
@@ -139,7 +170,7 @@ $handler->display->display_options['filters']['activity_type']['id'] = 'activity
 $handler->display->display_options['filters']['activity_type']['table'] = 'civicrm_activity';
 $handler->display->display_options['filters']['activity_type']['field'] = 'activity_type';
 $handler->display->display_options['filters']['activity_type']['value'] = array(
-    $config->programme_activity_type_id => $config->programme_activity_type_id,
+  $config->programme_activity_type_id => $config->programme_activity_type_id,
 );
 /* Filter criterion: CiviCRM Activities: Current Revision */
 $handler->display->display_options['filters']['is_current_revision']['id'] = 'is_current_revision';
@@ -149,7 +180,7 @@ $handler->display->display_options['filters']['is_current_revision']['value'] = 
 
 /* Display: Page */
 $handler = $view->new_display('page', 'Page', 'page');
-$handler->display->display_options['path'] = 'business-link-programme-details';
+$handler->display->display_options['path'] = 'expert/business-programme-proposal';
 $translatables['business_link_program_details'] = array(
   t('Master'),
   t('Business programme'),

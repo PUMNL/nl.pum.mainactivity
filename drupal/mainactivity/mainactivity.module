@@ -2,225 +2,293 @@
 
 require_once('debriefing.inc');
 require_once('businesslink.inc');
+require_once('businesslink_programme.inc');
 require_once('conditions.inc');
 
-function _mainactivity_dis_agree_expert_link($case_type) {
-  $c = mainactivity_debriefing::singleton();
-  $case_types = explode(CRM_Core_DAO::VALUE_SEPARATOR, $case_type);
-  if (in_array($c->advice, $case_types)) { 
-    return 'customer/proposed-experts/dis-agree-advice'; 
-  } elseif (in_array($c->seminar, $case_types)) { 
-    return 'customer/proposed-experts/dis-agree-seminar'; 
-  } elseif (in_array($c->remote_coaching, $case_types)) { 
-    return 'customer/proposed-experts/dis-agree-remote-coaching'; 
-  } elseif (in_array($c->business, $case_types)) { 
-    return 'customer/proposed-experts/dis-agree-business'; 
-  }
-  return '';
-}
-
-function _mainactivity_accept_main_proposal_link($case_type) {
-  $c = mainactivity_debriefing::singleton();
-  $case_types = explode(CRM_Core_DAO::VALUE_SEPARATOR, $case_type);
-  if (in_array($c->advice, $case_types)) { 
-    return 'expert/accept-advisory-mission'; 
-  } elseif (in_array($c->seminar, $case_types)) { 
-    return 'expert/accept-seminar'; 
-  } elseif (in_array($c->remote_coaching, $case_types)) { 
-    return 'expert/accept-remote-coaching'; 
-  } elseif (in_array($c->business, $case_types)) { 
-    return 'expert/accept-business'; 
-  }
-  return '';
-}
-
-function _mainactivity_reject_main_proposal_link($case_type) {
-  $c = mainactivity_debriefing::singleton();
-  $case_types = explode(CRM_Core_DAO::VALUE_SEPARATOR, $case_type);
-  if (in_array($c->advice, $case_types)) { 
-    return 'expert/reject-advice-proposal'; 
-  } elseif (in_array($c->seminar, $case_types)) { 
-    return 'expert/reject-seminar-proposal'; 
-  } elseif (in_array($c->remote_coaching, $case_types)) { 
-    return 'expert/reject-remote-coaching-proposal'; 
-  } elseif (in_array($c->business, $case_types)) { 
-    return 'expert/reject-business-proposal'; 
-  }
-  return '';
-}
-
-function _mainactivity_debriefing_link($activity_type, $case_type) {
-  $c = mainactivity_debriefing::singleton();
-  $case_types = explode(CRM_Core_DAO::VALUE_SEPARATOR, $case_type);
-  if (((int) $activity_type) == $c->advice_debriefing_expert && in_array($c->advice, $case_types)) { 
-    return 'expert/debriefing/advice'; 
-  } elseif (((int) $activity_type == $c->advice_debriefing_customer) && in_array($c->advice, $case_types)) { 
-    return 'customer/debriefing/advice';
-  } elseif (((int) $activity_type == $c->advice_debriefing_rep) && in_array($c->advice, $case_types)) { 
-    return 'representative/debriefing/advice';
-  } elseif (((int) $activity_type) == $c->business_debriefing_expert && in_array($c->business, $case_types)) { 
-    return 'expert/debriefing/business'; 
-  //} elseif (((int) $activity_type == $c->business_debriefing_customer) && in_array($c->business, $case_types)) { 
-  //  return 'customer/debriefing/business';
-  } elseif (((int) $activity_type) == $c->seminar_debriefing_expert && in_array($c->seminar, $case_types)) { 
-    return 'expert/debriefing/seminar'; 
-  } elseif (((int) $activity_type == $c->seminar_debriefing_customer) && in_array($c->seminar, $case_types)) { 
-    return 'customer/debriefing/seminar';
-  } elseif (((int) $activity_type == $c->seminar_debriefing_rep) && in_array($c->seminar, $case_types)) { 
-    return 'representative/debriefing/seminar';
-  } elseif (((int) $activity_type) == $c->remote_coaching_debriefing_expert && in_array($c->remote_coaching, $case_types)) { 
-    return 'expert/debriefing/remote-coaching'; 
-  } elseif (((int) $activity_type == $c->remote_coaching_debriefing_customer) && in_array($c->remote_coaching, $case_types)) { 
-    return 'customer/debriefing/remote-coaching';
-  } elseif (((int) $activity_type == $c->remote_coaching_debriefing_rep) && in_array($c->remote_coaching, $case_types)) { 
-    return 'representative/debriefing/remote-coaching';
-  }
-  return '';
-}
-
-function _mainactivity_briefing_link($activity_type, $case_type) {
-  $c = mainactivity_debriefing::singleton();
-  $case_types = explode(CRM_Core_DAO::VALUE_SEPARATOR, $case_type);
-  if (((int) $activity_type) == $c->briefing_expert_act && $c->validCaseTypes($case_types)) { 
-    return 'expert/briefing/form'; 
-  }
-  return '';
-}
-
-function mainactivity_views_api() {
-  return array('api' => 3.0);
-}
-
-function mainactivity_views_default_views() {
-  $files = file_scan_directory(drupal_get_path('module', 'mainactivity'). '/views', '/.inc/');
-  foreach ($files as $filepath => $file) {
-    try {
-      require $filepath;
-      if (isset($view)) {
-        $views[$view->name] = $view;
-      }
-    } catch (Exception $e) {
-      //do nothing
+function _mainactivity_dis_agree_expert_link($case_type)
+{
+    $c = mainactivity_debriefing::singleton();
+    $case_types = explode(CRM_Core_DAO::VALUE_SEPARATOR, $case_type);
+    if (in_array($c->advice, $case_types)) {
+        return 'customer/proposed-experts/dis-agree-advice';
+    } elseif (in_array($c->seminar, $case_types)) {
+        return 'customer/proposed-experts/dis-agree-seminar';
+    } elseif (in_array($c->remote_coaching, $case_types)) {
+        return 'customer/proposed-experts/dis-agree-remote-coaching';
+    } elseif (in_array($c->business, $case_types)) {
+        return 'customer/proposed-experts/dis-agree-business';
     }
-  }
-  return $views;
+    return '';
 }
 
-function mainactivity_get_role_ids($roles) {
-  $rids = array();
-  $available_roles = user_roles();
-  foreach($roles as $role) {
-    $rid = array_search($role, $available_roles);
-    if ($rid !== false) {
-      $rids[$rid] = $rid;
+function _mainactivity_accept_main_proposal_link($case_type)
+{
+    $c = mainactivity_debriefing::singleton();
+    $case_types = explode(CRM_Core_DAO::VALUE_SEPARATOR, $case_type);
+    if (in_array($c->advice, $case_types)) {
+        return 'expert/accept-advisory-mission';
+    } elseif (in_array($c->seminar, $case_types)) {
+        return 'expert/accept-seminar';
+    } elseif (in_array($c->remote_coaching, $case_types)) {
+        return 'expert/accept-remote-coaching';
+    } elseif (in_array($c->business, $case_types)) {
+        return 'expert/accept-business';
     }
-  }
-  
-  return $rids;
+    return '';
 }
 
-function mainactivity_form_webform_component_edit_form_alter(&$form, &$form_state) {
-  $component = $form_state['build_info']['args'][1];
-  if (!in_array($component['type'], array('hidden'))) {
-    return;
-  }
-  
-  if (!isset($form['#node']->webform_civicrm)) {
-    return;
-  }
-  
-  $form['civicrm_options_fieldset']['force_default_value'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Force default value'),
-    '#default_value' => _mainactivity_get_force_default_value($component),
-  );
-}
-
-function mainactivity_webform_component_presave(&$component) {
-  if (!isset($component['civicrm_options_fieldset']['force_default_value'])) {
-    return;
-  }
-  $component['extra']['force_default_value'] = $component['civicrm_options_fieldset']['force_default_value'] ? true : false;
-}
-
-function _mainactivity_get_force_default_value(array $component) {
-  $enabled = false;
-  if (isset($component['extra']['force_default_value'])) {
-    $enabled = (bool) $component['extra']['force_default_value'];
-  }
-  return $enabled;
-}
-
-function mainactivity_webform_submission_presave($node, &$submission) {
-  foreach($submission->data as $cid => $value) {
-    //check if this component has force default value
-    $component = $node->webform['components'][$cid];
-    if (isset($component['extra']["force_default_value"]) && $component['extra']["force_default_value"]) {
-      $submission->data[$cid][0] = $component['value'];
+function _mainactivity_reject_main_proposal_link($case_type)
+{
+    $c = mainactivity_debriefing::singleton();
+    $case_types = explode(CRM_Core_DAO::VALUE_SEPARATOR, $case_type);
+    if (in_array($c->advice, $case_types)) {
+        return 'expert/reject-advice-proposal';
+    } elseif (in_array($c->seminar, $case_types)) {
+        return 'expert/reject-seminar-proposal';
+    } elseif (in_array($c->remote_coaching, $case_types)) {
+        return 'expert/reject-remote-coaching-proposal';
+    } elseif (in_array($c->business, $case_types)) {
+        return 'expert/reject-business-proposal';
     }
-  }
+    return '';
 }
 
-function mainactivity_module_implements_alter(&$module_list, $context){
-  if($context === "webform_submission_presave"){
-    $old_module_list = $module_list;
-    $module_list = array();
-    foreach($old_module_list as $module => $key) {
-      if ($module == 'webform_civicrm') {
-        $module_list['mainactivity'] = $old_module_list['mainactivity'];
-      }
-      if ($module != 'mainactivity') {
-        $module_list[$module] = $key;
-      }
+function _mainactivity_debriefing_link($activity_type, $case_type)
+{
+    $c = mainactivity_debriefing::singleton();
+    $case_types = explode(CRM_Core_DAO::VALUE_SEPARATOR, $case_type);
+    if (((int)$activity_type) == $c->advice_debriefing_expert && in_array($c->advice, $case_types)) {
+        return 'expert/debriefing/advice';
+    } elseif (((int)$activity_type == $c->advice_debriefing_customer) && in_array($c->advice, $case_types)) {
+        return 'customer/debriefing/advice';
+    } elseif (((int)$activity_type == $c->advice_debriefing_rep) && in_array($c->advice, $case_types)) {
+        return 'representative/debriefing/advice';
+    } elseif (((int)$activity_type) == $c->business_debriefing_expert && in_array($c->business, $case_types)) {
+        return 'expert/debriefing/business';
+        //} elseif (((int) $activity_type == $c->business_debriefing_customer) && in_array($c->business, $case_types)) {
+        //  return 'customer/debriefing/business';
+    } elseif (((int)$activity_type) == $c->seminar_debriefing_expert && in_array($c->seminar, $case_types)) {
+        return 'expert/debriefing/seminar';
+    } elseif (((int)$activity_type == $c->seminar_debriefing_customer) && in_array($c->seminar, $case_types)) {
+        return 'customer/debriefing/seminar';
+    } elseif (((int)$activity_type == $c->seminar_debriefing_rep) && in_array($c->seminar, $case_types)) {
+        return 'representative/debriefing/seminar';
+    } elseif (((int)$activity_type) == $c->remote_coaching_debriefing_expert && in_array($c->remote_coaching, $case_types)) {
+        return 'expert/debriefing/remote-coaching';
+    } elseif (((int)$activity_type == $c->remote_coaching_debriefing_customer) && in_array($c->remote_coaching, $case_types)) {
+        return 'customer/debriefing/remote-coaching';
+    } elseif (((int)$activity_type == $c->remote_coaching_debriefing_rep) && in_array($c->remote_coaching, $case_types)) {
+        return 'representative/debriefing/remote-coaching';
     }
-  }
+    return '';
 }
 
-function mainactivity_menu() {
-  $items = array();
-  $items['customer/business/participants/%'] = array( //this creates a URL that will call this form at "examples/form-example"
-    'title' => 'Register participants', //page title
-    'description' => 'Register participants for business',
-    'page callback' => 'drupal_get_form', //this is the function that will be called when the page is accessed.  for a form, use drupal_get_form
-    'page arguments' => array('businesslink_registration_form', 3), //put the name of the form here
-    'access callback' => 'mainactivity_user_has_role',   
-    'access arguments' => array(array('Customer (contact)')), // arg 1 loads the user, arg 2 is the role name
-  );
-  $items['customer/business/participants/%/newperson'] = array( //this creates a URL that will call this form at "examples/form-example"
-    'title' => 'Register new participant', //page title
-    'description' => 'Register new participants for business',
-    'page callback' => 'drupal_get_form', //this is the function that will be called when the page is accessed.  for a form, use drupal_get_form
-    'page arguments' => array('businesslink_register_newperson_form', 3), //put the name of the form here
-    'access callback' => 'mainactivity_user_has_role',   
-    'access arguments' => array(array('Customer (contact)')), // arg 1 loads the user, arg 2 is the role name
-  );
-  $items['customer/business/participants/%/change/%'] = array( //this creates a URL that will call this form at "examples/form-example"
-    'title' => 'Edit personal details', //page title
-    'description' => 'Edit personal details',
-    'page callback' => 'drupal_get_form', //this is the function that will be called when the page is accessed.  for a form, use drupal_get_form
-    'page arguments' => array('businesslink_change_person_form', 3, 5), //put the name of the form here
-    'access callback' => 'mainactivity_user_has_role',   
-    'access arguments' => array(array('Customer (contact)')), // arg 1 loads the user, arg 2 is the role name
-  );
-  $items['customer/condition/update/%'] = array( //this creates a URL that will call this form at "examples/form-example"
-    'title' => 'Update condition', //page title
-    'description' => 'Update condition',
-    'page callback' => 'drupal_get_form', //this is the function that will be called when the page is accessed.  for a form, use drupal_get_form
-    'page arguments' => array('condition_update_form', 3), //put the name of the form here
-    'access callback' => 'mainactivity_user_has_role',   
-    'access arguments' => array(array('Customer (contact)', 'Representative')), // arg 1 loads the user, arg 2 is the role name
-  );
-  return 
-
-$items;
-}
-
-function mainactivity_user_has_role($roles = array()) {  
-  global $user;
-  foreach ($roles as $role) {
-    if (in_array($role, $user->roles)) {
-      return TRUE;
+function _mainactivity_briefing_link($activity_type, $case_type)
+{
+    $c = mainactivity_debriefing::singleton();
+    $case_types = explode(CRM_Core_DAO::VALUE_SEPARATOR, $case_type);
+    if (((int)$activity_type) == $c->briefing_expert_act && $c->validCaseTypes($case_types)) {
+        return 'expert/briefing/form';
     }
-  }
-  return FALSE; 
+    return '';
+}
+
+function mainactivity_views_api()
+{
+    return array('api' => 3.0);
+}
+
+function mainactivity_views_default_views()
+{
+    $files = file_scan_directory(drupal_get_path('module', 'mainactivity') . '/views', '/.inc/');
+    foreach ($files as $filepath => $file) {
+        try {
+            require $filepath;
+            if (isset($view)) {
+                $views[$view->name] = $view;
+            }
+        } catch (Exception $e) {
+            //do nothing
+        }
+    }
+    return $views;
+}
+
+function mainactivity_get_role_ids($roles)
+{
+    $rids = array();
+    $available_roles = user_roles();
+    foreach ($roles as $role) {
+        $rid = array_search($role, $available_roles);
+        if ($rid !== false) {
+            $rids[$rid] = $rid;
+        }
+    }
+
+    return $rids;
+}
+
+function mainactivity_form_webform_component_edit_form_alter(&$form, &$form_state)
+{
+    $component = $form_state['build_info']['args'][1];
+    if (!in_array($component['type'], array('hidden'))) {
+        return;
+    }
+
+    if (!isset($form['#node']->webform_civicrm)) {
+        return;
+    }
+
+    $form['civicrm_options_fieldset']['force_default_value'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Force default value'),
+        '#default_value' => _mainactivity_get_force_default_value($component),
+    );
+}
+
+function mainactivity_webform_component_presave(&$component)
+{
+    if (!isset($component['civicrm_options_fieldset']['force_default_value'])) {
+        return;
+    }
+    $component['extra']['force_default_value'] = $component['civicrm_options_fieldset']['force_default_value'] ? true : false;
+}
+
+function _mainactivity_get_force_default_value(array $component)
+{
+    $enabled = false;
+    if (isset($component['extra']['force_default_value'])) {
+        $enabled = (bool)$component['extra']['force_default_value'];
+    }
+    return $enabled;
+}
+
+function _mainactivity_form_pre_render_date(&$element)
+{
+    // Don't put empty values if a date has already been set
+    if (!empty($element['#default_value'])) {
+        $date = new DateTime();
+        $today = clone $date;
+        $date->setDate($element['#default_value']['year'],$element['#default_value']['month'],$element['#default_value']['day']);
+        if ($date != $today) {
+            return $element;
+        }
+    }
+
+    // Loop through each field, add empty option and unset value
+    foreach (array('year', 'month', 'day') as $field) {
+        if (!isset($element[$field])) {
+            continue;
+        }
+
+        unset($element[$field]['#value']);
+        $element[$field]['#default_value'] = '0';
+        $element[$field]['#options'] = array(
+                '0' => '',
+            ) + $element[$field]['#options'];
+    }
+
+    return $element;
+}
+
+function mainactivity_webform_submission_presave($node, &$submission)
+{
+    foreach ($submission->data as $cid => $value) {
+        //check if this component has force default value
+        $component = $node->webform['components'][$cid];
+        if (isset($component['extra']["force_default_value"]) && $component['extra']["force_default_value"]) {
+            $submission->data[$cid][0] = $component['value'];
+        }
+    }
+}
+
+function mainactivity_module_implements_alter(&$module_list, $context)
+{
+    if ($context === "webform_submission_presave") {
+        $old_module_list = $module_list;
+        $module_list = array();
+        foreach ($old_module_list as $module => $key) {
+            if ($module == 'webform_civicrm') {
+                $module_list['mainactivity'] = $old_module_list['mainactivity'];
+            }
+            if ($module != 'mainactivity') {
+                $module_list[$module] = $key;
+            }
+        }
+    }
+}
+
+function mainactivity_menu()
+{
+    $items = array();
+    $items['expert/business-programme-proposal/add/%'] = array( //this creates a URL that will call this form at "examples/form-example"
+        'title' => 'Add visit for business programme', //page title
+        'description' => 'Add visit for business programme',
+        'page callback' => 'drupal_get_form', //this is the function that will be called when the page is accessed.  for a form, use drupal_get_form
+        'page arguments' => array('businesslink_programme_proposal', 3), //put the name of the form here
+        'access callback' => 'mainactivity_user_has_role',
+        'access arguments' => array(array('Expert')), // arg 1 loads the user, arg 2 is the role name
+    );
+    $items['expert/business-programme-proposal/edit/%'] = array( //this creates a URL that will call this form at "examples/form-example"
+        'title' => 'Edit visit for business programme', //page title
+        'description' => 'Edit visit for business programme',
+        'page callback' => 'drupal_get_form', //this is the function that will be called when the page is accessed.  for a form, use drupal_get_form
+        'page arguments' => array('businesslink_programme_proposal_edit', 3), //put the name of the form here
+        'access callback' => 'mainactivity_user_has_role',
+        'access arguments' => array(array('Expert')), // arg 1 loads the user, arg 2 is the role name
+    );
+    $items['expert/business-programme-proposal/delete/%'] = array( //this creates a URL that will call this form at "examples/form-example"
+        'title' => 'Remove visit from business programme', //page title
+        'description' => 'Remove visit from business programme',
+        'page callback' => 'drupal_get_form', //this is the function that will be called when the page is accessed.  for a form, use drupal_get_form
+        'page arguments' => array('businesslink_programme_proposal_delete', 3), //put the name of the form here
+        'access callback' => 'mainactivity_user_has_role',
+        'access arguments' => array(array('Expert')), // arg 1 loads the user, arg 2 is the role name
+    );
+    $items['customer/business/participants/%'] = array( //this creates a URL that will call this form at "examples/form-example"
+        'title' => 'Register participants', //page title
+        'description' => 'Register participants for business',
+        'page callback' => 'drupal_get_form', //this is the function that will be called when the page is accessed.  for a form, use drupal_get_form
+        'page arguments' => array('businesslink_registration_form', 3), //put the name of the form here
+        'access callback' => 'mainactivity_user_has_role',
+        'access arguments' => array(array('Customer (contact)')), // arg 1 loads the user, arg 2 is the role name
+    );
+    $items['customer/business/participants/%/newperson'] = array( //this creates a URL that will call this form at "examples/form-example"
+        'title' => 'Register new participant', //page title
+        'description' => 'Register new participants for business',
+        'page callback' => 'drupal_get_form', //this is the function that will be called when the page is accessed.  for a form, use drupal_get_form
+        'page arguments' => array('businesslink_register_newperson_form', 3), //put the name of the form here
+        'access callback' => 'mainactivity_user_has_role',
+        'access arguments' => array(array('Customer (contact)')), // arg 1 loads the user, arg 2 is the role name
+    );
+    $items['customer/business/participants/%/change/%'] = array( //this creates a URL that will call this form at "examples/form-example"
+        'title' => 'Edit personal details', //page title
+        'description' => 'Edit personal details',
+        'page callback' => 'drupal_get_form', //this is the function that will be called when the page is accessed.  for a form, use drupal_get_form
+        'page arguments' => array('businesslink_change_person_form', 3, 5), //put the name of the form here
+        'access callback' => 'mainactivity_user_has_role',
+        'access arguments' => array(array('Customer (contact)')), // arg 1 loads the user, arg 2 is the role name
+    );
+    $items['customer/condition/update/%'] = array( //this creates a URL that will call this form at "examples/form-example"
+        'title' => 'Update condition', //page title
+        'description' => 'Update condition',
+        'page callback' => 'drupal_get_form', //this is the function that will be called when the page is accessed.  for a form, use drupal_get_form
+        'page arguments' => array('condition_update_form', 3), //put the name of the form here
+        'access callback' => 'mainactivity_user_has_role',
+        'access arguments' => array(array('Customer (contact)', 'Representative')), // arg 1 loads the user, arg 2 is the role name
+    );
+    return
+
+        $items;
+}
+
+function mainactivity_user_has_role($roles = array())
+{
+    global $user;
+    foreach ($roles as $role) {
+        if (in_array($role, $user->roles)) {
+            return TRUE;
+        }
+    }
+    return FALSE;
 }
