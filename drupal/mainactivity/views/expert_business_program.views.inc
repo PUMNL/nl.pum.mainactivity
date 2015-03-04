@@ -86,9 +86,8 @@ $handler->display->display_options['relationships']['contact_id']['label'] = 'Cu
 $handler->display->display_options['relationships']['contact_id']['required'] = TRUE;
 /* Relationship: CiviCRM Contacts: CiviCRM Relationship (starting from contact A) */
 $handler->display->display_options['relationships']['relationship_id_a']['id'] = 'relationship_id_a';
-$handler->display->display_options['relationships']['relationship_id_a']['table'] = 'civicrm_contact';
-$handler->display->display_options['relationships']['relationship_id_a']['field'] = 'relationship_id_a';
-$handler->display->display_options['relationships']['relationship_id_a']['relationship'] = 'contact_id';
+$handler->display->display_options['relationships']['relationship_id_a']['table'] = 'civicrm_case';
+$handler->display->display_options['relationships']['relationship_id_a']['field'] = 'relationship_id';
 $handler->display->display_options['relationships']['relationship_id_a']['label'] = 'Expert relationship';
 $handler->display->display_options['relationships']['relationship_id_a']['required'] = TRUE;
 $handler->display->display_options['relationships']['relationship_id_a']['relationship_type'] = $expert_rel_type_id;
@@ -97,7 +96,7 @@ $handler->display->display_options['relationships']['contact_id_b_']['id'] = 'co
 $handler->display->display_options['relationships']['contact_id_b_']['table'] = 'civicrm_relationship';
 $handler->display->display_options['relationships']['contact_id_b_']['field'] = 'contact_id_b_';
 $handler->display->display_options['relationships']['contact_id_b_']['relationship'] = 'relationship_id_a';
-$handler->display->display_options['relationships']['contact_id_b_']['label'] = 'Authorised contact';
+$handler->display->display_options['relationships']['contact_id_b_']['label'] = 'Expert';
 $handler->display->display_options['relationships']['contact_id_b_']['required'] = TRUE;
 /* Relationship: CiviCRM Contacts: Drupal ID */
 $handler->display->display_options['relationships']['drupal_id']['id'] = 'drupal_id';
