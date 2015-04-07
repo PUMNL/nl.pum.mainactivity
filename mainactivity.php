@@ -122,30 +122,4 @@ function mainactivity_civicrm_alterSettingsFolders(&$metaDataFolders = NULL) {
   _mainactivity_civix_civicrm_alterSettingsFolders($metaDataFolders);
 }
 
-/**
- * Implementation of hook_civicrm_validateForm
- *
- * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_validateForm
- */
-function mainactivity_civicrm_validateForm($formName, &$fields, &$files, &$form, &$errors ) {
-  if ($formName == 'CRM_Case_Form_Activity') {
-    $allowedRoles = array('Finance', 'Finance Admin', 'administrator');
-    $allowedActivity = FALSE;
-    $customerContributionType = CRM_Threepeas_Utils::getActivityTypeWithName('Condition: Customer Contribution.');
-    $completedActivityStatus = CRM_Threepeas_Utils::getActivityStatusWithName('Completed');
-    $customerContributionTypeId = $customerContributionType['value'];
-    $completedActivityStatusId = $completedActivityStatus['value'];
-    if ($form->_activityTypeId == $customerContributionTypeId && $fields['status_id'] == $completedActivityStatusId) {
-      global $user;
-      foreach ($user->roles as $userRole) {
-        if (in_array($userRole, $allowedRoles)) {
-          $allowedActivity = TRUE;
-        }
-      }
-      if ($allowedActivity == FALSE) {
-        $errors['status_id'] = 'Changing the status to Completed is only allowed if you have the role Finance, Finance Admin or administrator';
-      }
-    }
-  }
-}
 
