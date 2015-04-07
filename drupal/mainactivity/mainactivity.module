@@ -3,7 +3,6 @@
 require_once('debriefing.inc');
 require_once('businesslink.inc');
 require_once('businesslink_programme.inc');
-require_once('conditions.inc');
 
 function _mainactivity_dis_agree_expert_link($case_type)
 {
