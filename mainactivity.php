@@ -121,3 +121,5 @@ function mainactivity_civicrm_caseTypes(&$caseTypes) {
 function mainactivity_civicrm_alterSettingsFolders(&$metaDataFolders = NULL) {
   _mainactivity_civix_civicrm_alterSettingsFolders($metaDataFolders);
 }
+
+
