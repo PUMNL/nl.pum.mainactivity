@@ -2,6 +2,12 @@
 
 require_once 'mainactivity.civix.php';
 
+function mainactivity_civicrm_buildForm($formName, &$form) {
+  if ($formName == 'CRM_Case_Form_Activity') {
+    CRM_Mainactivity_Hooks_BriefingExpertDefaultAssigned::buildForm($formName, $form);
+  }
+}
+
 function mainactivity_civicrm_pre($op, $objectName, $id, &$params ) {
   //create debriefing activities upon debriefing status change
   CRM_Mainactivity_Hooks_DebriefingActivity::pre($op, $objectName, $id, $params);
