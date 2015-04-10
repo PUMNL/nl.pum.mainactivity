@@ -225,6 +225,9 @@ $handler->display->display_options['menu']['context_only_inline'] = 0;
 
 /* Display: My Work Count Item - Block */
 $handler = $view->new_display('block', 'My Work Count Item - Block', 'block_1');
+$handler->display->display_options['defaults']['pager'] = FALSE;
+$handler->display->display_options['pager']['type'] = 'none';
+$handler->display->display_options['pager']['options']['offset'] = '0';
 $handler->display->display_options['defaults']['header'] = FALSE;
 /* Header: Global: Result summary */
 $handler->display->display_options['header']['result']['id'] = 'result';
