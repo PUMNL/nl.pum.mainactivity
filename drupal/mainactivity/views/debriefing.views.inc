@@ -239,7 +239,7 @@ $handler->display->display_options['defaults']['header'] = FALSE;
 $handler->display->display_options['header']['result']['id'] = 'result';
 $handler->display->display_options['header']['result']['table'] = 'views';
 $handler->display->display_options['header']['result']['field'] = 'result';
-$handler->display->display_options['header']['result']['content'] = 'Debriefing (@total)';
+$handler->display->display_options['header']['result']['content'] = '<a href="/debriefing">Debriefing</a> (@total)';
 $handler->display->display_options['defaults']['fields'] = FALSE;
 /* Field: CiviCRM Activities: Activity ID */
 $handler->display->display_options['fields']['id']['id'] = 'id';
