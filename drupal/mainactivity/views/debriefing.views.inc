@@ -228,6 +228,12 @@ $handler = $view->new_display('block', 'My Work Count Item - Block', 'block_1');
 $handler->display->display_options['defaults']['pager'] = FALSE;
 $handler->display->display_options['pager']['type'] = 'none';
 $handler->display->display_options['pager']['options']['offset'] = '0';
+$handler->display->display_options['defaults']['style_plugin'] = FALSE;
+$handler->display->display_options['style_plugin'] = 'default';
+$handler->display->display_options['defaults']['style_options'] = FALSE;
+$handler->display->display_options['defaults']['row_plugin'] = FALSE;
+$handler->display->display_options['row_plugin'] = 'fields';
+$handler->display->display_options['defaults']['row_options'] = FALSE;
 $handler->display->display_options['defaults']['header'] = FALSE;
 /* Header: Global: Result summary */
 $handler->display->display_options['header']['result']['id'] = 'result';
@@ -315,6 +321,7 @@ $handler->display->display_options['fields']['nothing_1']['field'] = 'nothing';
 $handler->display->display_options['fields']['nothing_1']['label'] = '';
 $handler->display->display_options['fields']['nothing_1']['element_label_colon'] = FALSE;
 $handler->display->display_options['fields']['nothing_1']['hide_empty'] = TRUE;
+$handler->display->display_options['fields']['nothing_1']['empty_zero'] = TRUE;
 $translatables['debriefing'] = array(
   t('Master'),
   t('Debriefing'),
