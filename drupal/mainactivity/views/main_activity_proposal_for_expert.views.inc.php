@@ -294,6 +294,7 @@ $handler->display->display_options['header']['result']['id'] = 'result';
 $handler->display->display_options['header']['result']['table'] = 'views';
 $handler->display->display_options['header']['result']['field'] = 'result';
 $handler->display->display_options['header']['result']['content'] = 'Main activity proposals (<a href="/expert/main-activity-proposals">@total</a>)';
+$handler->display->display_options['defaults']['empty'] = FALSE;
 $handler->display->display_options['defaults']['fields'] = FALSE;
 /* Field: CiviCRM Contacts: Contact ID */
 $handler->display->display_options['fields']['id']['id'] = 'id';
