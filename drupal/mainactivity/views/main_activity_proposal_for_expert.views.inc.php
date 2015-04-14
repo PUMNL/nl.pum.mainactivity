@@ -280,3 +280,176 @@ $handler->display->display_options['menu']['title'] = 'Main activity proposal';
 $handler->display->display_options['menu']['weight'] = '0';
 $handler->display->display_options['menu']['context'] = 0;
 $handler->display->display_options['menu']['context_only_inline'] = 0;
+/* Display: My Work Count Item - Block */
+$handler = $view->new_display('block', 'My Work Count Item - Block', 'block_1');
+$handler->display->display_options['defaults']['style_plugin'] = FALSE;
+$handler->display->display_options['style_plugin'] = 'default';
+$handler->display->display_options['defaults']['style_options'] = FALSE;
+$handler->display->display_options['defaults']['row_plugin'] = FALSE;
+$handler->display->display_options['row_plugin'] = 'fields';
+$handler->display->display_options['defaults']['row_options'] = FALSE;
+$handler->display->display_options['defaults']['header'] = FALSE;
+/* Header: Global: Result summary */
+$handler->display->display_options['header']['result']['id'] = 'result';
+$handler->display->display_options['header']['result']['table'] = 'views';
+$handler->display->display_options['header']['result']['field'] = 'result';
+$handler->display->display_options['header']['result']['content'] = '<a href="/expert/main-activity-proposals">Main activity proposals</a> (@total)';
+$handler->display->display_options['defaults']['empty'] = FALSE;
+$handler->display->display_options['defaults']['fields'] = FALSE;
+/* Field: CiviCRM Contacts: Contact ID */
+$handler->display->display_options['fields']['id']['id'] = 'id';
+$handler->display->display_options['fields']['id']['table'] = 'civicrm_contact';
+$handler->display->display_options['fields']['id']['field'] = 'id';
+$handler->display->display_options['fields']['id']['exclude'] = TRUE;
+$handler->display->display_options['fields']['id']['separator'] = '';
+/* Field: CiviCRM Cases: Case ID */
+$handler->display->display_options['fields']['id_1']['id'] = 'id_1';
+$handler->display->display_options['fields']['id_1']['table'] = 'civicrm_case';
+$handler->display->display_options['fields']['id_1']['field'] = 'id';
+$handler->display->display_options['fields']['id_1']['relationship'] = 'relationship_id_a';
+$handler->display->display_options['fields']['id_1']['exclude'] = TRUE;
+$handler->display->display_options['fields']['id_1']['separator'] = '';
+/* Field: CiviCRM Contacts: Contact ID */
+$handler->display->display_options['fields']['id_2']['id'] = 'id_2';
+$handler->display->display_options['fields']['id_2']['table'] = 'civicrm_contact';
+$handler->display->display_options['fields']['id_2']['field'] = 'id';
+$handler->display->display_options['fields']['id_2']['relationship'] = 'contact_id_b_';
+$handler->display->display_options['fields']['id_2']['label'] = 'Expert Contact ID';
+$handler->display->display_options['fields']['id_2']['exclude'] = TRUE;
+$handler->display->display_options['fields']['id_2']['separator'] = '';
+/* Field: CiviCRM Contacts: Display Name */
+$handler->display->display_options['fields']['display_name']['id'] = 'display_name';
+$handler->display->display_options['fields']['display_name']['table'] = 'civicrm_contact';
+$handler->display->display_options['fields']['display_name']['field'] = 'display_name';
+$handler->display->display_options['fields']['display_name']['label'] = 'Customer';
+$handler->display->display_options['fields']['display_name']['exclude'] = TRUE;
+$handler->display->display_options['fields']['display_name']['alter']['make_link'] = TRUE;
+$handler->display->display_options['fields']['display_name']['alter']['path'] = 'expert/customer/[id]';
+$handler->display->display_options['fields']['display_name']['alter']['absolute'] = TRUE;
+$handler->display->display_options['fields']['display_name']['link_to_civicrm_contact'] = 0;
+/* Field: CiviCRM Cases: Case Type */
+$handler->display->display_options['fields']['case_type']['id'] = 'case_type';
+$handler->display->display_options['fields']['case_type']['table'] = 'civicrm_case';
+$handler->display->display_options['fields']['case_type']['field'] = 'case_type';
+$handler->display->display_options['fields']['case_type']['relationship'] = 'case_id';
+$handler->display->display_options['fields']['case_type']['exclude'] = TRUE;
+$handler->display->display_options['fields']['case_type']['alter']['make_link'] = TRUE;
+$handler->display->display_options['fields']['case_type']['alter']['path'] = 'civicrm/contact/view/case?reset=1&action=view&cid=[id]&id=[id_1]&show=1';
+$handler->display->display_options['fields']['case_type']['alter']['absolute'] = TRUE;
+/* Field: CiviCRM Email: Email Address */
+$handler->display->display_options['fields']['email_1']['id'] = 'email_1';
+$handler->display->display_options['fields']['email_1']['table'] = 'civicrm_email';
+$handler->display->display_options['fields']['email_1']['field'] = 'email';
+$handler->display->display_options['fields']['email_1']['relationship'] = 'contact_id_b__1';
+$handler->display->display_options['fields']['email_1']['label'] = '';
+$handler->display->display_options['fields']['email_1']['exclude'] = TRUE;
+$handler->display->display_options['fields']['email_1']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['email_1']['location_type'] = '0';
+$handler->display->display_options['fields']['email_1']['location_op'] = '0';
+$handler->display->display_options['fields']['email_1']['is_primary'] = 1;
+/* Field: CiviCRM Contacts: Display Name */
+$handler->display->display_options['fields']['display_name_1']['id'] = 'display_name_1';
+$handler->display->display_options['fields']['display_name_1']['table'] = 'civicrm_contact';
+$handler->display->display_options['fields']['display_name_1']['field'] = 'display_name';
+$handler->display->display_options['fields']['display_name_1']['relationship'] = 'contact_id_b__1';
+$handler->display->display_options['fields']['display_name_1']['label'] = 'SC';
+$handler->display->display_options['fields']['display_name_1']['exclude'] = TRUE;
+$handler->display->display_options['fields']['display_name_1']['alter']['alter_text'] = TRUE;
+$handler->display->display_options['fields']['display_name_1']['alter']['text'] = '[display_name_1] ([email_1])';
+$handler->display->display_options['fields']['display_name_1']['link_to_civicrm_contact'] = 0;
+/* Field: CiviCRM Email: Email Address */
+$handler->display->display_options['fields']['email_2']['id'] = 'email_2';
+$handler->display->display_options['fields']['email_2']['table'] = 'civicrm_email';
+$handler->display->display_options['fields']['email_2']['field'] = 'email';
+$handler->display->display_options['fields']['email_2']['relationship'] = 'contact_id_b__2';
+$handler->display->display_options['fields']['email_2']['label'] = '';
+$handler->display->display_options['fields']['email_2']['exclude'] = TRUE;
+$handler->display->display_options['fields']['email_2']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['email_2']['location_type'] = '0';
+$handler->display->display_options['fields']['email_2']['location_op'] = '0';
+$handler->display->display_options['fields']['email_2']['is_primary'] = 1;
+/* Field: CiviCRM Contacts: Display Name */
+$handler->display->display_options['fields']['display_name_2']['id'] = 'display_name_2';
+$handler->display->display_options['fields']['display_name_2']['table'] = 'civicrm_contact';
+$handler->display->display_options['fields']['display_name_2']['field'] = 'display_name';
+$handler->display->display_options['fields']['display_name_2']['relationship'] = 'contact_id_b__2';
+$handler->display->display_options['fields']['display_name_2']['label'] = 'CC';
+$handler->display->display_options['fields']['display_name_2']['exclude'] = TRUE;
+$handler->display->display_options['fields']['display_name_2']['alter']['alter_text'] = TRUE;
+$handler->display->display_options['fields']['display_name_2']['alter']['text'] = '[display_name_2] ([email_2])';
+$handler->display->display_options['fields']['display_name_2']['link_to_civicrm_contact'] = 0;
+/* Field: CiviCRM Email: Email Address */
+$handler->display->display_options['fields']['email_3']['id'] = 'email_3';
+$handler->display->display_options['fields']['email_3']['table'] = 'civicrm_email';
+$handler->display->display_options['fields']['email_3']['field'] = 'email';
+$handler->display->display_options['fields']['email_3']['relationship'] = 'contact_id_b__3';
+$handler->display->display_options['fields']['email_3']['label'] = '';
+$handler->display->display_options['fields']['email_3']['exclude'] = TRUE;
+$handler->display->display_options['fields']['email_3']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['email_3']['location_type'] = '0';
+$handler->display->display_options['fields']['email_3']['location_op'] = '0';
+$handler->display->display_options['fields']['email_3']['is_primary'] = 1;
+/* Field: CiviCRM Contacts: Display Name */
+$handler->display->display_options['fields']['display_name_3']['id'] = 'display_name_3';
+$handler->display->display_options['fields']['display_name_3']['table'] = 'civicrm_contact';
+$handler->display->display_options['fields']['display_name_3']['field'] = 'display_name';
+$handler->display->display_options['fields']['display_name_3']['relationship'] = 'contact_id_b__3';
+$handler->display->display_options['fields']['display_name_3']['label'] = 'Proj. off.';
+$handler->display->display_options['fields']['display_name_3']['exclude'] = TRUE;
+$handler->display->display_options['fields']['display_name_3']['alter']['alter_text'] = TRUE;
+$handler->display->display_options['fields']['display_name_3']['alter']['text'] = '[display_name_3] ([email_3])';
+$handler->display->display_options['fields']['display_name_3']['link_to_civicrm_contact'] = 0;
+/* Field: accept_main_proposal_link */
+$handler->display->display_options['fields']['php']['id'] = 'php';
+$handler->display->display_options['fields']['php']['table'] = 'views';
+$handler->display->display_options['fields']['php']['field'] = 'php';
+$handler->display->display_options['fields']['php']['ui_name'] = 'accept_main_proposal_link';
+$handler->display->display_options['fields']['php']['label'] = '';
+$handler->display->display_options['fields']['php']['exclude'] = TRUE;
+$handler->display->display_options['fields']['php']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['php']['use_php_setup'] = 0;
+$handler->display->display_options['fields']['php']['php_value'] = 'return _mainactivity_accept_main_proposal_link($row->case_type);';
+$handler->display->display_options['fields']['php']['use_php_click_sortable'] = '0';
+$handler->display->display_options['fields']['php']['php_click_sortable'] = '';
+/* Field: reject_main_proposal_link */
+$handler->display->display_options['fields']['php_1']['id'] = 'php_1';
+$handler->display->display_options['fields']['php_1']['table'] = 'views';
+$handler->display->display_options['fields']['php_1']['field'] = 'php';
+$handler->display->display_options['fields']['php_1']['ui_name'] = 'reject_main_proposal_link';
+$handler->display->display_options['fields']['php_1']['label'] = '';
+$handler->display->display_options['fields']['php_1']['exclude'] = TRUE;
+$handler->display->display_options['fields']['php_1']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['php_1']['use_php_setup'] = 0;
+$handler->display->display_options['fields']['php_1']['php_value'] = 'return _mainactivity_reject_main_proposal_link($row->case_type);';
+$handler->display->display_options['fields']['php_1']['use_php_click_sortable'] = '0';
+$handler->display->display_options['fields']['php_1']['php_click_sortable'] = '';
+/* Field: Global: Custom text */
+$handler->display->display_options['fields']['nothing_1']['id'] = 'nothing_1';
+$handler->display->display_options['fields']['nothing_1']['table'] = 'views';
+$handler->display->display_options['fields']['nothing_1']['field'] = 'nothing';
+$handler->display->display_options['fields']['nothing_1']['label'] = '';
+$handler->display->display_options['fields']['nothing_1']['exclude'] = TRUE;
+$handler->display->display_options['fields']['nothing_1']['alter']['text'] = 'Accept proposal';
+$handler->display->display_options['fields']['nothing_1']['alter']['make_link'] = TRUE;
+$handler->display->display_options['fields']['nothing_1']['alter']['path'] = '[php]?cid1=[id]&cid2=[id_2]&caseid=[id_1]';
+$handler->display->display_options['fields']['nothing_1']['alter']['absolute'] = TRUE;
+$handler->display->display_options['fields']['nothing_1']['element_label_colon'] = FALSE;
+/* Field: Global: Custom text */
+$handler->display->display_options['fields']['nothing']['id'] = 'nothing';
+$handler->display->display_options['fields']['nothing']['table'] = 'views';
+$handler->display->display_options['fields']['nothing']['field'] = 'nothing';
+$handler->display->display_options['fields']['nothing']['label'] = '';
+$handler->display->display_options['fields']['nothing']['exclude'] = TRUE;
+$handler->display->display_options['fields']['nothing']['alter']['text'] = 'Reject proposal';
+$handler->display->display_options['fields']['nothing']['alter']['make_link'] = TRUE;
+$handler->display->display_options['fields']['nothing']['alter']['path'] = '[php_1]?cid1=[id]&cid2=[id_2]&caseid=[id_1]';
+$handler->display->display_options['fields']['nothing']['alter']['absolute'] = TRUE;
+$handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
+/* Field: Global: Custom text */
+$handler->display->display_options['fields']['nothing_2']['id'] = 'nothing_2';
+$handler->display->display_options['fields']['nothing_2']['table'] = 'views';
+$handler->display->display_options['fields']['nothing_2']['field'] = 'nothing';
+$handler->display->display_options['fields']['nothing_2']['label'] = '';
+$handler->display->display_options['fields']['nothing_2']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['nothing_2']['hide_empty'] = TRUE;
+
