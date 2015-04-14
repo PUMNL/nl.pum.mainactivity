@@ -146,7 +146,7 @@ $handler->display->display_options['fields']['case_type']['table'] = 'civicrm_ca
 $handler->display->display_options['fields']['case_type']['field'] = 'case_type';
 $handler->display->display_options['fields']['case_type']['relationship'] = 'case_id';
 $handler->display->display_options['fields']['case_type']['alter']['make_link'] = TRUE;
-$handler->display->display_options['fields']['case_type']['alter']['path'] = 'civicrm/contact/view/case?reset=1&action=view&cid=[id]&id=[id_1]&show=1';
+$handler->display->display_options['fields']['case_type']['alter']['path'] = 'expert/my-cases/activities/[id_1]';
 $handler->display->display_options['fields']['case_type']['alter']['absolute'] = TRUE;
 /* Field: CiviCRM Email: Email Address */
 $handler->display->display_options['fields']['email_1']['id'] = 'email_1';
