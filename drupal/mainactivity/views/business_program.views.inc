@@ -167,6 +167,58 @@ $handler->display->display_options['menu']['title'] = 'Business programme';
 $handler->display->display_options['menu']['weight'] = '0';
 $handler->display->display_options['menu']['context'] = 0;
 $handler->display->display_options['menu']['context_only_inline'] = 0;
+/* Display: My Work Count Item - Block */
+$handler = $view->new_display('block', 'My Work Count Item - Block', 'block_1');
+$handler->display->display_options['defaults']['pager'] = FALSE;
+$handler->display->display_options['pager']['type'] = 'none';
+$handler->display->display_options['pager']['options']['offset'] = '0';
+$handler->display->display_options['defaults']['style_plugin'] = FALSE;
+$handler->display->display_options['style_plugin'] = 'default';
+$handler->display->display_options['defaults']['style_options'] = FALSE;
+$handler->display->display_options['defaults']['row_plugin'] = FALSE;
+$handler->display->display_options['row_plugin'] = 'fields';
+$handler->display->display_options['defaults']['row_options'] = FALSE;
+$handler->display->display_options['defaults']['header'] = FALSE;
+/* Header: Global: Result summary */
+$handler->display->display_options['header']['result']['id'] = 'result';
+$handler->display->display_options['header']['result']['table'] = 'views';
+$handler->display->display_options['header']['result']['field'] = 'result';
+$handler->display->display_options['header']['result']['content'] = '<a href="/customer/business-programme">Business Programme</a> (@total)';
+$handler->display->display_options['defaults']['empty'] = FALSE;
+$handler->display->display_options['defaults']['fields'] = FALSE;
+/* Field: CiviCRM Cases: Case ID */
+$handler->display->display_options['fields']['id']['id'] = 'id';
+$handler->display->display_options['fields']['id']['table'] = 'civicrm_case';
+$handler->display->display_options['fields']['id']['field'] = 'id';
+$handler->display->display_options['fields']['id']['label'] = '';
+$handler->display->display_options['fields']['id']['exclude'] = TRUE;
+$handler->display->display_options['fields']['id']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['id']['separator'] = '';
+/* Field: CiviCRM Custom: (Main) Activity information: Activity Start Date */
+$handler->display->display_options['fields']['start_date']['id'] = 'start_date';
+$handler->display->display_options['fields']['start_date']['table'] = $main_activity_info['table_name'];
+$handler->display->display_options['fields']['start_date']['field'] = $start_date['column_name'];
+$handler->display->display_options['fields']['start_date']['label'] = 'Visit from';
+$handler->display->display_options['fields']['start_date']['exclude'] = TRUE;
+$handler->display->display_options['fields']['start_date']['date_format'] = 'long';
+$handler->display->display_options['fields']['start_date']['second_date_format'] = 'long';
+/* Field: CiviCRM Custom: (Main) Activity information: Activity End Date */
+$handler->display->display_options['fields']['end_date']['id'] = 'end_date';
+$handler->display->display_options['fields']['end_date']['table'] = $main_activity_info['table_name'];
+$handler->display->display_options['fields']['end_date']['field'] = $end_date['column_name'];
+$handler->display->display_options['fields']['end_date']['label'] = 'Visit to';
+$handler->display->display_options['fields']['end_date']['exclude'] = TRUE;
+$handler->display->display_options['fields']['end_date']['date_format'] = 'long';
+$handler->display->display_options['fields']['end_date']['second_date_format'] = 'long';
+/* Field: Global: Custom text */
+$handler->display->display_options['fields']['nothing_1']['id'] = 'nothing_1';
+$handler->display->display_options['fields']['nothing_1']['table'] = 'views';
+$handler->display->display_options['fields']['nothing_1']['field'] = 'nothing';
+$handler->display->display_options['fields']['nothing_1']['label'] = '';
+$handler->display->display_options['fields']['nothing_1']['alter']['absolute'] = TRUE;
+$handler->display->display_options['fields']['nothing_1']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['nothing_1']['hide_empty'] = TRUE;
+
 $translatables['business_link_program'] = array(
   t('Master'),
   t('Business programme'),
@@ -194,4 +246,6 @@ $translatables['business_link_program'] = array(
   t('Visit to'),
   t('View program'),
   t('Page'),
+  t('My Work Count Item - Block'),
+  t('<a href="/customer/business-programme">Business Programme</a> (@total)'),
 );

@@ -219,6 +219,94 @@ $handler->display->display_options['menu']['title'] = 'Briefing';
 $handler->display->display_options['menu']['weight'] = '2';
 $handler->display->display_options['menu']['context'] = 0;
 $handler->display->display_options['menu']['context_only_inline'] = 0;
+
+/* Display: My Work Count Item - Block */
+$handler = $view->new_display('block', 'My Work Count Item - Block', 'block_1');
+$handler->display->display_options['defaults']['pager'] = FALSE;
+$handler->display->display_options['pager']['type'] = 'none';
+$handler->display->display_options['pager']['options']['offset'] = '0';
+$handler->display->display_options['defaults']['style_plugin'] = FALSE;
+$handler->display->display_options['style_plugin'] = 'default';
+$handler->display->display_options['defaults']['style_options'] = FALSE;
+$handler->display->display_options['defaults']['row_plugin'] = FALSE;
+$handler->display->display_options['row_plugin'] = 'fields';
+$handler->display->display_options['defaults']['row_options'] = FALSE;
+$handler->display->display_options['defaults']['header'] = FALSE;
+/* Header: Global: Result summary */
+$handler->display->display_options['header']['result']['id'] = 'result';
+$handler->display->display_options['header']['result']['table'] = 'views';
+$handler->display->display_options['header']['result']['field'] = 'result';
+$handler->display->display_options['header']['result']['content'] = '<a href="/expert/briefing">Briefing</a> (@total)';
+$handler->display->display_options['defaults']['fields'] = FALSE;
+/* Field: CiviCRM Activities: Activity ID */
+$handler->display->display_options['fields']['id']['id'] = 'id';
+$handler->display->display_options['fields']['id']['table'] = 'civicrm_activity';
+$handler->display->display_options['fields']['id']['field'] = 'id';
+$handler->display->display_options['fields']['id']['exclude'] = TRUE;
+$handler->display->display_options['fields']['id']['separator'] = '';
+/* Field: CiviCRM Cases: Case ID */
+$handler->display->display_options['fields']['id_1']['id'] = 'id_1';
+$handler->display->display_options['fields']['id_1']['table'] = 'civicrm_case';
+$handler->display->display_options['fields']['id_1']['field'] = 'id';
+$handler->display->display_options['fields']['id_1']['relationship'] = 'case_id';
+$handler->display->display_options['fields']['id_1']['exclude'] = TRUE;
+$handler->display->display_options['fields']['id_1']['separator'] = '';
+/* Field: CiviCRM Contacts: Contact ID */
+$handler->display->display_options['fields']['id_2']['id'] = 'id_2';
+$handler->display->display_options['fields']['id_2']['table'] = 'civicrm_contact';
+$handler->display->display_options['fields']['id_2']['field'] = 'id';
+$handler->display->display_options['fields']['id_2']['relationship'] = 'contact_id_1';
+$handler->display->display_options['fields']['id_2']['exclude'] = TRUE;
+$handler->display->display_options['fields']['id_2']['separator'] = '';
+/* Field: CiviCRM Activities: Scheduled Activity Date */
+$handler->display->display_options['fields']['activity_date_time']['id'] = 'activity_date_time';
+$handler->display->display_options['fields']['activity_date_time']['table'] = 'civicrm_activity';
+$handler->display->display_options['fields']['activity_date_time']['field'] = 'activity_date_time';
+$handler->display->display_options['fields']['activity_date_time']['label'] = 'Date';
+$handler->display->display_options['fields']['activity_date_time']['exclude'] = TRUE;
+$handler->display->display_options['fields']['activity_date_time']['date_format'] = 'short';
+$handler->display->display_options['fields']['activity_date_time']['second_date_format'] = 'long';
+/* Field: CiviCRM Cases: Case Type */
+$handler->display->display_options['fields']['case_type']['id'] = 'case_type';
+$handler->display->display_options['fields']['case_type']['table'] = 'civicrm_case';
+$handler->display->display_options['fields']['case_type']['field'] = 'case_type';
+$handler->display->display_options['fields']['case_type']['relationship'] = 'case_id';
+$handler->display->display_options['fields']['case_type']['exclude'] = TRUE;
+$handler->display->display_options['fields']['case_type']['alter']['strip_tags'] = TRUE;
+/* Field: CiviCRM Contacts: Display Name */
+$handler->display->display_options['fields']['display_name']['id'] = 'display_name';
+$handler->display->display_options['fields']['display_name']['table'] = 'civicrm_contact';
+$handler->display->display_options['fields']['display_name']['field'] = 'display_name';
+$handler->display->display_options['fields']['display_name']['relationship'] = 'contact_id_1';
+$handler->display->display_options['fields']['display_name']['label'] = 'Customer';
+$handler->display->display_options['fields']['display_name']['exclude'] = TRUE;
+$handler->display->display_options['fields']['display_name']['link_to_civicrm_contact'] = 0;
+/* Field: CiviCRM Activities: Activity Type */
+$handler->display->display_options['fields']['activity_type']['id'] = 'activity_type';
+$handler->display->display_options['fields']['activity_type']['table'] = 'civicrm_activity';
+$handler->display->display_options['fields']['activity_type']['field'] = 'activity_type';
+$handler->display->display_options['fields']['activity_type']['label'] = 'Activity';
+$handler->display->display_options['fields']['activity_type']['exclude'] = TRUE;
+$handler->display->display_options['fields']['activity_type']['alter']['strip_tags'] = TRUE;
+/* Field: briefing_link */
+$handler->display->display_options['fields']['php']['id'] = 'php';
+$handler->display->display_options['fields']['php']['table'] = 'views';
+$handler->display->display_options['fields']['php']['field'] = 'php';
+$handler->display->display_options['fields']['php']['ui_name'] = 'briefing_link';
+$handler->display->display_options['fields']['php']['label'] = '';
+$handler->display->display_options['fields']['php']['exclude'] = TRUE;
+$handler->display->display_options['fields']['php']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['php']['use_php_setup'] = 0;
+$handler->display->display_options['fields']['php']['php_value'] = 'return _mainactivity_briefing_link($row->activity_type,$row->case_type);';
+$handler->display->display_options['fields']['php']['use_php_click_sortable'] = '0';
+$handler->display->display_options['fields']['php']['php_click_sortable'] = '';
+/* Field: Global: Custom text */
+$handler->display->display_options['fields']['nothing']['id'] = 'nothing';
+$handler->display->display_options['fields']['nothing']['table'] = 'views';
+$handler->display->display_options['fields']['nothing']['field'] = 'nothing';
+$handler->display->display_options['fields']['nothing']['label'] = '';
+$handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['nothing']['hide_empty'] = TRUE;
 $translatables['briefing'] = array(
   t('Master'),
   t('Briefing'),
