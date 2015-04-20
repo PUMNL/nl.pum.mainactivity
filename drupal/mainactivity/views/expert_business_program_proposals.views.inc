@@ -6,12 +6,17 @@ $main_activity_info = civicrm_api3('CustomGroup', 'getsingle', array('name' => '
 $start_date = civicrm_api3('CustomField', 'getsingle', array('name' => 'main_activity_start_date', 'custom_group_id' => $main_activity_info['id']));
 $end_date = civicrm_api3('CustomField', 'getsingle', array('name' => 'main_activity_end_date', 'custom_group_id' => $main_activity_info['id']));
 
+$case_status = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'name' => 'case_status;'));
+$completed = civicrm_api3('OptionValue', 'getvalue', array('name' => 'Completed', 'return' => 'value', 'option_group_id' => $case_status));
+$execution = civicrm_api3('OptionValue', 'getvalue', array('name' => 'Execution', 'return' => 'value', 'option_group_id' => $case_status));
+$debriefing = civicrm_api3('OptionValue', 'getvalue', array('name' => 'Debriefing', 'return' => 'value', 'option_group_id' => $case_status));
+
 $view = new view();
 $view->name = 'business_link_program_for_expert';
 $view->description = '';
 $view->tag = 'default';
 $view->base_table = 'civicrm_case';
-$view->human_name = 'Business link programme (for expert)';
+$view->human_name = 'Business link programme proposals (for expert)';
 $view->core = 7;
 $view->api_version = '3.0';
 $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
@@ -150,6 +155,16 @@ $handler->display->display_options['filters']['case_type']['table'] = 'civicrm_c
 $handler->display->display_options['filters']['case_type']['field'] = 'case_type';
 $handler->display->display_options['filters']['case_type']['value'] = array(
   $c->business, $c->business
+);
+/* Filter criterion: CiviCRM Cases: Case Status */
+$handler->display->display_options['filters']['status']['id'] = 'status';
+$handler->display->display_options['filters']['status']['table'] = 'civicrm_case';
+$handler->display->display_options['filters']['status']['field'] = 'status';
+$handler->display->display_options['filters']['status']['operator'] = 'not in';
+$handler->display->display_options['filters']['status']['value'] = array(
+  $completed => $completed,
+  $debriefing => $debriefing,
+  $execution => $execution,
 );
 /* Filter criterion: User: Current */
 $handler->display->display_options['filters']['uid_current']['id'] = 'uid_current';

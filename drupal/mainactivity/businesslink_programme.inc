@@ -48,13 +48,15 @@ function businesslink_programme_proposal_delete($form, &$form_state, $activity_i
 function businesslink_programme_proposal_edit($form, &$form_state, $activity_id) {
     $config = businessconfig::singleton();
 
+    $company = $config->custom_groups['Business_Programme']['fields']['Naam_bedrijf']['id'];
     $location = $config->custom_groups['Business_Programme']['fields']['Location']['id'];
     $from = $config->custom_groups['Business_Programme']['fields']['Visit_from']['id'];
     $to = $config->custom_groups['Business_Programme']['fields']['Visit_to']['id'];
     $aim = $config->custom_groups['Business_Programme']['fields']['Aim_of_Visit']['id'];
-    $result = $config->custom_groups['Business_Programme']['fields']['Result_of_Visit']['id'];
+    $result = $config->custom_groups['Business_Programme']['fields']['Intended_Result_of_Visit']['id'];
 
     $params['id'] = $activity_id;
+    $params['return.custom_'.$company] = 1;
     $params['return.custom_'.$location] = 1;
     $params['return.custom_'.$from] = 1;
     $params['return.custom_'.$to] = 1;
@@ -66,6 +68,13 @@ function businesslink_programme_proposal_edit($form, &$form_state, $activity_id)
     $form['activity_id']['#type'] = 'hidden';
     $form['activity_id']['#name'] = 'activity_id';
     $form['activity_id']['#value'] = $activity_id;
+
+    $form['company'] = array(
+      '#type' => 'textfield',
+      '#required' => true,
+      '#title' => t('Company'),
+      '#default_value' => $activity['custom_'.$company],
+    );
 
     $form['location'] = array(
         '#type' => 'textfield',
@@ -110,7 +119,7 @@ function businesslink_programme_proposal_edit($form, &$form_state, $activity_id)
     $form['result'] = array(
         '#type' => 'textarea',
         '#required' => true,
-        '#title' => t('Short description Result of Visit'),
+        '#title' => t('Short description of Intended Result of Visit'),
         '#default_value' => $activity['custom_'.$result],
     );
 
@@ -130,6 +139,12 @@ function businesslink_programme_proposal($form, &$form_state, $case_id) {
     $form['case_id']['#type'] = 'hidden';
     $form['case_id']['#name'] = 'case_id';
     $form['case_id']['#value'] = $case_id;
+
+    $form['company'] = array(
+      '#type' => 'textfield',
+      '#required' => true,
+      '#title' => t('Company'),
+    );
 
     $form['location'] = array(
         '#type' => 'textfield',
@@ -160,7 +175,7 @@ function businesslink_programme_proposal($form, &$form_state, $case_id) {
     $form['result'] = array(
         '#type' => 'textarea',
         '#required' => true,
-        '#title' => t('Short description Result of Visit'),
+        '#title' => t('Short description of Intended Result of Visit'),
     );
 
     $form['submit_button'] = array(
@@ -179,16 +194,18 @@ function businesslink_programme_proposal_submit($form, &$form_state) {
     $config = businessconfig::singleton();
     $case_id = $form_state['values']['case_id'];
 
+    $company = $config->custom_groups['Business_Programme']['fields']['Naam_bedrijf']['id'];
     $location = $config->custom_groups['Business_Programme']['fields']['Location']['id'];
     $from = $config->custom_groups['Business_Programme']['fields']['Visit_from']['id'];
     $to = $config->custom_groups['Business_Programme']['fields']['Visit_to']['id'];
     $aim = $config->custom_groups['Business_Programme']['fields']['Aim_of_Visit']['id'];
-    $result = $config->custom_groups['Business_Programme']['fields']['Result_of_Visit']['id'];
+    $result = $config->custom_groups['Business_Programme']['fields']['Intended_Result_of_Visit']['id'];
 
     $params = array();
     $params['case_id'] = $case_id;
     $params['status_id'] = 1; //scheduled
     $params['activity_type_id'] = $config->programme_activity_type_id;
+    $params['custom_'.$company] = $form_state['values']['company'];
     $params['custom_'.$location] = $form_state['values']['location'];
     $from_date = new DateTime();
     $from_date->setDate($form_state['values']['from_date']['year'],$form_state['values']['from_date']['month'],$form_state['values']['from_date']['day']);
@@ -205,16 +222,18 @@ function businesslink_programme_proposal_edit_submit($form, &$form_state) {
     $config = businessconfig::singleton();
     $activity_id = $form_state['values']['activity_id'];
 
+    $company = $config->custom_groups['Business_Programme']['fields']['Naam_bedrijf']['id'];
     $location = $config->custom_groups['Business_Programme']['fields']['Location']['id'];
     $from = $config->custom_groups['Business_Programme']['fields']['Visit_from']['id'];
     $to = $config->custom_groups['Business_Programme']['fields']['Visit_to']['id'];
     $aim = $config->custom_groups['Business_Programme']['fields']['Aim_of_Visit']['id'];
-    $result = $config->custom_groups['Business_Programme']['fields']['Result_of_Visit']['id'];
+    $result = $config->custom_groups['Business_Programme']['fields']['Intended_Result_of_Visit']['id'];
 
     $params = array();
     $params['id'] = $activity_id;
     $params['status_id'] = 1; //scheduled
     $params['activity_type_id'] = $config->programme_activity_type_id;
+    $params['custom_'.$company] = $form_state['values']['company'];
     $params['custom_'.$location] = $form_state['values']['location'];
     $from_date = new DateTime();
     $from_date->setDate($form_state['values']['from_date']['year'],$form_state['values']['from_date']['month'],$form_state['values']['from_date']['day']);

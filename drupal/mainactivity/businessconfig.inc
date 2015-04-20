@@ -38,11 +38,13 @@ class businessconfig
         $this->custom_groups['business_data']['fields']['Open_for_Registration'] = civicrm_api3('CustomField', 'getsingle', array('name' => 'Open_for_Registration', 'custom_group_id' => $this->custom_groups['business_data']['id']));
 
         $this->custom_groups['Business_Programme'] = civicrm_api3('CustomGroup', 'getsingle', array('name' => 'Business_Programme'));
+        $this->custom_groups['Business_Programme']['fields']['Naam_bedrijf'] = civicrm_api3('CustomField', 'getsingle', array('name' => 'Naam_bedrijf', 'custom_group_id' => $this->custom_groups['Business_Programme']['id']));
         $this->custom_groups['Business_Programme']['fields']['Location'] = civicrm_api3('CustomField', 'getsingle', array('name' => 'Location', 'custom_group_id' => $this->custom_groups['Business_Programme']['id']));
         $this->custom_groups['Business_Programme']['fields']['Visit_from'] = civicrm_api3('CustomField', 'getsingle', array('name' => 'Visit_from', 'custom_group_id' => $this->custom_groups['Business_Programme']['id']));
         $this->custom_groups['Business_Programme']['fields']['Visit_to'] = civicrm_api3('CustomField', 'getsingle', array('name' => 'Visit_ot', 'custom_group_id' => $this->custom_groups['Business_Programme']['id']));
         $this->custom_groups['Business_Programme']['fields']['Aim_of_Visit'] = civicrm_api3('CustomField', 'getsingle', array('name' => 'Short_description_Aim_of_Visit', 'custom_group_id' => $this->custom_groups['Business_Programme']['id']));
         $this->custom_groups['Business_Programme']['fields']['Result_of_Visit'] = civicrm_api3('CustomField', 'getsingle', array('name' => 'Short_description_Result_of_Visit', 'custom_group_id' => $this->custom_groups['Business_Programme']['id']));
+        $this->custom_groups['Business_Programme']['fields']['Intended_Result_of_Visit'] = civicrm_api3('CustomField', 'getsingle', array('name' => 'Intended_Result', 'custom_group_id' => $this->custom_groups['Business_Programme']['id']));
 
         $this->visitors_relationship_types[] = civicrm_api3('RelationshipType', 'getsingle', array('name_a_b' => 'Has authorised'));
         $this->visitors_relationship_types[] = civicrm_api3('RelationshipType', 'getsingle', array('name_a_b' => 'Business participant is'));
