@@ -5,6 +5,7 @@ package = PUM
 dependencies[] = civicrm (>=4.4)
 dependencies[] = webform_civicrm (>=4.5)
 dependencies[] = webform (>=4.0-beta1)
+dependencies[] = fapi_validation
 dependencies[] = views
 dependencies[] = pum_civicrm_views
 dependencies[] = pum_expert_mycases

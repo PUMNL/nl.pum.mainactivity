@@ -46,6 +46,15 @@ class businessconfig
         $this->custom_groups['Business_Programme']['fields']['Result_of_Visit'] = civicrm_api3('CustomField', 'getsingle', array('name' => 'Short_description_Result_of_Visit', 'custom_group_id' => $this->custom_groups['Business_Programme']['id']));
         $this->custom_groups['Business_Programme']['fields']['Intended_Result_of_Visit'] = civicrm_api3('CustomField', 'getsingle', array('name' => 'Intended_Result', 'custom_group_id' => $this->custom_groups['Business_Programme']['id']));
 
+        $this->custom_groups['Business_Programme']['fields']['Name_Company_Contact'] = civicrm_api3('CustomField', 'getsingle', array('name' => 'Name_Company_Contact', 'custom_group_id' => $this->custom_groups['Business_Programme']['id']));
+        $this->custom_groups['Business_Programme']['fields']['First_name_Initials_Company_Contact'] = civicrm_api3('CustomField', 'getsingle', array('name' => 'First_name_Initials_Company_Contact', 'custom_group_id' => $this->custom_groups['Business_Programme']['id']));
+        $this->custom_groups['Business_Programme']['fields']['Prefix_Company_Contact'] = civicrm_api3('CustomField', 'getsingle', array('name' => 'Prefix_Company_Contact', 'custom_group_id' => $this->custom_groups['Business_Programme']['id']));
+        $this->custom_groups['Business_Programme']['fields']['Email_Company_Contact'] = civicrm_api3('CustomField', 'getsingle', array('name' => 'Email_Company_Contact', 'custom_group_id' => $this->custom_groups['Business_Programme']['id']));
+
+        $this->custom_groups['Business_Programme']['fields']['Thank_you_Note'] = civicrm_api3('CustomField', 'getsingle', array('name' => 'Thank_you_Note', 'custom_group_id' => $this->custom_groups['Business_Programme']['id']));
+        $this->custom_groups['Business_Programme']['fields']['Business_Visit_Cancelled'] = civicrm_api3('CustomField', 'getsingle', array('name' => 'Business_Visit_Cancelled', 'custom_group_id' => $this->custom_groups['Business_Programme']['id']));
+        $this->custom_groups['Business_Programme']['fields']['Thank_you_Note_sent'] = civicrm_api3('CustomField', 'getsingle', array('name' => 'Thank_you_Note_sent', 'custom_group_id' => $this->custom_groups['Business_Programme']['id']));
+
         $this->visitors_relationship_types[] = civicrm_api3('RelationshipType', 'getsingle', array('name_a_b' => 'Has authorised'));
         $this->visitors_relationship_types[] = civicrm_api3('RelationshipType', 'getsingle', array('name_a_b' => 'Business participant is'));
 

@@ -12,18 +12,18 @@ $result = $config->custom_groups['Business_Programme']['fields']['Intended_Resul
 
 
 $view = new view();
-$view->name = 'expert_business_link_program_details';
+$view->name = 'finalise_expert_business_link_program_details';
 $view->description = '';
 $view->tag = 'default';
 $view->base_table = 'civicrm_activity';
-$view->human_name = 'Business link programme details (for expert)';
+$view->human_name = 'Finalise Business link programme details (for expert)';
 $view->core = 7;
 $view->api_version = '3.0';
 $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
 /* Display: Master */
 $handler = $view->new_display('default', 'Master', 'default');
-$handler->display->display_options['title'] = 'Business programme proposal';
+$handler->display->display_options['title'] = 'Finalise Business programme proposal';
 $handler->display->display_options['use_more_always'] = FALSE;
 $handler->display->display_options['access']['type'] = 'none';
 $handler->display->display_options['cache']['type'] = 'none';
@@ -82,7 +82,7 @@ $handler->display->display_options['header']['area']['id'] = 'area';
 $handler->display->display_options['header']['area']['table'] = 'views';
 $handler->display->display_options['header']['area']['field'] = 'area';
 $handler->display->display_options['header']['area']['empty'] = TRUE;
-$handler->display->display_options['header']['area']['content'] = '<a href="/expert/business-programme-proposal/add/!1?destination=/expert/business-programme-proposal/!1" class="button">Add a visit</a>';
+$handler->display->display_options['header']['area']['content'] = '<a href="/expert/finalise-business-programme-proposal/add/!1?destination=/expert/business-programme-proposal/!1" class="button">Add a visit</a>';
 $handler->display->display_options['header']['area']['format'] = 'filtered_html';
 $handler->display->display_options['header']['area']['tokenize'] = TRUE;
 /* No results behavior: Global: Text area */
@@ -153,19 +153,9 @@ $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
 $handler->display->display_options['fields']['nothing']['label'] = '';
 $handler->display->display_options['fields']['nothing']['alter']['text'] = 'Edit';
 $handler->display->display_options['fields']['nothing']['alter']['make_link'] = TRUE;
-$handler->display->display_options['fields']['nothing']['alter']['path'] = 'expert/business-programme-proposal/edit/[id]?destination=/expert/business-programme-proposal/!1';
+$handler->display->display_options['fields']['nothing']['alter']['path'] = 'expert/finalise-business-programme-proposal/edit/[id]?destination=/expert/business-programme-proposal/!1';
 $handler->display->display_options['fields']['nothing']['alter']['absolute'] = TRUE;
 $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
-/* Field: Global: Custom text */
-$handler->display->display_options['fields']['nothing_1']['id'] = 'nothing_1';
-$handler->display->display_options['fields']['nothing_1']['table'] = 'views';
-$handler->display->display_options['fields']['nothing_1']['field'] = 'nothing';
-$handler->display->display_options['fields']['nothing_1']['label'] = '';
-$handler->display->display_options['fields']['nothing_1']['alter']['text'] = 'Remove';
-$handler->display->display_options['fields']['nothing_1']['alter']['make_link'] = TRUE;
-$handler->display->display_options['fields']['nothing_1']['alter']['path'] = 'expert/business-programme-proposal/delete/[id]?destination=/expert/business-programme-proposal/!1';
-$handler->display->display_options['fields']['nothing_1']['alter']['absolute'] = TRUE;
-$handler->display->display_options['fields']['nothing_1']['element_label_colon'] = FALSE;
 /* Contextual filter: CiviCRM Cases: Case ID */
 $handler->display->display_options['arguments']['id']['id'] = 'id';
 $handler->display->display_options['arguments']['id']['table'] = 'civicrm_case';
@@ -191,7 +181,7 @@ $handler->display->display_options['filters']['is_current_revision']['value'] = 
 
 /* Display: Page */
 $handler = $view->new_display('page', 'Page', 'page');
-$handler->display->display_options['path'] = 'expert/business-programme-proposal';
+$handler->display->display_options['path'] = 'expert/finalise-business-programme-proposal';
 $translatables['business_link_program_details'] = array(
   t('Master'),
   t('Business programme'),
