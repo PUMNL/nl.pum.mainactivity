@@ -4,6 +4,7 @@ function businesslink_programme_proposal_delete($form, &$form_state, $activity_i
 
     $config = businessconfig::singleton();
 
+  $company = $config->custom_groups['Business_Programme']['fields']['Naam_bedrijf']['id'];
     $location = $config->custom_groups['Business_Programme']['fields']['Location']['id'];
     $from = $config->custom_groups['Business_Programme']['fields']['Visit_from']['id'];
     $to = $config->custom_groups['Business_Programme']['fields']['Visit_to']['id'];
@@ -11,6 +12,7 @@ function businesslink_programme_proposal_delete($form, &$form_state, $activity_i
     $result = $config->custom_groups['Business_Programme']['fields']['Result_of_Visit']['id'];
 
     $params['id'] = $activity_id;
+    $params['return.custom_'.$company] = 1;
     $params['return.custom_'.$location] = 1;
     $params['return.custom_'.$from] = 1;
     $params['return.custom_'.$to] = 1;
@@ -26,7 +28,8 @@ function businesslink_programme_proposal_delete($form, &$form_state, $activity_i
     $from_date = new DateTime($activity['custom_'.$from]);
     $form['are_you_sure'] = array(
         '#type' => 'markup',
-        '#markup' => '<p></p><em>'.t('Are you sure you want to remove the visit to @location on @date', array(
+        '#markup' => '<p></p><em>'.t('Are you sure you want to remove the visit to @company, @location on @date', array(
+                '@company' => $activity['custom_'.$company],
                 '@location' => $activity['custom_'.$location],
                 '@date' => format_date($from_date->getTimestamp(), 'custom', 'd-m-Y'),
             )).'</em></p>',
@@ -83,30 +86,24 @@ function businesslink_programme_proposal_edit($form, &$form_state, $activity_id)
         '#default_value' => $activity['custom_'.$location],
     );
 
-    $from_date = new DateTime($activity['custom_'.$from]);
     $form['from_date'] = array(
-        '#type' => 'date',
+        '#type' => 'date_popup',
         '#required' => true,
         '#title' => t('Visit from'),
-        '#pre_render' => array('_mainactivity_form_pre_render_date'),
-        '#default_value' => array(
-            'day' => (int) $from_date->format('d'),
-            'month' => (int) $from_date->format('m'),
-            'year' => (int) $from_date->format('Y'),
-        ),
+        '#default_value' => _mainactivity_date_string_value($activity['custom_'.$from]),
+        '#date_format' => 'Y-m-d',
+        '#date_increment' => 1,
+        '#date_year_range' => '-2:+2',
     );
 
-    $to_date = new DateTime($activity['custom_'.$to]);
     $form['to_date'] = array(
-        '#type' => 'date',
+        '#type' => 'date_popup',
         '#required' => true,
         '#title' => t('Visit to'),
-        '#pre_render' => array('_mainactivity_form_pre_render_date'),
-        '#default_value' => array(
-            'day' => (int) $to_date->format('d'),
-            'month' => (int) $to_date->format('m'),
-            'year' => (int) $to_date->format('Y'),
-        ),
+        '#default_value' => _mainactivity_date_string_value($activity['custom_'.$to]),
+        '#date_format' => 'Y-m-d',
+        '#date_increment' => 1,
+        '#date_year_range' => '-2:+2',
     );
 
     $form['aim'] = array(
@@ -153,17 +150,21 @@ function businesslink_programme_proposal($form, &$form_state, $case_id) {
     );
 
     $form['from_date'] = array(
-        '#type' => 'date',
+        '#type' => 'date_popup',
         '#required' => true,
         '#title' => t('Visit from'),
-        '#pre_render' => array('_mainactivity_form_pre_render_date'),
+        '#date_format' => 'Y-m-d',
+        '#date_increment' => 1,
+        '#date_year_range' => '-2:+2',
     );
 
     $form['to_date'] = array(
-        '#type' => 'date',
+        '#type' => 'date_popup',
         '#required' => true,
         '#title' => t('Visit to'),
-        '#pre_render' => array('_mainactivity_form_pre_render_date'),
+        '#date_format' => 'Y-m-d',
+        '#date_increment' => 1,
+        '#date_year_range' => '-2:+2',
     );
 
     $form['aim'] = array(
@@ -207,12 +208,8 @@ function businesslink_programme_proposal_submit($form, &$form_state) {
     $params['activity_type_id'] = $config->programme_activity_type_id;
     $params['custom_'.$company] = $form_state['values']['company'];
     $params['custom_'.$location] = $form_state['values']['location'];
-    $from_date = new DateTime();
-    $from_date->setDate($form_state['values']['from_date']['year'],$form_state['values']['from_date']['month'],$form_state['values']['from_date']['day']);
-    $params['custom_'.$from] = $from_date->format('Ymd');
-    $to_date = new DateTime();
-    $to_date->setDate($form_state['values']['to_date']['year'],$form_state['values']['to_date']['month'],$form_state['values']['to_date']['day']);
-    $params['custom_'.$to] = $to_date->format('Ymd');
+    $params['custom_'.$from] = _mainactivity_date_submitted_string_value($form_state['values']['from_date']);
+    $params['custom_'.$to] = _mainactivity_date_submitted_string_value($form_state['values']['to_date']);
     $params['custom_'.$aim] = $form_state['values']['aim'];
     $params['custom_'.$result] = $form_state['values']['result'];
     $result = civicrm_api3('Activity', 'create', $params);
@@ -235,12 +232,8 @@ function businesslink_programme_proposal_edit_submit($form, &$form_state) {
     $params['activity_type_id'] = $config->programme_activity_type_id;
     $params['custom_'.$company] = $form_state['values']['company'];
     $params['custom_'.$location] = $form_state['values']['location'];
-    $from_date = new DateTime();
-    $from_date->setDate($form_state['values']['from_date']['year'],$form_state['values']['from_date']['month'],$form_state['values']['from_date']['day']);
-    $params['custom_'.$from] = $from_date->format('Ymd');
-    $to_date = new DateTime();
-    $to_date->setDate($form_state['values']['to_date']['year'],$form_state['values']['to_date']['month'],$form_state['values']['to_date']['day']);
-    $params['custom_'.$to] = $to_date->format('Ymd');
+    $params['custom_'.$from] = _mainactivity_date_submitted_string_value($form_state['values']['from_date']);
+    $params['custom_'.$to] = _mainactivity_date_submitted_string_value($form_state['values']['to_date']);
     $params['custom_'.$aim] = $form_state['values']['aim'];
     $params['custom_'.$result] = $form_state['values']['result'];
     $result = civicrm_api3('Activity', 'create', $params);

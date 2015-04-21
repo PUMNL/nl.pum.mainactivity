@@ -6,7 +6,7 @@ $main_activity_info = civicrm_api3('CustomGroup', 'getsingle', array('name' => '
 $start_date = civicrm_api3('CustomField', 'getsingle', array('name' => 'main_activity_start_date', 'custom_group_id' => $main_activity_info['id']));
 $end_date = civicrm_api3('CustomField', 'getsingle', array('name' => 'main_activity_end_date', 'custom_group_id' => $main_activity_info['id']));
 
-$case_status = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'name' => 'case_status;'));
+$case_status = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'name' => 'case_status'));
 $completed = civicrm_api3('OptionValue', 'getvalue', array('name' => 'Completed', 'return' => 'value', 'option_group_id' => $case_status));
 $execution = civicrm_api3('OptionValue', 'getvalue', array('name' => 'Execution', 'return' => 'value', 'option_group_id' => $case_status));
 $debriefing = civicrm_api3('OptionValue', 'getvalue', array('name' => 'Debriefing', 'return' => 'value', 'option_group_id' => $case_status));

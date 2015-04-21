@@ -42,21 +42,21 @@ function finalise_businesslink_programme_proposal_edit($form, &$form_state, $act
       '#type' => 'textfield',
       '#required' => true,
       '#title' => t('Company'),
-      '#default_value' => $activity['custom_'.$company],
+      '#default_value' => !empty($activity['custom_'.$company]) ? $activity['custom_'.$company] : '',
     );
 
     $form['location'] = array(
         '#type' => 'textfield',
         '#required' => true,
         '#title' => t('Location'),
-        '#default_value' => $activity['custom_'.$location],
+        '#default_value' => !empty($activity['custom_'.$location]) ? $activity['custom_'.$location] : '',
     );
 
     $form['prefix_contact'] = array(
       '#type' => 'select',
       '#required' => true,
       '#title' => t('Prefix of Company Contact'),
-      '#default_value' => $activity['custom_'.$prefix_contact],
+      '#default_value' => !empty($activity['custom_'.$prefix_contact]) ? $activity['custom_'.$prefix_contact] : '',
       '#options' => array('' => t('- None -')) + CRM_Core_OptionGroup::valuesByID($config->custom_groups['Business_Programme']['fields']['Prefix_Company_Contact']['option_group_id']),
     );
 
@@ -64,67 +64,61 @@ function finalise_businesslink_programme_proposal_edit($form, &$form_state, $act
       '#type' => 'textfield',
       '#required' => true,
       '#title' => t('First name / Initials of Company Contact'),
-      '#default_value' => $activity['custom_'.$initials_contact],
+      '#default_value' => !empty($activity['custom_'.$initials_contact]) ? $activity['custom_'.$initials_contact] : '' ,
     );
 
     $form['name_contact'] = array(
       '#type' => 'textfield',
       '#required' => true,
       '#title' => t('Name of Company Contact'),
-      '#default_value' => $activity['custom_'.$name_contact],
+      '#default_value' => !empty($activity['custom_'.$name_contact]) ? $activity['custom_'.$name_contact] : '',
     );
 
     $form['email_contact'] = array(
       '#type' => 'textfield',
       '#required' => true,
       '#title' => t('E-mail of Company Contact'),
-      '#default_value' => $activity['custom_'.$email_contact],
+      '#default_value' => !empty($activity['custom_'.$email_contact]) ? $activity['custom_'.$email_contact] : '',
       '#rules' => array(
         'email',
       ),
     );
 
-    $from_date = new DateTime($activity['custom_'.$from]);
     $form['from_date'] = array(
-        '#type' => 'date',
+        '#type' => 'date_popup',
         '#required' => true,
         '#title' => t('Visit from'),
-        '#pre_render' => array('_mainactivity_form_pre_render_date'),
-        '#default_value' => array(
-            'day' => (int) $from_date->format('d'),
-            'month' => (int) $from_date->format('m'),
-            'year' => (int) $from_date->format('Y'),
-        ),
+        '#default_value' => _mainactivity_date_string_value($activity['custom_'.$from]),
+        '#date_format' => 'Y-m-d',
+        '#date_increment' => 1,
+        '#date_year_range' => '-2:+2',
     );
 
-    $to_date = new DateTime($activity['custom_'.$to]);
     $form['to_date'] = array(
-        '#type' => 'date',
+        '#type' => 'date_popup',
         '#required' => true,
         '#title' => t('Visit to'),
-        '#pre_render' => array('_mainactivity_form_pre_render_date'),
-        '#default_value' => array(
-            'day' => (int) $to_date->format('d'),
-            'month' => (int) $to_date->format('m'),
-            'year' => (int) $to_date->format('Y'),
-        ),
+        '#default_value' => _mainactivity_date_string_value($activity['custom_'.$to]),
+        '#date_format' => 'Y-m-d',
+        '#date_increment' => 1,
+        '#date_year_range' => '-2:+2',
     );
 
     $form['aim'] = array(
         '#type' => 'markup',
-        '#markup' => '<p><strong>'.t('Short description Aim of Visit').'</strong></p><p>'.$activity['custom_'.$aim].'</p>'
+        '#markup' => '<p><strong>'.t('Short description Aim of Visit').'</strong></p><p>'.(!empty($activity['custom_'.$aim]) ? $activity['custom_'.$aim] : '').'</p>'
     );
 
     $form['intended_result'] = array(
         '#type' => 'markup',
-        '#markup' => '<p><strong>'.t('Short description of Intended Result of Visit').'</strong></p><p>'.$activity['custom_'.$intended_result].'</p>'
+        '#markup' => '<p><strong>'.t('Short description of Intended Result of Visit').'</strong></p><p>'.(!empty($activity['custom_'.$intended_result]) ? $activity['custom_'.$intended_result] : '').'</p>'
     );
 
     $form['result'] = array(
       '#type' => 'textarea',
       '#required' => true,
-      '#title' => t('Short description of Intended Result of Visit'),
-      '#default_value' => $activity['custom_'.$result],
+      '#title' => t('Short description of Result of Visit'),
+      '#default_value' => !empty($activity['custom_'.$result]) ? $activity['custom_'.$result] : '',
     );
 
     $form['thankyou'] = array(
@@ -132,7 +126,7 @@ function finalise_businesslink_programme_proposal_edit($form, &$form_state, $act
       '#required' => true,
       '#title' => t('Send thank you note?'),
       '#options' => array('' => t(' - Select -'), 'yes' => t('Yes'), 'no' => t('No')),
-      '#default_value' => empty($activity['custom_'.$thank_you]) ? $activity['custom_'.$thank_you] : '',
+      '#default_value' => !empty($activity['custom_'.$thank_you]) ? 'yes': '',
     );
 
     $form['cancelled'] = array(
@@ -140,7 +134,7 @@ function finalise_businesslink_programme_proposal_edit($form, &$form_state, $act
       '#required' => true,
       '#title' => t('Cancelled?'),
       '#options' => array('yes' => t('Yes'), 'no' => t('No')),
-      '#default_value' => empty($activity['custom_'.$cancelled]) ? $activity['custom_'.$cancelled] : 'no',
+      '#default_value' => !empty($activity['custom_'.$cancelled]) ? 'yes' : 'no',
     );
 
     $form['submit_button'] = array(
@@ -156,6 +150,8 @@ function finalise_businesslink_programme_proposal_edit($form, &$form_state, $act
 }
 
 function finalise_businesslink_programme_proposal($form, &$form_state, $case_id) {
+    $config = businessconfig::singleton();
+
     $form['case_id']['#type'] = 'hidden';
     $form['case_id']['#name'] = 'case_id';
     $form['case_id']['#value'] = $case_id;
@@ -201,23 +197,27 @@ function finalise_businesslink_programme_proposal($form, &$form_state, $case_id)
     );
 
     $form['from_date'] = array(
-        '#type' => 'date',
+        '#type' => 'date_popup',
         '#required' => true,
         '#title' => t('Visit from'),
-        '#pre_render' => array('_mainactivity_form_pre_render_date'),
+        '#date_format' => 'Y-m-d',
+        '#date_increment' => 1,
+        '#date_year_range' => '-2:+2',
     );
 
     $form['to_date'] = array(
-        '#type' => 'date',
+        '#type' => 'date_popup',
         '#required' => true,
         '#title' => t('Visit to'),
-        '#pre_render' => array('_mainactivity_form_pre_render_date'),
+        '#date_format' => 'Y-m-d',
+        '#date_increment' => 1,
+        '#date_year_range' => '-2:+2',
     );
 
     $form['result'] = array(
       '#type' => 'textarea',
       '#required' => true,
-      '#title' => t('Short description of Intended Result of Visit'),
+      '#title' => t('Short description of Result of Visit'),
     );
 
     $form['thankyou'] = array(
@@ -268,7 +268,7 @@ function finalise_businesslink_programme_proposal_submit($form, &$form_state) {
 
     $params = array();
     $params['case_id'] = $case_id;
-    $params['status_id'] = 1; //scheduled
+    $params['status_id'] = $form_state['values']['cancelled'] == 'yes' ? 3 : 2; //cancelled / completed
     $params['activity_type_id'] = $config->programme_activity_type_id;
     $params['custom_'.$company] = $form_state['values']['company'];
     $params['custom_'.$location] = $form_state['values']['location'];
@@ -276,12 +276,8 @@ function finalise_businesslink_programme_proposal_submit($form, &$form_state) {
     $params['custom_'.$prefix_contact] = $form_state['values']['prefix_contact'];
     $params['custom_'.$initials_contact] = $form_state['values']['initials_contact'];
     $params['custom_'.$email_contact] = $form_state['values']['email_contact'];
-    $from_date = new DateTime();
-    $from_date->setDate($form_state['values']['from_date']['year'],$form_state['values']['from_date']['month'],$form_state['values']['from_date']['day']);
-    $params['custom_'.$from] = $from_date->format('Ymd');
-    $to_date = new DateTime();
-    $to_date->setDate($form_state['values']['to_date']['year'],$form_state['values']['to_date']['month'],$form_state['values']['to_date']['day']);
-    $params['custom_'.$to] = $to_date->format('Ymd');
+    $params['custom_'.$from] = _mainactivity_date_submitted_string_value($form_state['values']['from_date']);
+    $params['custom_'.$to] = _mainactivity_date_submitted_string_value($form_state['values']['to_date']);
     $params['custom_'.$result] = $form_state['values']['result'];
     $params['custom_'.$thank_you] = $form_state['values']['thankyou'];
     $params['custom_'.$cancelled] = $form_state['values']['cancelled'];
@@ -309,7 +305,7 @@ function finalise_businesslink_programme_proposal_edit_submit($form, &$form_stat
 
     $params = array();
     $params['id'] = $activity_id;
-    $params['status_id'] = 1; //scheduled
+    $params['status_id'] = $form_state['values']['cancelled'] == 'yes' ? 3 : 2; //cancelled / completed
     $params['activity_type_id'] = $config->programme_activity_type_id;
     $params['custom_'.$company] = $form_state['values']['company'];
     $params['custom_'.$location] = $form_state['values']['location'];
@@ -317,12 +313,8 @@ function finalise_businesslink_programme_proposal_edit_submit($form, &$form_stat
     $params['custom_'.$prefix_contact] = $form_state['values']['prefix_contact'];
     $params['custom_'.$initials_contact] = $form_state['values']['initials_contact'];
     $params['custom_'.$email_contact] = $form_state['values']['email_contact'];
-    $from_date = new DateTime();
-    $from_date->setDate($form_state['values']['from_date']['year'],$form_state['values']['from_date']['month'],$form_state['values']['from_date']['day']);
-    $params['custom_'.$from] = $from_date->format('Ymd');
-    $to_date = new DateTime();
-    $to_date->setDate($form_state['values']['to_date']['year'],$form_state['values']['to_date']['month'],$form_state['values']['to_date']['day']);
-    $params['custom_'.$to] = $to_date->format('Ymd');
+    $params['custom_'.$from] = _mainactivity_date_submitted_string_value($form_state['values']['from_date']);
+    $params['custom_'.$to] = _mainactivity_date_submitted_string_value($form_state['values']['to_date']);
     $params['custom_'.$result] = $form_state['values']['result'];
     $params['custom_'.$thank_you] = $form_state['values']['thankyou'];
     $params['custom_'.$cancelled] = $form_state['values']['cancelled'];

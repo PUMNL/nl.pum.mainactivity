@@ -7,7 +7,8 @@ $from = $config->custom_groups['Business_Programme']['fields']['Visit_from']['co
 $to = $config->custom_groups['Business_Programme']['fields']['Visit_to']['column_name'];
 $aim = $config->custom_groups['Business_Programme']['fields']['Aim_of_Visit']['column_name'];
 $result = $config->custom_groups['Business_Programme']['fields']['Intended_Result_of_Visit']['column_name'];
-
+$thank_you_note = $config->custom_groups['Business_Programme']['fields']['Thank_you_Note']['column_name'];
+$cancelled = $config->custom_groups['Business_Programme']['fields']['Business_Visit_Cancelled']['column_name'];
 
 
 
@@ -82,7 +83,7 @@ $handler->display->display_options['header']['area']['id'] = 'area';
 $handler->display->display_options['header']['area']['table'] = 'views';
 $handler->display->display_options['header']['area']['field'] = 'area';
 $handler->display->display_options['header']['area']['empty'] = TRUE;
-$handler->display->display_options['header']['area']['content'] = '<a href="/expert/finalise-business-programme-proposal/add/!1?destination=/expert/business-programme-proposal/!1" class="button">Add a visit</a>';
+$handler->display->display_options['header']['area']['content'] = '<a href="/expert/finalise-business-programme-proposal/add/!1?destination=/expert/finalise-business-programme-proposal/!1" class="button">Add a visit</a>';
 $handler->display->display_options['header']['area']['format'] = 'filtered_html';
 $handler->display->display_options['header']['area']['tokenize'] = TRUE;
 /* No results behavior: Global: Text area */
@@ -129,15 +130,14 @@ $handler->display->display_options['fields']['location_868']['empty_zero'] = TRU
 /* Field: CiviCRM Custom: Business Programme: Short description Aim of Visit */
 $handler->display->display_options['fields']['short_description_aim_of_visit_871']['id'] = 'short_description_aim_of_visit_871';
 $handler->display->display_options['fields']['short_description_aim_of_visit_871']['table'] = $business_programm_data['table_name'];
-$handler->display->display_options['fields']['short_description_aim_of_visit_871']['field'] = $aim;
-$handler->display->display_options['fields']['short_description_aim_of_visit_871']['label'] = 'Aim of Visit';
+$handler->display->display_options['fields']['short_description_aim_of_visit_871']['field'] = $thank_you_note;
+$handler->display->display_options['fields']['short_description_aim_of_visit_871']['label'] = 'Send thank you';
 $handler->display->display_options['fields']['short_description_aim_of_visit_871']['alter']['strip_tags'] = TRUE;
-/* Field: CiviCRM Custom: Business Programme: Short description Result of Visit */
-$handler->display->display_options['fields']['short_description_result_of_visi_872']['id'] = 'short_description_result_of_visi_872';
-$handler->display->display_options['fields']['short_description_result_of_visi_872']['table'] = $business_programm_data['table_name'];
-$handler->display->display_options['fields']['short_description_result_of_visi_872']['field'] = $result;
-$handler->display->display_options['fields']['short_description_result_of_visi_872']['label'] = 'Intended Result of Visit';
-$handler->display->display_options['fields']['short_description_result_of_visi_872']['alter']['strip_tags'] = TRUE;
+/* Field: CiviCRM Activities: Status */
+$handler->display->display_options['fields']['status']['id'] = 'status';
+$handler->display->display_options['fields']['status']['table'] = 'civicrm_activity';
+$handler->display->display_options['fields']['status']['field'] = 'status';
+$handler->display->display_options['fields']['status']['label'] = 'Status';
 /* Field: CiviCRM Activities: Activity ID */
 $handler->display->display_options['fields']['id']['id'] = 'id';
 $handler->display->display_options['fields']['id']['table'] = 'civicrm_activity';
@@ -153,7 +153,7 @@ $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
 $handler->display->display_options['fields']['nothing']['label'] = '';
 $handler->display->display_options['fields']['nothing']['alter']['text'] = 'Edit';
 $handler->display->display_options['fields']['nothing']['alter']['make_link'] = TRUE;
-$handler->display->display_options['fields']['nothing']['alter']['path'] = 'expert/finalise-business-programme-proposal/edit/[id]?destination=/expert/business-programme-proposal/!1';
+$handler->display->display_options['fields']['nothing']['alter']['path'] = 'expert/finalise-business-programme-proposal/edit/[id]?destination=/expert/finalise-business-programme-proposal/!1';
 $handler->display->display_options['fields']['nothing']['alter']['absolute'] = TRUE;
 $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
 /* Contextual filter: CiviCRM Cases: Case ID */

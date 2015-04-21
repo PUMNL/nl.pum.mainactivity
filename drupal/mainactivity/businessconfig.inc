@@ -19,6 +19,8 @@ class businessconfig
 
     public $programme_activity_type_id;
 
+    public $programme_activity_type_name;
+
     protected function __construct()
     {
         civicrm_initialize();
@@ -77,8 +79,9 @@ class businessconfig
             $this->country_options[$country['id']] = $country['name'];
         }
 
+        $this->programme_activity_type_name = 'Business Programme';
         $activity_type_option_group = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'name' => 'activity_type'));
-        $this->programme_activity_type_id = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Business Programme', 'option_group_id' => $activity_type_option_group));
+        $this->programme_activity_type_id = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => $this->programme_activity_type_name, 'option_group_id' => $activity_type_option_group));
     }
 
     /**

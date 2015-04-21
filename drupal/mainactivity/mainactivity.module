@@ -161,6 +161,19 @@ function _mainactivity_get_force_default_value(array $component)
     return $enabled;
 }
 
+function _mainactivity_date_submitted_string_value($value) {
+  $date = new DateTime($value);
+  return $date->format('Ymd');
+}
+
+function _mainactivity_date_string_value($value) {
+  if (empty($value)) {
+    return '';
+  }
+  $date = new DateTime($value);
+  return $date->format('Y').'-' . $date->format('m').'-' . $date->format('d');
+}
+
 function _mainactivity_form_pre_render_date(&$element)
 {
     // Don't put empty values if a date has already been set
