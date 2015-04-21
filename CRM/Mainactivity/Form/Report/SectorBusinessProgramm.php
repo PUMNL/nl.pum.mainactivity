@@ -145,7 +145,7 @@ ORDER BY cg.weight, cf.weight";
         //$this->_columns[$curTable]['group_title'] = $customDAO->title;
 
         foreach (array(
-                   'fields', 'filters', 'group_bys') as $colKey) {
+                   'fields', 'filters', 'group_bys', 'order_bys') as $colKey) {
           if (!array_key_exists($colKey, $this->_columns[$curTable])) {
             $this->_columns[$curTable][$colKey] = array();
           }
@@ -274,6 +274,7 @@ ORDER BY cg.weight, cf.weight";
 
       if ($addFields) {
         $this->_columns[$curTable]['fields'] = array_merge($this->_columns[$curTable]['fields'], $curFields);
+        $this->_columns[$curTable]['order_bys'] = array_merge($this->_columns[$curTable]['order_bys'], $curFields);
       }
     }
   }
