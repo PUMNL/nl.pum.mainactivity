@@ -180,6 +180,68 @@ $handler->display->display_options['menu']['title'] = 'Finalise Business program
 $handler->display->display_options['menu']['weight'] = '10';
 $handler->display->display_options['menu']['context'] = 0;
 $handler->display->display_options['menu']['context_only_inline'] = 0;
+
+/* Display: My Work Count Item - Block */
+$handler = $view->new_display('block', 'My Work Count Item - Block', 'block_1');
+$handler->display->display_options['defaults']['pager'] = FALSE;
+$handler->display->display_options['pager']['type'] = 'none';
+$handler->display->display_options['pager']['options']['offset'] = '0';
+$handler->display->display_options['defaults']['style_plugin'] = FALSE;
+$handler->display->display_options['style_plugin'] = 'default';
+$handler->display->display_options['defaults']['style_options'] = FALSE;
+$handler->display->display_options['defaults']['row_plugin'] = FALSE;
+$handler->display->display_options['row_plugin'] = 'fields';
+$handler->display->display_options['defaults']['row_options'] = FALSE;
+$handler->display->display_options['defaults']['header'] = FALSE;
+/* Header: Global: Result summary */
+$handler->display->display_options['header']['result']['id'] = 'result';
+$handler->display->display_options['header']['result']['table'] = 'views';
+$handler->display->display_options['header']['result']['field'] = 'result';
+$handler->display->display_options['header']['result']['content'] = '<a href="/expert/finalise-business-programme-proposals">Finalize Business Programme</a> (@total)';
+$handler->display->display_options['defaults']['fields'] = FALSE;
+/* Field: CiviCRM Cases: Case ID */
+$handler->display->display_options['fields']['id']['id'] = 'id';
+$handler->display->display_options['fields']['id']['table'] = 'civicrm_case';
+$handler->display->display_options['fields']['id']['field'] = 'id';
+$handler->display->display_options['fields']['id']['label'] = '';
+$handler->display->display_options['fields']['id']['exclude'] = TRUE;
+$handler->display->display_options['fields']['id']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['id']['separator'] = '';
+/* Field: CiviCRM Contacts: Display Name */
+$handler->display->display_options['fields']['display_name']['id'] = 'display_name';
+$handler->display->display_options['fields']['display_name']['table'] = 'civicrm_contact';
+$handler->display->display_options['fields']['display_name']['field'] = 'display_name';
+$handler->display->display_options['fields']['display_name']['relationship'] = 'contact_id';
+$handler->display->display_options['fields']['display_name']['label'] = 'Customer';
+$handler->display->display_options['fields']['display_name']['exclude'] = TRUE;
+$handler->display->display_options['fields']['display_name']['alter']['make_link'] = TRUE;
+$handler->display->display_options['fields']['display_name']['alter']['path'] = 'expert/customer/[id]';
+$handler->display->display_options['fields']['display_name']['alter']['absolute'] = TRUE;
+$handler->display->display_options['fields']['display_name']['link_to_civicrm_contact'] = 0;
+/* Field: CiviCRM Custom: (Main) Activity information: Activity Start Date */
+$handler->display->display_options['fields']['start_date']['id'] = 'start_date';
+$handler->display->display_options['fields']['start_date']['table'] =  $main_activity_info['table_name'];
+$handler->display->display_options['fields']['start_date']['field'] = $start_date['column_name'];
+$handler->display->display_options['fields']['start_date']['label'] = 'Visit from';
+$handler->display->display_options['fields']['start_date']['exclude'] = TRUE;
+$handler->display->display_options['fields']['start_date']['date_format'] = 'long';
+$handler->display->display_options['fields']['start_date']['second_date_format'] = 'long';
+/* Field: CiviCRM Custom: (Main) Activity information: Activity End Date */
+$handler->display->display_options['fields']['end_date']['id'] = 'end_date';
+$handler->display->display_options['fields']['end_date']['table'] =  $main_activity_info['table_name'];
+$handler->display->display_options['fields']['end_date']['field'] = $end_date['column_name'];
+$handler->display->display_options['fields']['end_date']['label'] = 'Visit to';
+$handler->display->display_options['fields']['end_date']['exclude'] = TRUE;
+$handler->display->display_options['fields']['end_date']['date_format'] = 'long';
+$handler->display->display_options['fields']['end_date']['second_date_format'] = 'long';
+/* Field: Global: Custom text */
+$handler->display->display_options['fields']['nothing']['id'] = 'nothing';
+$handler->display->display_options['fields']['nothing']['table'] = 'views';
+$handler->display->display_options['fields']['nothing']['field'] = 'nothing';
+$handler->display->display_options['fields']['nothing']['label'] = '';
+$handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['nothing']['hide_empty'] = TRUE;
+
 $translatables['business_link_program'] = array(
   t('Master'),
   t('Business programme'),
@@ -207,4 +269,6 @@ $translatables['business_link_program'] = array(
   t('Visit to'),
   t('View program'),
   t('Page'),
+  t('My Work Count Item - Block'),
+  t('<a href="/expert/finalise-business-programme-proposals">Finalize Business Programme</a> (@total)'),
 );
