@@ -17,9 +17,15 @@ class businessconfig
 
     public $participant_relationship_type;
 
+    public $sc_relationship_type;
+
+    public $request_sc_approval_activity_type;
+
     public $programme_activity_type_id;
 
     public $programme_activity_type_name;
+
+    public $waiting_approval_status;
 
     protected function __construct()
     {
@@ -62,6 +68,8 @@ class businessconfig
 
         $this->participant_relationship_type = civicrm_api3('RelationshipType', 'getsingle', array('name_a_b' => 'Business participant is'));
 
+        $this->sc_relationship_type = civicrm_api3('RelationshipType', 'getsingle', array('name_a_b' => 'Sector Coordinator'));
+
         $gender_option_group_id = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'name' => 'gender'));
         $gender_options = civicrm_api3('OptionValue', 'get', array('option_group_id' => $gender_option_group_id));
         foreach ($gender_options['values'] as $gender) {
@@ -82,6 +90,10 @@ class businessconfig
         $this->programme_activity_type_name = 'Business Programme';
         $activity_type_option_group = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'name' => 'activity_type'));
         $this->programme_activity_type_id = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => $this->programme_activity_type_name, 'option_group_id' => $activity_type_option_group));
+        $this->request_sc_approval_activity_type = civicrm_api3('OptionValue', 'getsingle', array('name' => 'Request Approval Business Programme SC', 'option_group_id' => $activity_type_option_group));
+
+        $activity_status_option_group = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'name' => 'activity_status'));
+        $this->waiting_approval_status = civicrm_api3('OptionValue', 'getsingle', array('name' => 'Waiting Approval', 'option_group_id' => $activity_status_option_group));
     }
 
     /**

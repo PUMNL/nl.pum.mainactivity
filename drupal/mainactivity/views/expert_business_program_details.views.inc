@@ -82,7 +82,7 @@ $handler->display->display_options['header']['area']['id'] = 'area';
 $handler->display->display_options['header']['area']['table'] = 'views';
 $handler->display->display_options['header']['area']['field'] = 'area';
 $handler->display->display_options['header']['area']['empty'] = TRUE;
-$handler->display->display_options['header']['area']['content'] = '<a href="/expert/business-programme-proposal/add/!1?destination=/expert/business-programme-proposal/!1" class="button">Add a visit</a>';
+$handler->display->display_options['header']['area']['content'] = '<a href="/expert/business-programme-proposal/add/!1?destination=/expert/business-programme-proposal/!1" class="button">Add a visit</a> <a href="/expert/business-programme-proposal/request-approval/!1?destination=/expert/business-programme-proposal/!1" class="button">Request approval</a>';
 $handler->display->display_options['header']['area']['format'] = 'filtered_html';
 $handler->display->display_options['header']['area']['tokenize'] = TRUE;
 /* No results behavior: Global: Text area */
