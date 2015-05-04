@@ -6,7 +6,7 @@ $location = $config->custom_groups['Business_Programme']['fields']['Location']['
 $from = $config->custom_groups['Business_Programme']['fields']['Visit_from']['column_name'];
 $to = $config->custom_groups['Business_Programme']['fields']['Visit_to']['column_name'];
 $aim = $config->custom_groups['Business_Programme']['fields']['Aim_of_Visit']['column_name'];
-$result = $config->custom_groups['Business_Programme']['fields']['Result_of_Visit']['column_name'];
+$result = $config->custom_groups['Business_Programme']['fields']['Intended_Result_of_Visit']['column_name'];
 
 $config = businessconfig::singleton();
 
@@ -122,7 +122,7 @@ $handler->display->display_options['fields']['short_description_aim_of_visit_871
 $handler->display->display_options['fields']['short_description_result_of_visi_872']['id'] = 'short_description_result_of_visi_872';
 $handler->display->display_options['fields']['short_description_result_of_visi_872']['table'] = $business_programm_data['table_name'];
 $handler->display->display_options['fields']['short_description_result_of_visi_872']['field'] = $result;
-$handler->display->display_options['fields']['short_description_result_of_visi_872']['label'] = 'Result of Visit';
+$handler->display->display_options['fields']['short_description_result_of_visi_872']['label'] = 'Intended Result of Visit';
 $handler->display->display_options['fields']['short_description_result_of_visi_872']['alter']['strip_tags'] = TRUE;
 /* Contextual filter: CiviCRM Cases: Case ID */
 $handler->display->display_options['arguments']['id']['id'] = 'id';
