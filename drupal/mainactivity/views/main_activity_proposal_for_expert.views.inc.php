@@ -293,7 +293,7 @@ $handler->display->display_options['defaults']['header'] = FALSE;
 $handler->display->display_options['header']['result']['id'] = 'result';
 $handler->display->display_options['header']['result']['table'] = 'views';
 $handler->display->display_options['header']['result']['field'] = 'result';
-$handler->display->display_options['header']['result']['content'] = '<a href="/expert/main-activity-proposals">Main activity proposals</a> (@total)';
+$handler->display->display_options['header']['result']['content'] = '<a href="/expert/main-activity-proposals">Main activity proposals (@total)</a>';
 $handler->display->display_options['defaults']['empty'] = FALSE;
 $handler->display->display_options['defaults']['fields'] = FALSE;
 /* Field: CiviCRM Contacts: Contact ID */
