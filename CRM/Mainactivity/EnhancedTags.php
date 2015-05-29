@@ -193,7 +193,7 @@ class CRM_Mainactivity_EnhancedTags {
         foreach ($tagChildren as $tagChild) {
             if (!in_array($tagChild['id'], $this->sectorTree)) {
                 $this->sectorTree[] = $tagChild['id'];
-                $return[] = $return;
+                $return[] = $tagChild['id'];
             }
         }
         return $return;
