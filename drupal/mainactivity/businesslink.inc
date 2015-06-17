@@ -87,13 +87,15 @@ function businesslink_change_person_form($form, &$form_state, $case_id, $contact
     '#type' => 'date',
     '#required' => true,
     '#title' => t('Birthdate'),
-    '#default_value' => array(
+    '#pre_render' => array('_businesslink_form_pre_render_date'),
+  );
+  if ($birth_date) {
+    $form['birth_date']['#default_value'] = array(
       'day' => $birth_date->format('d'),
       'month' => $birth_date->format('m'),
       'year' => $birth_date->format('Y'),
-    ),
-    '#pre_render' => array('_businesslink_form_pre_render_date'),
-  );
+    );
+  }
   
   $form['nationality'] = array(
     '#type' => 'select',
@@ -118,13 +120,15 @@ function businesslink_change_person_form($form, &$form_state, $case_id, $contact
     '#type' => 'date',
     '#required' => true,
     '#title' => t('Passport expire date'),
-    '#default_value' => array(
-       'day' => $expire_date->format('d'),
-      'month' => $expire_date->format('m'),
-      'year' => $expire_date->format('Y'),
-    ),
     '#pre_render' => array('_businesslink_form_pre_render_date'),
   );
+  if ($expire_date) {
+    $form['passport_expire_date']['#default_value'] = array(
+      'day' => $expire_date->format('d'),
+      'month' => $expire_date->format('m'),
+      'year' => $expire_date->format('Y'),
+    );
+  }
   
   $form['job_title'] = array(
     '#type' => 'textfield',
