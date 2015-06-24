@@ -31,6 +31,16 @@ class businesscase {
     $parameters['subject'] = '{contactName}-{caseType}-{caseId}';
     $case = civicrm_api3('Case', 'create', $parameters);
 
+    /**
+     * Issue 2630 Jaap Jansma (jaap.jansma@civicoop.org)
+     *
+     * Case status of new travel case does not get an automatic status of ongoing
+     * so set it again after creation.
+     */
+    $updateParameters['id'] = $case['id'];
+    $updateParameters['status_id'] = $config->getOpenCaseStatus('value');
+    civicrm_api3('Case', 'create', $updateParameters);
+
     $custom['entity_id'] = $case['id'];
     $custom['entity_table'] = 'civicrm_case';
     $custom['custom_'.$config->getCustomFieldCaseId('id')] = $this->case_id;
