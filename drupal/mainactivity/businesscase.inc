@@ -27,7 +27,7 @@ class businesscase {
     
     $parameters['client_id'] = $client_id;
     $parameters['case_type_id'] = $config->getCaseType('value');
-    $parameters['case_status_id'] = $config->getOpenCaseStatus('value');
+    $parameters['status_id'] = $config->getOpenCaseStatus('value');
     $parameters['subject'] = '{contactName}-{caseType}-{caseId}';
     $case = civicrm_api3('Case', 'create', $parameters);
 

@@ -393,10 +393,10 @@ function businesslink_registration_form_submit($form, &$form_state) {
       $businessCase->closeTravelCase($current_participant['case_id']);
       $current_participant = false;
     }
-    
+
     if (!$current_participant && $participant > 0) {
       $businessCase->createNewTravelCase($participant);
-    } 
+    }
     
     if ($participant == -1) {
       drupal_goto('customer/business/participants/'.$case_id.'/newperson', array('absolute' => true));
