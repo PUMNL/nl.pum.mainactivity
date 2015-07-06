@@ -3,6 +3,7 @@
 $config = businessconfig::singleton();
 $business_programm_data = $config->custom_groups['Business_Programme'];
 $location = $config->custom_groups['Business_Programme']['fields']['Location']['column_name'];
+$company = $config->custom_groups['Business_Programme']['fields']['Naam_bedrijf']['column_name'];
 $from = $config->custom_groups['Business_Programme']['fields']['Visit_from']['column_name'];
 $to = $config->custom_groups['Business_Programme']['fields']['Visit_to']['column_name'];
 $aim = $config->custom_groups['Business_Programme']['fields']['Aim_of_Visit']['column_name'];
@@ -107,6 +108,12 @@ $handler->display->display_options['fields']['visit_ot_870']['table'] = $busines
 $handler->display->display_options['fields']['visit_ot_870']['field'] = $to;
 $handler->display->display_options['fields']['visit_ot_870']['label'] = 'Visit to';
 $handler->display->display_options['fields']['visit_ot_870']['date_format'] = 'd_m_y';
+/* Field: CiviCRM Custom: Business Programme: Location */
+$handler->display->display_options['fields']['company']['id'] = 'company';
+$handler->display->display_options['fields']['company']['table'] = $business_programm_data['table_name'];
+$handler->display->display_options['fields']['company']['field'] = $company;
+$handler->display->display_options['fields']['company']['label'] = 'Company';
+$handler->display->display_options['fields']['company']['alter']['strip_tags'] = TRUE;
 /* Field: CiviCRM Custom: Business Programme: Location */
 $handler->display->display_options['fields']['location_868']['id'] = 'location_868';
 $handler->display->display_options['fields']['location_868']['table'] = $business_programm_data['table_name'];
