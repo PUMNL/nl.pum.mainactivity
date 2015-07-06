@@ -162,10 +162,10 @@ class CRM_Mainactivity_DebriefingConfig {
             'activity_type' => 'Business Debriefing CC',
             'relationship_type' => 'Country Coordinator is',
           ),
-          /*array(
+          array(
             'activity_type' => 'Business Customer',
             'relationship_type' => 'Has authorised',
-          ),*/
+          ),
           array(
             'activity_type' => 'Business Debriefing Expert',
             'relationship_type' => 'Expert',
