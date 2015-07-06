@@ -66,8 +66,8 @@ function _mainactivity_debriefing_link($activity_type, $case_type)
         return 'representative/debriefing/advice';
     } elseif (((int)$activity_type) == $c->business_debriefing_expert && in_array($c->business, $case_types)) {
         return 'expert/debriefing/business';
-        //} elseif (((int) $activity_type == $c->business_debriefing_customer) && in_array($c->business, $case_types)) {
-        //  return 'customer/debriefing/business';
+    } elseif (((int) $activity_type == $c->business_debriefing_customer) && in_array($c->business, $case_types)) {
+        return 'customer/debriefing/business';
     } elseif (((int)$activity_type) == $c->seminar_debriefing_expert && in_array($c->seminar, $case_types)) {
         return 'expert/debriefing/seminar';
     } elseif (((int)$activity_type == $c->seminar_debriefing_customer) && in_array($c->seminar, $case_types)) {

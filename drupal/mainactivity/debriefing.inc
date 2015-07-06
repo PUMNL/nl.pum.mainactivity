@@ -14,7 +14,7 @@ class mainactivity_debriefing {
   
   public $business_debriefing_expert;
   
-  //public $business_debriefing_customer;
+  public $business_debriefing_customer;
   
   public $advice_debriefing_expert;
   
@@ -54,7 +54,7 @@ class mainactivity_debriefing {
     $this->business = civicrm_api3('OptionValue', 'getvalue', array('name' => 'Business', 'option_group_id' => $case_type_id, 'return' => 'value'));
     $this->remote_coaching = civicrm_api3('OptionValue', 'getvalue', array('name' => 'RemoteCoaching', 'option_group_id' => $case_type_id, 'return' => 'value'));
     $this->business_debriefing_expert = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Business Debriefing Expert', 'option_group_id' => 2));
-    //$this->business_debriefing_customer = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Business Debriefing Customer', 'option_group_id' => 2));
+    $this->business_debriefing_customer = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Business Debriefing Customer', 'option_group_id' => 2));
     $this->advice_debriefing_expert = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Advice Debriefing Expert', 'option_group_id' => 2));
     $this->advice_debriefing_customer = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Advice Debriefing Customer', 'option_group_id' => 2));
     $this->advice_debriefing_rep = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Advice Debriefing Representative', 'option_group_id' => 2));
@@ -80,7 +80,7 @@ class mainactivity_debriefing {
   public function getValidDebriefingActivityTypesForView() {
     return array (
       $this->business_debriefing_expert => $this->business_debriefing_expert,
-      //$this->business_debriefing_customer => $this->business_debriefing_customer,
+      $this->business_debriefing_customer => $this->business_debriefing_customer,
       $this->advice_debriefing_expert => $this->advice_debriefing_expert,
       $this->advice_debriefing_customer => $this->advice_debriefing_customer,
       $this->advice_debriefing_rep => $this->advice_debriefing_rep,

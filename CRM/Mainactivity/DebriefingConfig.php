@@ -163,7 +163,7 @@ class CRM_Mainactivity_DebriefingConfig {
             'relationship_type' => 'Country Coordinator is',
           ),
           array(
-            'activity_type' => 'Business Customer',
+            'activity_type' => 'Business Debriefing Customer',
             'relationship_type' => 'Has authorised',
           ),
           array(
