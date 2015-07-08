@@ -101,13 +101,17 @@ $handler->display->display_options['fields']['visit_from_869']['id'] = 'visit_fr
 $handler->display->display_options['fields']['visit_from_869']['table'] = $business_programm_data['table_name'];
 $handler->display->display_options['fields']['visit_from_869']['label'] = 'Visit from';
 $handler->display->display_options['fields']['visit_from_869']['field'] = $from;
-$handler->display->display_options['fields']['visit_from_869']['date_format'] = 'd_m_y';
+$handler->display->display_options['fields']['visit_from_869']['date_format'] = 'custom';
+$handler->display->display_options['fields']['visit_from_869']['custom_date_format'] = 'd F Y';
+$handler->display->display_options['fields']['visit_from_869']['second_date_format'] = 'long';
 /* Field: CiviCRM Custom: Business Programme: Visit ot */
 $handler->display->display_options['fields']['visit_ot_870']['id'] = 'visit_ot_870';
 $handler->display->display_options['fields']['visit_ot_870']['table'] = $business_programm_data['table_name'];
 $handler->display->display_options['fields']['visit_ot_870']['field'] = $to;
 $handler->display->display_options['fields']['visit_ot_870']['label'] = 'Visit to';
-$handler->display->display_options['fields']['visit_ot_870']['date_format'] = 'd_m_y';
+$handler->display->display_options['fields']['visit_ot_870']['date_format'] = 'custom';
+$handler->display->display_options['fields']['visit_ot_870']['custom_date_format'] = 'd F Y';
+$handler->display->display_options['fields']['visit_ot_870']['second_date_format'] = 'long';
 /* Field: CiviCRM Custom: Business Programme: Location */
 $handler->display->display_options['fields']['company']['id'] = 'company';
 $handler->display->display_options['fields']['company']['table'] = $business_programm_data['table_name'];
