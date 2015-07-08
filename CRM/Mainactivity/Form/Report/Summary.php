@@ -130,6 +130,7 @@ class CRM_Mainactivity_Form_Report_Summary extends CRM_Report_Form {
           'id' =>
           array('title' => ts('Case ID'),
             'required' => TRUE,
+            'no_display' => TRUE,
           ),
           'subject' => array(
             'title' => ts('Case Subject'), 'default' => TRUE,
@@ -177,6 +178,14 @@ class CRM_Mainactivity_Form_Report_Summary extends CRM_Report_Form {
           ),
         ),
       ),
+      'civicrm_case_status' => array(
+        'order_bys' => array(
+          'case_status' => array(
+            'title' => ts('Case Status'),
+            'name' => 'label',
+          )
+        )
+      ),
       'civicrm_relationship' =>
       array(
         'dao' => 'CRM_Contact_DAO_Relationship',
@@ -214,6 +223,12 @@ class CRM_Mainactivity_Form_Report_Summary extends CRM_Report_Form {
             'title' => ts('Activity type of the next scheduled activity'),
           ),
         ),
+        'order_bys' => array(
+          'next_scheduled_activity_date' =>  array(
+            'title' => ts('Date of the next scheduled activity in the case'),
+            'name' => 'activity_date_time',
+          ),
+        ),
       ),
      'civicrm_activity_last_completed' =>
       array(
@@ -238,6 +253,12 @@ class CRM_Mainactivity_Form_Report_Summary extends CRM_Report_Form {
             'name' => 'activity_type_id',
             'default' => true,
             'title' => ts('Activity type of the last completed activity'),
+          ),
+        ),
+        'order_bys' => array(
+          'last_completed_activity_date' =>  array(
+            'title' => ts('Date of the last completed activity in the case'),
+            'name' => 'activity_date_time',
           ),
         ),
       ),
@@ -286,6 +307,7 @@ class CRM_Mainactivity_Form_Report_Summary extends CRM_Report_Form {
     $userID    = $session->get('userID');
     
     $expert_rel_type_id = civicrm_api3('RelationshipType', 'getvalue', array('return' => 'id', 'name_a_b' => 'Expert'));
+    $case_status_option_group_id = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'name' => 'case_status'));
     
     $cc  = $this->_aliases['civicrm_case'];
     $c2  = $this->_aliases['civicrm_c2'];
@@ -294,12 +316,14 @@ class CRM_Mainactivity_Form_Report_Summary extends CRM_Report_Form {
     $cr2  = $this->_aliases['civicrm_expert_relationship'];
     $ccc = $this->_aliases['civicrm_case_contact'];
     $case = $this->_aliases['civicrm_case'];
+    $case_status = $this->_aliases['civicrm_case_status'];
 
     $this->_from = "
           FROM civicrm_case {$cc}
           inner join civicrm_relationship {$cr} on {$cc}.id = {$cr}.case_id AND ({$cr}.contact_id_a = {$userID} OR {$cr}.contact_id_b = {$userID})
           inner join civicrm_case_contact {$ccc} on {$ccc}.case_id = {$cc}.id
           inner join civicrm_contact {$c2} on {$c2}.id={$ccc}.contact_id
+          left join civicrm_option_value {$case_status} on {$cc}.status_id = {$case_status}.value and {$case_status}.option_group_id = '{$case_status_option_group_id}'
       ";
     if ($this->isTableSelected('civicrm_c3')) {
       $this->_from .= "
