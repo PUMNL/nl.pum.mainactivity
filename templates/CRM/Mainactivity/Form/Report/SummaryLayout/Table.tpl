@@ -100,7 +100,7 @@
                 <td>
                         <span id="mainactivity_summary_report{$row.civicrm_case_id}_show">
                             <a href="#" onclick="
-                                    mainactivity_summary_reportCaseDetails('{$row.civicrm_case_id}','{$row.civicrm_contact_a_id}');
+                                    mainactivity_summary_reportCaseDetails('{$row.civicrm_case_id}','{$row.civicrm_c2_id}');
                                     showCaseActivities('{$row.civicrm_case_id}');
                                     return false;"
                                     ><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a>
