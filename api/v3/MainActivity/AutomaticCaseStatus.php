@@ -25,8 +25,7 @@ function civicrm_api3_main_activity_automaticcasestatus($params) {
   
   $auto_case_status = new CRM_Mainactivity_AutomaticCaseStatus();
   $auto_case_status->parseFromExecutionToDebriefing();
-  $auto_case_status->parseFromPreperationToExecution();  
-
+  $auto_case_status->parseFromPreperationToExecution();
   return civicrm_api3_create_success($returnValues, $params, 'MainActivity', 'AutomaticCaseStatus');
 
 }

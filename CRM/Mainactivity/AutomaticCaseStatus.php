@@ -35,6 +35,7 @@ class CRM_Mainactivity_AutomaticCaseStatus {
       AND DATE(`ct`.`{$date_field}`) <= CURDATE()";
 
     $dao = CRM_Core_DAO::executeQuery($sql);
+
     while($dao->fetch()) {
       $case = civicrm_api3('Case', 'getsingle', array('id' => $dao->case_id));
       $params = array();
@@ -44,7 +45,6 @@ class CRM_Mainactivity_AutomaticCaseStatus {
 
       //the pre hook doesn't get called when we use the api for updating
       //so make sure the debriefing activities are loaded as soon as a case reaches debriefing status
-
       CRM_Mainactivity_Hooks_DebriefingActivity::createDebriefingActivities($new_status, $current_status, $case['case_type_id'], $dao->case_id);
     }
         

@@ -11,6 +11,9 @@ class CRM_Mainactivity_DebriefingConfig {
   protected $valid_case_types = array();
   
   protected $debriefing_act_rel = array();
+
+  protected $debriefingExpertStatusId = NULL;
+  protected $debriefingExpertActivityTypes = array();
   
   protected function __construct() {
     $case_status_id = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'name' => 'case_status'));
@@ -20,7 +23,7 @@ class CRM_Mainactivity_DebriefingConfig {
     $case_type_id = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'name' => 'case_type'));
     $advice = civicrm_api3('OptionValue', 'getsingle', array('name' => 'Advice', 'option_group_id' => $case_type_id));
     $this->valid_case_types[$advice['value']] = $advice;
-    $this->valid_case_types[$advice['value']]['case_status'] = $this->debriefing; 
+    $this->valid_case_types[$advice['value']]['case_status'] = $this->debriefing;
     
     $seminar = civicrm_api3('OptionValue', 'getsingle', array('name' => 'Seminar', 'option_group_id' => $case_type_id));
     $this->valid_case_types[$seminar['value']] = $seminar;
@@ -33,10 +36,23 @@ class CRM_Mainactivity_DebriefingConfig {
     $Business = civicrm_api3('OptionValue', 'getsingle', array('name' => 'Business', 'option_group_id' => $case_type_id));
     $this->valid_case_types[$Business['value']] = $Business;
     $this->valid_case_types[$Business['value']]['case_status'] = $this->execution;
-    
+
+    /*
+     * issue 2857 different config for expert debriefing (to be done at execution status)
+     */
+    $this->debriefingExpertStatusId = $this->execution['value'];
+    $optionValueName = $advice['label']." Debriefing Expert";
+    $optionValueParams = array('option_group_id' => 2, 'name' => $optionValueName, 'return' => 'value');
+    $this->debriefingExpertActivityTypes[$advice['value']] = civicrm_api3('OptionValue', 'Getvalue', $optionValueParams);
+    $optionValueName = $seminar['label']." Debriefing Expert";
+    $optionValueParams = array('option_group_id' => 2, 'name' => $optionValueName, 'return' => 'value');
+    $this->debriefingExpertActivityTypes[$seminar['value']] = civicrm_api3('OptionValue', 'Getvalue', $optionValueParams);
+
     $this->loadDebriefingActivities();
   }
-  
+
+  private function loadDebriefingExpertActivityTypes() {
+  }
   /**
    * 
    * @return CRM_Mainactivity_DebriefingConfig
@@ -58,6 +74,12 @@ class CRM_Mainactivity_DebriefingConfig {
     }
     return false;
   }
+  public function getDebriefingExpertStatusId() {
+    return $this->debriefingExpertStatusId;
+  }
+  public function getDebriefingExpertActivityTypes() {
+    return $this->debriefingExpertActivityTypes;
+  }
   
   public function getDebriefingActivityDefinition($case_type_id) {
     $case_name = false;
@@ -72,7 +94,7 @@ class CRM_Mainactivity_DebriefingConfig {
     }
     return $this->debriefing_act_rel[$case_name];
   }
-  
+
   protected function debriefingActivityDefinition() {
     return array (
       'Advice' =>
@@ -84,10 +106,6 @@ class CRM_Mainactivity_DebriefingConfig {
           array(
             'activity_type' => 'Advice Debriefing Customer',
             'relationship_type' => 'Has authorised',
-          ),
-          array(
-            'activity_type' => 'Advice Debriefing Expert',
-            'relationship_type' => 'Expert',
           ),
           array(
             'activity_type' => 'Advice Debriefing PrOf',
@@ -113,10 +131,6 @@ class CRM_Mainactivity_DebriefingConfig {
             'relationship_type' => 'Has authorised',
           ),
           array(
-            'activity_type' => 'Seminar Debriefing Expert',
-            'relationship_type' => 'Expert',
-          ),
-          array(
             'activity_type' => 'Seminar Debriefing PrOf',
             'relationship_type' => 'Project Officer for',
           ),
@@ -140,10 +154,6 @@ class CRM_Mainactivity_DebriefingConfig {
             'relationship_type' => 'Has authorised',
           ),
           array(
-            'activity_type' => 'Remote Coaching Debriefing Expert',
-            'relationship_type' => 'Expert',
-          ),
-          array(
             'activity_type' => 'Remote Coaching Debriefing PrOf',
             'relationship_type' => 'Project Officer for',
           ),
@@ -165,10 +175,6 @@ class CRM_Mainactivity_DebriefingConfig {
           array(
             'activity_type' => 'Business Debriefing Customer',
             'relationship_type' => 'Has authorised',
-          ),
-          array(
-            'activity_type' => 'Business Debriefing Expert',
-            'relationship_type' => 'Expert',
           ),
           array(
             'activity_type' => 'Business Debriefing PrOf',

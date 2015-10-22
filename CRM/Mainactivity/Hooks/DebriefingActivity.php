@@ -12,6 +12,17 @@ class CRM_Mainactivity_Hooks_DebriefingActivity {
     if (!$config->isValidCaseType($case_type_id)) {
       return;
     }
+    /*
+     * issue 2857 if new status = expertDebriefingStatus then create debriefing activity for expert
+     */
+    if (method_exists('CRM_Casestatus_Execution', 'createDebriefingActivity')) {
+      if ($new_status_id == $config->getDebriefingExpertStatusId()) {
+        $expertDebriefingCaseTypes = $config->getDebriefingExpertActivityTypes();
+        if (array_key_exists($case_type_id, $expertDebriefingCaseTypes)) {
+          CRM_Casestatus_Execution::createDebriefingActivity($id, $case_type_id);
+        }
+      }
+    }
 
     if ($new_status_id != $config->getCaseStatusDebriefing('value', $case_type_id)) {
       return;
@@ -35,13 +46,17 @@ class CRM_Mainactivity_Hooks_DebriefingActivity {
       $act_params = array();
       $act_params['activity_type_id'] = $act['activity_type_id'];
       $act_params['case_id'] = $id;
-      $act_params['status_id'] = 1; //scheduled
-      $act_params['activity_date_time'] = $date->format('YmdHis');
-      if ($role_contact_id) {
-        $act_params['assignee_contact_id'] = $role_contact_id;
-      }
 
-      civicrm_api3('Activity', 'create', $act_params);
+      // only create debriefing activity if no activity of the type on the case
+      $activityCount = civicrm_api3("CaseActivity", "Getcount", $act_params);
+      if ($activityCount == 0) {
+        $act_params['status_id'] = 1; //scheduled
+        $act_params['activity_date_time'] = $date->format('YmdHis');
+        if ($role_contact_id) {
+          $act_params['assignee_contact_id'] = $role_contact_id;
+        }
+        civicrm_api3('Activity', 'create', $act_params);
+      }
     }
   }
   
@@ -60,6 +75,5 @@ class CRM_Mainactivity_Hooks_DebriefingActivity {
     }
     self::createDebriefingActivities($params['case_status_id'], $currentCase['status_id'], $currentCase['case_type_id'], $id);
   }
-  
 }
 
