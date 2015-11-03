@@ -5,6 +5,8 @@ $advice = civicrm_api3('OptionValue', 'getsingle', array('name' => 'Advice', 'op
 $expert_act = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Debriefing Expert', 'option_group_id' => 2));
 $customer_act = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Debriefing Customer', 'option_group_id' => 2));
 $rep_act = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Debriefing Representative', 'option_group_id' => 2));*/
+
+$expert_relationship_type_id = civicrm_api3('RelationshipType', 'getvalue', array('return' => 'id', 'name_a_b' => 'Expert'));
 $c = mainactivity_debriefing::singleton();
 
 $view = new view();
@@ -112,6 +114,19 @@ $handler->display->display_options['relationships']['contact_id_1']['field'] = '
 $handler->display->display_options['relationships']['contact_id_1']['relationship'] = 'case_id';
 $handler->display->display_options['relationships']['contact_id_1']['label'] = 'Customer';
 $handler->display->display_options['relationships']['contact_id_1']['required'] = TRUE;
+/* Relationship: CiviCRM Cases: CiviCRM Relationship (starting from contact case ID) */
+$handler->display->display_options['relationships']['relationship_id']['id'] = 'relationship_id';
+$handler->display->display_options['relationships']['relationship_id']['table'] = 'civicrm_case';
+$handler->display->display_options['relationships']['relationship_id']['field'] = 'relationship_id';
+$handler->display->display_options['relationships']['relationship_id']['relationship'] = 'case_id';
+$handler->display->display_options['relationships']['relationship_id']['label'] = 'Expert relationship';
+$handler->display->display_options['relationships']['relationship_id']['relationship_type'] = $expert_relationship_type_id;
+/* Relationship: CiviCRM Relationships: Contact ID B */
+$handler->display->display_options['relationships']['contact_id_b_']['id'] = 'contact_id_b_';
+$handler->display->display_options['relationships']['contact_id_b_']['table'] = 'civicrm_relationship';
+$handler->display->display_options['relationships']['contact_id_b_']['field'] = 'contact_id_b_';
+$handler->display->display_options['relationships']['contact_id_b_']['relationship'] = 'relationship_id';
+$handler->display->display_options['relationships']['contact_id_b_']['label'] = 'Expert';
 /* Field: CiviCRM Activities: Activity ID */
 $handler->display->display_options['fields']['id']['id'] = 'id';
 $handler->display->display_options['fields']['id']['table'] = 'civicrm_activity';
@@ -151,6 +166,13 @@ $handler->display->display_options['fields']['display_name']['field'] = 'display
 $handler->display->display_options['fields']['display_name']['relationship'] = 'contact_id_1';
 $handler->display->display_options['fields']['display_name']['label'] = 'Customer';
 $handler->display->display_options['fields']['display_name']['link_to_civicrm_contact'] = 0;
+/* Field: CiviCRM Contacts: Display Name */
+$handler->display->display_options['fields']['display_name_1']['id'] = 'display_name_1';
+$handler->display->display_options['fields']['display_name_1']['table'] = 'civicrm_contact';
+$handler->display->display_options['fields']['display_name_1']['field'] = 'display_name';
+$handler->display->display_options['fields']['display_name_1']['relationship'] = 'contact_id_b_';
+$handler->display->display_options['fields']['display_name_1']['label'] = 'Expert';
+$handler->display->display_options['fields']['display_name_1']['link_to_civicrm_contact'] = 0;
 /* Field: CiviCRM Activities: Activity Type */
 $handler->display->display_options['fields']['activity_type']['id'] = 'activity_type';
 $handler->display->display_options['fields']['activity_type']['table'] = 'civicrm_activity';
