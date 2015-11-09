@@ -113,6 +113,28 @@ class CRM_Mainactivity_Form_Report_Summary extends CRM_Report_Form {
                 array('title' => 'Country', 'default' => TRUE),
             ),
         ),
+      'civicrm_c4' =>
+        array(
+          'dao' => 'CRM_Contact_DAO_Contact',
+          'fields' =>
+            array(
+              'rep_name' =>
+                array(
+                  'name' => 'display_name',
+                  'title' => ts('Representative'),
+                  'default' => TRUE
+                ),
+              'id' =>
+                array(
+                  'no_display' => TRUE,
+                  'required' => TRUE,
+                ),
+            ),
+        ),
+      'civicrm_rep_relationship' =>
+        array(
+          'dao' => 'CRM_Contact_DAO_Relationship',
+        ),
       'civicrm_case' =>
       array(
         'dao' => 'CRM_Case_DAO_Case',
@@ -187,6 +209,15 @@ class CRM_Mainactivity_Form_Report_Summary extends CRM_Report_Form {
               array(
                 'no_display' => TRUE,
                 'required' => TRUE,
+              ),
+          ),
+        'order_bys' =>
+          array(
+            'case_status_label' =>
+              array(
+                'title' => ts('Case Status'),
+                'name' => 'label',
+                'default' => 1,
               ),
           ),
       ),
@@ -268,14 +299,17 @@ class CRM_Mainactivity_Form_Report_Summary extends CRM_Report_Form {
     $threepeasConfig = CRM_Threepeas_Config::singleton();
     $caseRelationConfig = CRM_Threepeas_CaseRelationConfig::singleton();
     $expertRelationshipTypeId = $threepeasConfig->expertRelationshipTypeId;
+    $repRelationshipTypeId = $caseRelationConfig->getRelationshipTypeId("representative");
     $ccRelationshipTypeId = $caseRelationConfig->getRelationshipTypeId("country_coordinator");
     $scRelationshipTypeId = $caseRelationConfig->getRelationshipTypeId("sector_coordinator");
     $poRelationshipTypeId = $caseRelationConfig->getRelationshipTypeId("project_officer");
     $cc  = $this->_aliases['civicrm_case'];
     $c2  = $this->_aliases['civicrm_c2'];
     $c3  = $this->_aliases['civicrm_c3'];
+    $c4  = $this->_aliases['civicrm_c4'];
     $cr  = $this->_aliases['civicrm_relationship'];
     $cr2  = $this->_aliases['civicrm_expert_relationship'];
+    $cr3 = $this->_aliases['civicrm_rep_relationship'];
     $ccc = $this->_aliases['civicrm_case_contact'];
     $cca = $this->_aliases['civicrm_case_activity'];
     $act = $this->_aliases['civicrm_activity'];
@@ -296,7 +330,15 @@ class CRM_Mainactivity_Form_Report_Summary extends CRM_Report_Form {
           LEFT JOIN civicrm_contact {$c3} ON {$cr2}.contact_id_b = {$c3}.id
           ";
     }
-          
+
+    if ($this->isTableSelected('civicrm_c4')) {
+      $this->_from .= "
+          LEFT JOIN civicrm_relationship {$cr3} ON {$cc}.id = {$cr3}.case_id
+            AND {$cr3}.contact_id_a = {$ccc}.contact_id AND {$cr3}.relationship_type_id = '{$repRelationshipTypeId}'
+          LEFT JOIN civicrm_contact {$c4} ON {$cr3}.contact_id_b = {$c4}.id
+          ";
+    }
+
     if ($this->isTableSelected('civicrm_country') || $this->isTableSelected('civicrm_address')) {
       $this->_from .= "
         LEFT JOIN civicrm_address {$this->_aliases['civicrm_address']}
@@ -400,6 +442,7 @@ class CRM_Mainactivity_Form_Report_Summary extends CRM_Report_Form {
     $this->_columnHeaders['manage_case'] =
       array('title' => '','type' => CRM_Utils_Type::T_STRING,
     );
+    $this->_columnHeaders['aaaa'] = array("title" => "", "type" => CRM_Utils_Type::T_STRING);
   }
 
   /**
@@ -457,14 +500,19 @@ class CRM_Mainactivity_Form_Report_Summary extends CRM_Report_Form {
         $entryFound = TRUE;
       }
       
-      // convert Client ID to contact page
       if (CRM_Utils_Array::value('civicrm_c3_expert_name', $rows[$rowNum])) {
         $url = CRM_Utils_System::url("civicrm/contact/view" , "action=view&reset=1&cid=". $row['civicrm_c3_id'], $this->_absoluteUrl);
         $rows[$rowNum]['civicrm_c3_expert_name_link'] = $url;
-        $rows[$rowNum]['civicrm_c3_expert_name_hover'] = ts("View client");
+        $rows[$rowNum]['civicrm_c3_expert_name_hover'] = ts("View Expert");
         $entryFound = TRUE;
       }
-      
+      if (CRM_Utils_Array::value('civicrm_c4_rep_name', $rows[$rowNum])) {
+        $url = CRM_Utils_System::url("civicrm/contact/view" , "action=view&reset=1&cid=". $row['civicrm_c4_id'], $this->_absoluteUrl);
+        $rows[$rowNum]['civicrm_c4_rep_name_link'] = $url;
+        $rows[$rowNum]['civicrm_c4_rep_name_hover'] = ts("View Representative");
+        $entryFound = TRUE;
+      }
+
       // convert Client ID to contact page
       if (CRM_Utils_Array::value('civicrm_c2_client_name', $rows[$rowNum])) {
         $url = CRM_Utils_System::url("civicrm/contact/view" , "action=view&reset=1&cid=". $row['civicrm_c2_id'], $this->_absoluteUrl);
@@ -489,23 +537,6 @@ class CRM_Mainactivity_Form_Report_Summary extends CRM_Report_Form {
         break;
       }
     }
-  }
-  /**
-   * Overridden parent method orderBy (issue 2995 order by status on weight)
-   */
-  function orderBy() {
-    $this->_orderBy  = "";
-    $this->_sections = array();
-    $this->storeOrderByArray();
-    $this->_orderByArray[] = $this->_aliases['case_status_weight'].".weight";
-    $startDate = $this->orderByMainActivityStartDate();
-    if (!empty($startDate)) {
-      $this->_orderByArray[] = $startDate;
-    }
-    if(!empty($this->_orderByArray) && !$this->_rollup == 'WITH ROLLUP'){
-      $this->_orderBy = "ORDER BY " . implode(', ', $this->_orderByArray);
-    }
-    $this->assign('sections', $this->_sections);
   }
 
   /**
@@ -692,6 +723,24 @@ class CRM_Mainactivity_Form_Report_Summary extends CRM_Report_Form {
     } else {
       return null;
     }
+  }
+
+  /**
+  * Overridden parent method orderBy (issue 2995 order by status on weight)
+  */
+  function orderBy() {
+    $this->_orderBy  = "";
+    $this->_sections = array();
+    $this->storeOrderByArray();
+    $this->_orderByArray[] = $this->_aliases['case_status_weight'].".weight";
+    $startDate = $this->orderByMainActivityStartDate();
+    if (!empty($startDate)) {
+      $this->_orderByArray[] = $startDate;
+    }
+    if(!empty($this->_orderByArray) && !$this->_rollup == 'WITH ROLLUP'){
+     $this->_orderBy = "ORDER BY " . implode(', ', $this->_orderByArray);
+    }
+    $this->assign('sections', $this->_sections);
   }
 }
 
