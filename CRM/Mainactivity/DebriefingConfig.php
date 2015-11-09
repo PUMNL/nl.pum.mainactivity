@@ -95,29 +95,44 @@ class CRM_Mainactivity_DebriefingConfig {
     return $this->debriefing_act_rel[$case_name];
   }
 
-  protected function debriefingActivityDefinition() {
+  public function getCaseTypeNameByCaseTypeId($case_type_id) {
+    if (isset($this->valid_case_types[$case_type_id]) && isset($this->valid_case_types[$case_type_id]['name'])) {
+      return $this->valid_case_types[$case_type_id]['name'];
+    }
+    return false;
+  }
+
+  public function debriefingActivityDefinition() {
     return array (
       'Advice' =>
         array(
           array(
             'activity_type' => 'Advice Debriefing CC',
             'relationship_type' => 'Country Coordinator is',
+            'is_debriefing_cc' => true,
+            'custom_group_name' => 'Advice_Debriefing_CC',
+            'summary_field_name' => 'Summary',
+            'follow_up_field_name' => 'Follow_up_Activities',
           ),
           array(
             'activity_type' => 'Advice Debriefing Customer',
             'relationship_type' => 'Has authorised',
+            'is_debriefing_cc' => false,
           ),
           array(
             'activity_type' => 'Advice Debriefing PrOf',
             'relationship_type' => 'Project Officer for',
+            'is_debriefing_cc' => false,
           ),
           array(
             'activity_type' => 'Advice Debriefing Representative',
             'relationship_type' => 'Representative is',
+            'is_debriefing_cc' => false,
           ),
           array(
             'activity_type' => 'Advice Debriefing SC',
             'relationship_type' => 'Sector Coordinator',
+            'is_debriefing_cc' => false,
           ),
         ),
       'Seminar' =>
@@ -125,22 +140,30 @@ class CRM_Mainactivity_DebriefingConfig {
           array(
             'activity_type' => 'Seminar Debriefing CC',
             'relationship_type' => 'Country Coordinator is',
+            'is_debriefing_cc' => true,
+            'custom_group_name' => 'Seminar_Debriefing_CC',
+            'summary_field_name' => 'Summary',
+            'follow_up_field_name' => 'Follow_up_Activities',
           ),
           array(
             'activity_type' => 'Seminar Debriefing Customer',
             'relationship_type' => 'Has authorised',
+            'is_debriefing_cc' => false,
           ),
           array(
             'activity_type' => 'Seminar Debriefing PrOf',
             'relationship_type' => 'Project Officer for',
+            'is_debriefing_cc' => false,
           ),
           array(
             'activity_type' => 'Seminar Debriefing Representative',
             'relationship_type' => 'Representative is',
+            'is_debriefing_cc' => false,
           ),
           array(
             'activity_type' => 'Seminar Debriefing SC',
             'relationship_type' => 'Sector Coordinator',
+            'is_debriefing_cc' => false,
           ),
         ),
       'RemoteCoaching' =>
@@ -148,22 +171,30 @@ class CRM_Mainactivity_DebriefingConfig {
           array(
             'activity_type' => 'Remote Coaching Debriefing CC',
             'relationship_type' => 'Country Coordinator is',
+            'is_debriefing_cc' => true,
+            'custom_group_name' => 'Remote_Coaching_Debriefing_CC',
+            'summary_field_name' => 'Summary',
+            'follow_up_field_name' => 'Follow_up_Activities',
           ),
           array(
             'activity_type' => 'Remote Coaching Debriefing Customer',
             'relationship_type' => 'Has authorised',
+            'is_debriefing_cc' => false,
           ),
           array(
             'activity_type' => 'Remote Coaching Debriefing PrOf',
             'relationship_type' => 'Project Officer for',
+            'is_debriefing_cc' => false,
           ),
           array(
             'activity_type' => 'Remote Coaching Debriefing Representative',
             'relationship_type' => 'Representative is',
+            'is_debriefing_cc' => false,
           ),
           array(
             'activity_type' => 'Remote Coaching Debriefing SC',
             'relationship_type' => 'Sector Coordinator',
+            'is_debriefing_cc' => false,
           ),
         ),
       'Business' =>
@@ -171,18 +202,25 @@ class CRM_Mainactivity_DebriefingConfig {
           array(
             'activity_type' => 'Business Debriefing CC',
             'relationship_type' => 'Country Coordinator is',
+            'is_debriefing_cc' => true,
+            'custom_group_name' => 'Business_Debriefing_CC',
+            'summary_field_name' => 'Summary',
+            'follow_up_field_name' => 'Follow_up_Activities',
           ),
           array(
             'activity_type' => 'Business Debriefing Customer',
             'relationship_type' => 'Has authorised',
+            'is_debriefing_cc' => false,
           ),
           array(
             'activity_type' => 'Business Debriefing PrOf',
             'relationship_type' => 'Project Officer for',
+            'is_debriefing_cc' => false,
           ),
           array(
             'activity_type' => 'Business Debriefing SC',
             'relationship_type' => 'Sector Coordinator',
+            'is_debriefing_cc' => false,
           ),
         ),
       );
