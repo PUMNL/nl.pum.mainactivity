@@ -434,7 +434,7 @@ class CRM_Mainactivity_Form_Report_Summary extends CRM_Report_Form {
     $this->_columnHeaders['cc_approves'] =
       array('title' => ts('PQ approved by CC'), CRM_Utils_Type::T_STRING);
     $this->_columnHeaders['cust_approves'] =
-      array('title' => ts('Customer aprroves Expert'), CRM_Utils_Type::T_STRING);
+      array('title' => ts('Customer approves Expert'), CRM_Utils_Type::T_STRING);
     $this->_columnHeaders['briefing_date'] =
       array('title' => ts('Briefing Date'), CRM_Utils_Type::T_DATE);
     $this->_columnHeaders['briefing_status'] =
@@ -732,10 +732,14 @@ class CRM_Mainactivity_Form_Report_Summary extends CRM_Report_Form {
     $this->_orderBy  = "";
     $this->_sections = array();
     $this->storeOrderByArray();
-    $this->_orderByArray[] = $this->_aliases['case_status_weight'].".weight";
     $startDate = $this->orderByMainActivityStartDate();
     if (!empty($startDate)) {
       $this->_orderByArray[] = $startDate;
+    }
+    foreach ($this->_orderByArray as $arrayKey => $arrayValue) {
+      if ($arrayValue == "tus_weight_civireport.label ASC") {
+        $this->_orderByArray[$arrayKey] = $this->_aliases['case_status_weight'].".weight";
+      }
     }
     if(!empty($this->_orderByArray) && !$this->_rollup == 'WITH ROLLUP'){
      $this->_orderBy = "ORDER BY " . implode(', ', $this->_orderByArray);
