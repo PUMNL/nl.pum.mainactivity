@@ -82,7 +82,7 @@ class CRM_Mainactivity_Form_Report_Summary extends CRM_Report_Form {
         'filters' => array(
           'user_id' => array(
             'title' => ts('Main Activities for User'),
-            'default' => 1,
+            'default' => 0,
             'pseudofield' => 1,
             'type' => CRM_Utils_Type::T_INT,
             'operatorType' => CRM_Report_Form::OP_SELECT,
