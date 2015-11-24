@@ -50,6 +50,47 @@ class CRM_Mainactivity_Upgrader extends CRM_Mainactivity_Upgrader_Base {
     CRM_Core_DAO::executeQuery($sql);
     return true;
   }
+
+  /**
+   * Upgrades for adding a Bussiness Coordinator in the Business case
+   * @return bool
+   */
+  public function upgrade_1007() {
+    $gid = CRM_Core_DAO::singleValueQuery("SELECT id from civicrm_custom_group where name = 'Add_Keyqualifications'");
+    CRM_Core_DAO::executeQuery("UPDATE `civicrm_custom_field` SET label = 'Assessment SC/BC' WHERE `name` = 'Assessment_SC' AND custom_group_id = '".$gid."'");
+    CRM_Core_DAO::executeQuery("UPDATE `civicrm_custom_field` SET label = 'Remarks SC/BC' WHERE `name` = 'Remarks' AND custom_group_id = '".$gid."'");
+
+    CRM_Utils_System::flushCache();
+
+    CRM_Core_DAO::executeQuery("UPDATE `civicrm_option_value` SET label = 'Request Approval Business Programme BC' WHERE label = 'Request Approval Business Programme SC' and option_group_id = 2");
+
+    CRM_Utils_System::flushCache();
+
+    $this->executeCustomDataFile('xml/request_approval_bc.xml');
+
+    CRM_Utils_System::flushCache();
+
+    $this->executeCustomDataFile('xml/request_approval_cc.xml');
+
+    CRM_Utils_System::flushCache();
+
+    CRM_Core_DAO::executeQuery("INSERT INTO civicrm_relationship_type
+      (name_a_b, label_a_b, name_b_a, label_b_a, description, contact_type_a, contact_type_b, contact_sub_type_a, contact_sub_type_b, is_reserved, is_active)
+      VALUES
+      ('Business Coordinator', 'Business Coordinator', 'Business Coordinator', 'Business Coordinator', 'Business Coordinator relationship', NULL, 'Individual', NULL, NULL, NULL, '1')");
+
+    CRM_Utils_System::flushCache();
+
+    $gid = CRM_Core_DAO::singleValueQuery("SELECT id from civicrm_custom_group where name = 'Business_Data'");
+    $fid = CRM_Core_DAO::singleValueQuery("SELECT id from civicrm_custom_field where custom_group_id = '".$gid."' and name = 'Position_of_Visitors'");
+    $field = new CRM_Core_BAO_CustomField();
+    $field->id = $fid;
+    if ($field->find(true)) {
+      CRM_Core_BAO_CustomField::deleteField($field);
+    }
+
+    return true;
+  }
   
   private function getCaseTypeIds($case_types) {
     if (empty($this->case_type_id)) {
