@@ -204,7 +204,8 @@ function businesslink_programme_proposal_submit($form, &$form_state) {
 
     $params = array();
     $params['case_id'] = $case_id;
-    $params['status_id'] = 1; //scheduled
+    $params['status_id'] = $config->submitted_status;
+    $params['subject'] = $company;
     $params['activity_type_id'] = $config->programme_activity_type_id;
     $params['custom_'.$company] = $form_state['values']['company'];
     $params['custom_'.$location] = $form_state['values']['location'];
@@ -228,7 +229,8 @@ function businesslink_programme_proposal_edit_submit($form, &$form_state) {
 
     $params = array();
     $params['id'] = $activity_id;
-    $params['status_id'] = 1; //scheduled
+    $params['status_id'] = $config->submitted_status;
+    $params['subject'] = $company;
     $params['activity_type_id'] = $config->programme_activity_type_id;
     $params['custom_'.$company] = $form_state['values']['company'];
     $params['custom_'.$location] = $form_state['values']['location'];

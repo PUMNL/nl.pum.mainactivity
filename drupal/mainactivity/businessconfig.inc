@@ -31,6 +31,8 @@ class businessconfig
 
     public $waiting_approval_status;
 
+    public $submitted_status;
+
     protected function __construct()
     {
         civicrm_initialize();
@@ -100,6 +102,7 @@ class businessconfig
 
         $activity_status_option_group = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'name' => 'activity_status'));
         $this->waiting_approval_status = civicrm_api3('OptionValue', 'getsingle', array('name' => 'Waiting Approval', 'option_group_id' => $activity_status_option_group));
+        $this->submitted_status = civicrm_api3('OptionValue', 'getsingle', array('name' => 'Submitted', 'option_group_id' => $activity_status_option_group));
     }
 
     /**

@@ -63,6 +63,7 @@ class CRM_Mainactivity_Upgrader extends CRM_Mainactivity_Upgrader_Base {
     CRM_Utils_System::flushCache();
 
     CRM_Core_DAO::executeQuery("UPDATE `civicrm_option_value` SET label = 'Request Approval Business Programme BC' WHERE label = 'Request Approval Business Programme SC' and option_group_id = 2");
+    CRM_Core_DAO::executeQuery("UPDATE `civicrm_option_value` SET label = 'Business Debriefing BC', name = 'Business Debriefing BC' WHERE name = 'Business Debriefing SC' and option_group_id = 2");
 
     CRM_Utils_System::flushCache();
 
