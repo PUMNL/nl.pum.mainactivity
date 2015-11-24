@@ -70,6 +70,16 @@ class businesscase {
     }
     
   }
+
+  public function hasProgramm() {
+    $config = businessconfig::singleton();
+    $a_type_id = $config->programme_activity_type_id;
+    $count = CRM_Core_DAO::singleValueQuery("SELECT COUNT(*) FROM civicrm_activity where activity_type_id = '".$a_type_id."' AND is_current_revision = '1'");
+    if ($count) {
+      return true;
+    }
+    return false;
+  }
   
   public function getTravelCaseFor($index) {
     if (isset($this->travel_cases[$index])) {
@@ -90,7 +100,7 @@ class businesscase {
         INNER JOIN `civicrm_case` ON `case_link`.`entity_id` = `civicrm_case`.`id` AND civicrm_case.is_deleted = '0'"
         . "INNER JOIN `civicrm_case_contact` ON `civicrm_case`.`id` = `civicrm_case_contact`.`case_id`"
         . "INNER JOIN `civicrm_contact` ON `civicrm_case_contact`.`contact_id`  = `civicrm_contact`.`id`"
-        . "LEFT JOIN `".$config->getCustomGroupTravelData('table_name')."` `ta` ON `civicrm_case`.`id` = `ta`.`entity_id`"
+        . "LEFT JOIN `".$config->getCustomGroupTravelAgencyInfo('table_name')."` `ta` ON `civicrm_case`.`id` = `ta`.`entity_id`"
         . "LEFT JOIN  civicrm_option_value ov ON ( civicrm_case.status_id=ov.value AND ov.option_group_id='".$case_status['id']."')"
         . "WHERE `case_link`.`".$config->getCustomFieldCaseId('column_name')."` = '".$this->case_id."'";
 

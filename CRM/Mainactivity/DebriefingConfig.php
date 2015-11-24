@@ -218,8 +218,8 @@ class CRM_Mainactivity_DebriefingConfig {
             'is_debriefing_cc' => false,
           ),
           array(
-            'activity_type' => 'Business Debriefing SC',
-            'relationship_type' => 'Sector Coordinator',
+            'activity_type' => 'Business Debriefing BC',
+            'relationship_type' => 'Business Coordinator',
             'is_debriefing_cc' => false,
           ),
         ),

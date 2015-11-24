@@ -287,6 +287,24 @@ function businesslink_register_newperson_form($form, &$form_state, $case_id) {
   return $form;
 }
 
+function _mainactivity_business_view_programm_link($case_id) {
+  $businessCase = new businesscase($case_id);
+  $hasProgramm = $businessCase->hasProgramm();
+  if ($hasProgramm) {
+    return $case_id;
+  }
+  return '';
+}
+
+function _mainactivity_business_register_participants_link($case_id) {
+  $businessCase = new businesscase($case_id);
+  $open_for_registration = $businessCase->isOpenForRegistration();
+  if ($open_for_registration) {
+    return $case_id;
+  }
+  return '';
+}
+
 function businesslink_registration_form($form, &$form_state, $case_id) {
   $businessCase = new businesscase($case_id);
   $num_guest = $businessCase->getMaxNumberOfParticipants();

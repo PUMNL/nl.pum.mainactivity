@@ -33,6 +33,8 @@ $handler->display->display_options['style_options']['columns'] = array(
   'id' => 'id',
   'start_date' => 'start_date',
   'end_date' => 'end_date',
+  'php' => 'php',
+  'php_1' => 'php_1',
   'nothing' => 'nothing',
   'nothing_1' => 'nothing_1',
 );
@@ -59,6 +61,16 @@ $handler->display->display_options['style_options']['info'] = array(
     'separator' => '',
     'empty_column' => 0,
   ),
+  'php' => array(
+    'align' => '',
+    'separator' => '',
+    'empty_column' => 0,
+  ),
+  'php_1' => array(
+    'align' => '',
+    'separator' => '',
+    'empty_column' => 0,
+  ),
   'nothing' => array(
     'align' => '',
     'separator' => '',
@@ -70,6 +82,12 @@ $handler->display->display_options['style_options']['info'] = array(
     'empty_column' => 0,
   ),
 );
+/* Header: Global: Text area */
+$handler->display->display_options['header']['area']['id'] = 'area';
+$handler->display->display_options['header']['area']['table'] = 'views';
+$handler->display->display_options['header']['area']['field'] = 'area';
+$handler->display->display_options['header']['area']['content'] = 'There is no programme submitted yet. Once the expert has submitted the programme you will be able to view this here. Around 6 weeks before the start of the business link you will also be able to register your participants here.';
+$handler->display->display_options['header']['area']['format'] = 'filtered_html';
 /* No results behavior: Global: Text area */
 $handler->display->display_options['empty']['area']['id'] = 'area';
 $handler->display->display_options['empty']['area']['table'] = 'views';
@@ -129,26 +147,38 @@ $handler->display->display_options['fields']['end_date']['label'] = 'Visit to';
 $handler->display->display_options['fields']['end_date']['date_format'] = 'custom';
 $handler->display->display_options['fields']['end_date']['custom_date_format'] = 'j F Y';
 $handler->display->display_options['fields']['end_date']['second_date_format'] = 'long';
-/* Field: Global: Custom text */
-$handler->display->display_options['fields']['nothing']['id'] = 'nothing';
-$handler->display->display_options['fields']['nothing']['table'] = 'views';
-$handler->display->display_options['fields']['nothing']['field'] = 'nothing';
-$handler->display->display_options['fields']['nothing']['label'] = '';
-$handler->display->display_options['fields']['nothing']['alter']['text'] = 'View programme';
-$handler->display->display_options['fields']['nothing']['alter']['make_link'] = TRUE;
-$handler->display->display_options['fields']['nothing']['alter']['path'] = 'business-link-programme-details/[id]';
-$handler->display->display_options['fields']['nothing']['alter']['absolute'] = TRUE;
-$handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
-/* Field: Global: Custom text */
-$handler->display->display_options['fields']['nothing_1']['id'] = 'nothing_1';
-$handler->display->display_options['fields']['nothing_1']['table'] = 'views';
-$handler->display->display_options['fields']['nothing_1']['field'] = 'nothing';
-$handler->display->display_options['fields']['nothing_1']['label'] = '';
-$handler->display->display_options['fields']['nothing_1']['alter']['text'] = 'View/register participants';
-$handler->display->display_options['fields']['nothing_1']['alter']['make_link'] = TRUE;
-$handler->display->display_options['fields']['nothing_1']['alter']['path'] = 'customer/business/participants/[id]';
-$handler->display->display_options['fields']['nothing_1']['alter']['absolute'] = TRUE;
-$handler->display->display_options['fields']['nothing_1']['element_label_colon'] = FALSE;
+/* Field: programm link */
+$handler->display->display_options['fields']['php']['id'] = 'php';
+$handler->display->display_options['fields']['php']['table'] = 'views';
+$handler->display->display_options['fields']['php']['field'] = 'php';
+$handler->display->display_options['fields']['php']['ui_name'] = 'view_programm_link';
+$handler->display->display_options['fields']['php']['label'] = '';
+$handler->display->display_options['fields']['php']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['php']['use_php_setup'] = 0;
+$handler->display->display_options['fields']['php']['php_value'] = 'return _mainactivity_business_view_programm_link($row->id);';
+$handler->display->display_options['fields']['php']['use_php_click_sortable'] = '0';
+$handler->display->display_options['fields']['php']['alter']['alter_text'] = TRUE;
+$handler->display->display_options['fields']['php']['alter']['text'] = 'View programme';
+$handler->display->display_options['fields']['php']['alter']['make_link'] = TRUE;
+$handler->display->display_options['fields']['php']['alter']['path'] = 'business-link-programme-details/[id]';
+$handler->display->display_options['fields']['php']['alter']['absolute'] = TRUE;
+$handler->display->display_options['fields']['php']['php_click_sortable'] = '';
+/* Field: briefing_link */
+$handler->display->display_options['fields']['php_1']['id'] = 'php_1';
+$handler->display->display_options['fields']['php_1']['table'] = 'views';
+$handler->display->display_options['fields']['php_1']['field'] = 'php';
+$handler->display->display_options['fields']['php_1']['ui_name'] = 'register_participants';
+$handler->display->display_options['fields']['php_1']['label'] = '';
+$handler->display->display_options['fields']['php_1']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['php_1']['use_php_setup'] = 0;
+$handler->display->display_options['fields']['php_1']['php_value'] = 'return _mainactivity_business_register_participants_link($row->id);';
+$handler->display->display_options['fields']['php_1']['use_php_click_sortable'] = '0';
+$handler->display->display_options['fields']['php_1']['alter']['alter_text'] = TRUE;
+$handler->display->display_options['fields']['php_1']['alter']['text'] = 'View/register participants';
+$handler->display->display_options['fields']['php_1']['alter']['make_link'] = TRUE;
+$handler->display->display_options['fields']['php_1']['alter']['path'] = 'customer/business/participants/[php_1]';
+$handler->display->display_options['fields']['php_1']['alter']['absolute'] = TRUE;
+$handler->display->display_options['fields']['php_1']['php_click_sortable'] = '';
 /* Filter criterion: CiviCRM Cases: Case Type */
 $handler->display->display_options['filters']['case_type']['id'] = 'case_type';
 $handler->display->display_options['filters']['case_type']['table'] = 'civicrm_case';
