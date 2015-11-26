@@ -84,10 +84,8 @@ class CRM_Mainactivity_Upgrader extends CRM_Mainactivity_Upgrader_Base {
 
     $gid = CRM_Core_DAO::singleValueQuery("SELECT id from civicrm_custom_group where name = 'Business_Data'");
     $fid = CRM_Core_DAO::singleValueQuery("SELECT id from civicrm_custom_field where custom_group_id = '".$gid."' and name = 'Position_of_Visitors'");
-    $field = new CRM_Core_BAO_CustomField();
-    $field->id = $fid;
-    if ($field->find(true)) {
-      CRM_Core_BAO_CustomField::deleteField($field);
+    if ($fid) {
+      civicrm_api3('CustomField', 'delete', array('id' => $fid));
     }
 
     return true;
