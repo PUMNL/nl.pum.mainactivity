@@ -9,7 +9,7 @@ $aim = $config->custom_groups['Business_Programme']['fields']['Aim_of_Visit']['c
 $result = $config->custom_groups['Business_Programme']['fields']['Intended_Result_of_Visit']['column_name'];
 $thank_you_note = $config->custom_groups['Business_Programme']['fields']['Thank_you_Note']['column_name'];
 $cancelled = $config->custom_groups['Business_Programme']['fields']['Business_Visit_Cancelled']['column_name'];
-
+$submitted_status = $config->submitted_status['value'];
 
 
 $view = new view();
@@ -146,16 +146,23 @@ $handler->display->display_options['fields']['id']['label'] = '';
 $handler->display->display_options['fields']['id']['exclude'] = TRUE;
 $handler->display->display_options['fields']['id']['element_label_colon'] = FALSE;
 $handler->display->display_options['fields']['id']['separator'] = '';
-/* Field: Global: Custom text */
-$handler->display->display_options['fields']['nothing']['id'] = 'nothing';
-$handler->display->display_options['fields']['nothing']['table'] = 'views';
-$handler->display->display_options['fields']['nothing']['field'] = 'nothing';
-$handler->display->display_options['fields']['nothing']['label'] = '';
-$handler->display->display_options['fields']['nothing']['alter']['text'] = 'Edit';
-$handler->display->display_options['fields']['nothing']['alter']['make_link'] = TRUE;
-$handler->display->display_options['fields']['nothing']['alter']['path'] = 'expert/finalise-business-programme-proposal/edit/[id]?destination=/expert/finalise-business-programme-proposal/!1';
-$handler->display->display_options['fields']['nothing']['alter']['absolute'] = TRUE;
-$handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
+/* Field: Global: PHP */
+$handler->display->display_options['fields']['php']['id'] = 'php';
+$handler->display->display_options['fields']['php']['table'] = 'views';
+$handler->display->display_options['fields']['php']['field'] = 'php';
+$handler->display->display_options['fields']['php']['label'] = '';
+$handler->display->display_options['fields']['php']['alter']['make_link'] = TRUE;
+$handler->display->display_options['fields']['php']['alter']['path'] = 'expert/finalise-business-programme-proposal/edit/[id]?destination=/expert/finalise-business-programme-proposal/!1';
+$handler->display->display_options['fields']['php']['alter']['absolute'] = TRUE;
+$handler->display->display_options['fields']['php']['use_php_setup'] = 0;
+$handler->display->display_options['fields']['php']['php_value'] = '$config = businessconfig::singleton();
+$submitted_status = $config->submitted_status[\'value\'];
+if ($row->status = $submitted_status) {
+  return \'\';
+}
+return \'Edit\'';
+$handler->display->display_options['fields']['php']['use_php_click_sortable'] = '0';
+$handler->display->display_options['fields']['php']['php_click_sortable'] = '';
 /* Contextual filter: CiviCRM Cases: Case ID */
 $handler->display->display_options['arguments']['id']['id'] = 'id';
 $handler->display->display_options['arguments']['id']['table'] = 'civicrm_case';
@@ -178,7 +185,6 @@ $handler->display->display_options['filters']['is_current_revision']['id'] = 'is
 $handler->display->display_options['filters']['is_current_revision']['table'] = 'civicrm_activity';
 $handler->display->display_options['filters']['is_current_revision']['field'] = 'is_current_revision';
 $handler->display->display_options['filters']['is_current_revision']['value'] = '1';
-
 /* Display: Page */
 $handler = $view->new_display('page', 'Page', 'page');
 $handler->display->display_options['path'] = 'expert/finalise-business-programme-proposal';
