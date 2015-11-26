@@ -39,6 +39,8 @@ function businesslink_change_person_form_submit($form, &$form_state) {
 
     civicrm_api3('Email', 'create', $email_parameters);
 
+    drupal_set_message(t('Changed participant details'));
+
   }
   drupal_goto('customer/business/participants/'.$case_id);
 }
@@ -196,6 +198,8 @@ function businesslink_register_newperson_form_submit($form, &$form_state) {
     civicrm_api3('Relationship', 'create', $relationship);
 
     $businessCase->createNewTravelCase($contact['id']);
+
+    drupal_set_message(t('Registered new participant'));
   }
   drupal_goto('customer/business/participants/'.$case_id);
 }
@@ -399,7 +403,6 @@ function businesslink_registration_form_validate($form, &$form_state) {
 }
 
 function businesslink_registration_form_submit($form, &$form_state) {
-  $go_to_new = false;
   $case_id = $form_state['values']['case_id'];
   $businessCase = new businesscase($case_id);
   $num_guest = $businessCase->getMaxNumberOfParticipants();
@@ -420,6 +423,7 @@ function businesslink_registration_form_submit($form, &$form_state) {
       drupal_goto('customer/business/participants/'.$case_id.'/newperson', array('absolute' => true));
     }
   }
+  drupal_set_message(t('Registered participants'));
 }
 
 function _businesslink_form_pre_render_date(&$element)
