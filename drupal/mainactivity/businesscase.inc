@@ -74,7 +74,24 @@ class businesscase {
   public function hasProgramm() {
     $config = businessconfig::singleton();
     $a_type_id = $config->programme_activity_type_id;
-    $count = CRM_Core_DAO::singleValueQuery("SELECT COUNT(*) FROM civicrm_activity where activity_type_id = '".$a_type_id."' AND is_current_revision = '1'");
+    $params[1] = array($this->case_id, 'Integer');
+    $count = CRM_Core_DAO::singleValueQuery("SELECT COUNT(*) FROM civicrm_activity a inner join civicrm_case_activity ca on a.id = ca.activity_id where activity_type_id = '".$a_type_id."' AND is_current_revision = '1' and is_deleted = '0' and ca.case_id = %1", $params);
+    if ($count) {
+      return true;
+    }
+    return false;
+  }
+
+  public function hasPendingApprovalRequest() {
+    $config = businessconfig::singleton();
+    $a_type_ids[] = $config->request_bc_approval_activity_type['value'];
+    $a_type_ids[] = $config->request_cc_approval_activity_type['value'];
+    $a_type_ids = implode(",", $a_type_ids);
+
+    $params[1] = array($config->waiting_approval_status['value'], 'Integer');
+    $params[2] = array($this->case_id, 'Integer');
+
+    $count = CRM_Core_DAO::singleValueQuery("SELECT COUNT(*) FROM civicrm_activity a inner join civicrm_case_activity ca on a.id = ca.activity_id where a.activity_type_id IN (".$a_type_ids.") AND a.is_current_revision = 1 and a.is_deleted = '0' and a.status_id = %1 and ca.case_id = %2", $params);
     if ($count) {
       return true;
     }

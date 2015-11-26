@@ -87,3 +87,8 @@ function _businesslink_request_approval_for_programme_get_cc_id($case_id) {
   $params[2] = array($config->cc_relationship_type['id'], 'Integer');
   return CRM_Core_DAO::singleValueQuery($sql, $params);
 }
+
+function businesslink_has_requested_approval_for_programme($case_id) {
+  $case = new businesscase($case_id);
+  return $case->hasPendingApprovalRequest();
+}

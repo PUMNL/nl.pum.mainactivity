@@ -77,12 +77,34 @@ $handler->display->display_options['style_options']['info'] = array(
     'empty_column' => 0,
   ),
 );
+/* Header: Global: PHP */
+$handler->display->display_options['footer']['php']['id'] = 'php';
+$handler->display->display_options['footer']['php']['table'] = 'views';
+$handler->display->display_options['footer']['php']['field'] = 'php';
+$handler->display->display_options['footer']['php']['php_output'] = '
+<?php
+$case_id = reset($view->args);
+if ($case_id && businesslink_has_requested_approval_for_programme($case_id)) {
+?>
+<p>This business programme has a pending approval request.</p>
+<?php } else { ?>
+<p>After you have completed the programme you should request approval from your Business Coordinator and your Country coordinator</p>
+<a href="/expert/business-programme-proposal/request-approval/!1?destination=/expert/business-programme-proposal/<?php echo $case_id; ?>" class="button">Request approval</a>
+<?php } ?>
+';
+/* No results behavior: Global: Text area */
+$handler->display->display_options['empty']['area']['id'] = 'area';
+$handler->display->display_options['empty']['area']['table'] = 'views';
+$handler->display->display_options['empty']['area']['field'] = 'area';
+$handler->display->display_options['empty']['area']['empty'] = TRUE;
+$handler->display->display_options['empty']['area']['content'] = 'No program defined yet';
+$handler->display->display_options['empty']['area']['format'] = 'filtered_html';
 /* Header: Global: Text area */
 $handler->display->display_options['header']['area']['id'] = 'area';
 $handler->display->display_options['header']['area']['table'] = 'views';
 $handler->display->display_options['header']['area']['field'] = 'area';
 $handler->display->display_options['header']['area']['empty'] = TRUE;
-$handler->display->display_options['header']['area']['content'] = '<a href="/expert/business-programme-proposal/add/!1?destination=/expert/business-programme-proposal/!1" class="button">Add a visit</a> <a href="/expert/business-programme-proposal/request-approval/!1?destination=/expert/business-programme-proposal/!1" class="button">Request approval</a>';
+$handler->display->display_options['header']['area']['content'] = '<a href="/expert/business-programme-proposal/add/!1?destination=/expert/business-programme-proposal/!1" class="button">Add a visit</a>';
 $handler->display->display_options['header']['area']['format'] = 'filtered_html';
 $handler->display->display_options['header']['area']['tokenize'] = TRUE;
 /* No results behavior: Global: Text area */
