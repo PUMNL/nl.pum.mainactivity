@@ -75,10 +75,14 @@ class CRM_Mainactivity_Upgrader extends CRM_Mainactivity_Upgrader_Base {
 
     CRM_Utils_System::flushCache();
 
-    CRM_Core_DAO::executeQuery("INSERT INTO civicrm_relationship_type
-      (name_a_b, label_a_b, name_b_a, label_b_a, description, contact_type_a, contact_type_b, contact_sub_type_a, contact_sub_type_b, is_reserved, is_active)
-      VALUES
-      ('Business Coordinator', 'Business Coordinator', 'Business Coordinator', 'Business Coordinator', 'Business Coordinator relationship', NULL, 'Individual', NULL, NULL, NULL, '1')");
+    $checkQry = 'SELECT COUNT(*) AS relCount FROM civicrm_relationship_type WHERE name_a_b = %1';
+    $countRelType = CRM_Core_DAO::singleValueQuery($checkQry, array(1 => array('Business Coordinator', 'String')));
+    if ($countRelType == 0) {
+      CRM_Core_DAO::executeQuery("INSERT INTO civicrm_relationship_type
+        (name_a_b, label_a_b, name_b_a, label_b_a, description, contact_type_a, contact_type_b, contact_sub_type_a, contact_sub_type_b, is_reserved, is_active)
+        VALUES
+        ('Business Coordinator', 'Business Coordinator', 'Business Coordinator', 'Business Coordinator', 'Business Coordinator relationship', NULL, 'Individual', NULL, NULL, NULL, '1')");
+    }
 
     CRM_Utils_System::flushCache();
 
