@@ -221,46 +221,6 @@ class CRM_Mainactivity_Form_Report_Summary extends CRM_Report_Form {
               ),
           ),
       ),
-      'civicrm_case_activity' =>
-      array(
-        'dao' => 'CRM_Case_DAO_CaseActivity',
-        'fields' =>
-          array(
-            'case_id' =>
-              array(
-                'no_display' => TRUE,
-                'required' => TRUE,
-              ),
-            'activity_id' =>
-              array(
-                'no_display' => TRUE,
-                'required' => TRUE,
-              ),
-          ),
-      ),
-      'civicrm_activity' =>
-      array(
-        'dao' => 'CRM_Activity_DAO_Activity',
-        'fields' =>
-          array(
-            'activity_status_id' =>
-              array(
-                'name' => 'status_id',
-                'no_display' => TRUE,
-                'required' => TRUE,
-              ),
-            'activity_type_id' =>
-              array(
-                'no_display' => TRUE,
-                'required' => TRUE,
-              ),
-            'activity_date_time' =>
-              array(
-                'no_display' => TRUE,
-                'required' => TRUE,
-              ),
-          ),
-      ),
     );
 
     parent::__construct();
@@ -311,8 +271,6 @@ class CRM_Mainactivity_Form_Report_Summary extends CRM_Report_Form {
     $cr2  = $this->_aliases['civicrm_expert_relationship'];
     $cr3 = $this->_aliases['civicrm_rep_relationship'];
     $ccc = $this->_aliases['civicrm_case_contact'];
-    $cca = $this->_aliases['civicrm_case_activity'];
-    $act = $this->_aliases['civicrm_activity'];
     $csw = $this->_aliases['case_status_weight'];
 
     $this->_from = "
@@ -350,13 +308,6 @@ class CRM_Mainactivity_Form_Report_Summary extends CRM_Report_Form {
         LEFT JOIN civicrm_country {$this->_aliases['civicrm_country']}
         ON {$this->_aliases['civicrm_address']}.country_id = {$this->_aliases['civicrm_country']}.id
       ";
-    }
-    if ($this->isTableSelected('civicrm_case_activity')) {
-      $this->_from .= "
-        LEFT JOIN civicrm_case_activity {$cca} ON {$cc}.id = {$cca}.case_id
-        LEFT JOIN civicrm_activity {$act} ON {$cca}.activity_id = {$act}.id AND {$act}.is_current_revision = 1
-          AND {$act}.activity_type_id IN ({$this->_briefingExpertActivityTypeId},
-          {$this->_acceptMAProposalActivityTypeId}, {$this->_rejectMAProposalActivityTypeId})";
     }
     if ($this->isTableSelected('case_status_weight')) {
       $this->_from .= "
