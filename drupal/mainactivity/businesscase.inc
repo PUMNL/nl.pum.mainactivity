@@ -112,12 +112,10 @@ class businesscase {
     $params =array('name' => 'case_status');
     CRM_Core_BAO_OptionGroup::retrieve($params, $case_status);
     $sql = "SELECT civicrm_case.*, civicrm_case_contact.contact_id as client_id, civicrm_contact.display_name, ov.label as case_status_label "
-        . ",`ta`.`".$config->getCustomFieldDestination('column_name')."` AS `destination`, `ta`.`".$config->getCustomFieldDepartureDate('column_name')."` AS `departure_date`, `ta`.`".$config->getCustomFieldReturnDate('column_name')."` AS `return_date`"        
         . "FROM `".$config->getCustomGroupLinkCaseTo('table_name')."` AS `case_link`
         INNER JOIN `civicrm_case` ON `case_link`.`entity_id` = `civicrm_case`.`id` AND civicrm_case.is_deleted = '0'"
         . "INNER JOIN `civicrm_case_contact` ON `civicrm_case`.`id` = `civicrm_case_contact`.`case_id`"
         . "INNER JOIN `civicrm_contact` ON `civicrm_case_contact`.`contact_id`  = `civicrm_contact`.`id`"
-        . "LEFT JOIN `".$config->getCustomGroupTravelAgencyInfo('table_name')."` `ta` ON `civicrm_case`.`id` = `ta`.`entity_id`"
         . "LEFT JOIN  civicrm_option_value ov ON ( civicrm_case.status_id=ov.value AND ov.option_group_id='".$case_status['id']."')"
         . "WHERE `case_link`.`".$config->getCustomFieldCaseId('column_name')."` = '".$this->case_id."'";
 
@@ -130,9 +128,6 @@ class businesscase {
         'case_id' => $dao->id,
         'display_name' => $dao->display_name,
         'status' => $dao->case_status_label,
-        'destination' => $dao->destination,
-        'departure_date' => CRM_Utils_Date::customFormat($dao->departure_date, $sys_config->dateformatFull),
-        'return_date' => CRM_Utils_Date::customFormat($dao->return_date, $sys_config->dateformatFull),
       );
       $i++;
     }
