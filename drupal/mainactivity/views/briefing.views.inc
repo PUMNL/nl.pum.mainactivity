@@ -56,6 +56,13 @@ $handler->display->display_options['style_options']['info'] = array(
     'separator' => '',
     'empty_column' => 0,
   ),
+  'location' => array(
+    'sortable' => 1,
+    'default_sort_order' => 'asc',
+    'align' => '',
+    'separator' => '',
+    'empty_column',
+  ),
   'case_type' => array(
     'sortable' => 1,
     'default_sort_order' => 'asc',
@@ -133,6 +140,11 @@ $handler->display->display_options['fields']['activity_date_time']['table'] = 'c
 $handler->display->display_options['fields']['activity_date_time']['field'] = 'activity_date_time';
 $handler->display->display_options['fields']['activity_date_time']['label'] = 'Date';
 $handler->display->display_options['fields']['activity_date_time']['date_format'] = 'short';
+/* Field: CiviCRM Activities: Activity Location */
+$handler->display->display_options['fields']['location']['id'] = 'location';
+$handler->display->display_options['fields']['location']['table'] = 'civicrm_activity';
+$handler->display->display_options['fields']['location']['field'] = 'location';
+$handler->display->display_options['fields']['location']['label'] = 'Location';
 /* Field: CiviCRM Cases: Case Type */
 $handler->display->display_options['fields']['case_type']['id'] = 'case_type';
 $handler->display->display_options['fields']['case_type']['table'] = 'civicrm_case';
