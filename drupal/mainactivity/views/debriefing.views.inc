@@ -198,7 +198,7 @@ $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
 $handler->display->display_options['fields']['nothing']['label'] = '';
 $handler->display->display_options['fields']['nothing']['alter']['text'] = 'Debriefing form';
 $handler->display->display_options['fields']['nothing']['alter']['make_link'] = TRUE;
-$handler->display->display_options['fields']['nothing']['alter']['path'] = '[php]?cid2=[id_2]&case_id=[id_1]&aid=[id]';
+$handler->display->display_options['fields']['nothing']['alter']['path'] = '[php]?cid2=[id_2]&caseid=[id_1]&aid=[id]';
 $handler->display->display_options['fields']['nothing']['alter']['absolute'] = TRUE;
 $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
 /* Filter criterion: User: Current */
