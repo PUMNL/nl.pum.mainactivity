@@ -89,7 +89,7 @@ if ($case_id && businesslink_has_requested_approval_for_programme($case_id)) {
 <p>This business programme has a pending approval request.</p>
 <?php } else { ?>
 <p>After you have completed the programme you should request approval from your Business Coordinator and your Country coordinator</p>
-<a href="/expert/business-programme-proposal/request-approval/!1?destination=/expert/business-programme-proposal/<?php echo $case_id; ?>" class="button">Request approval</a>
+<a href="/expert/business-programme-proposal/request-approval/<?php echo $case_id; ?>?destination=/expert/business-programme-proposal/<?php echo $case_id; ?>" class="button">Request approval</a>
 <?php } ?>
 ';
 /* No results behavior: Global: Text area */
