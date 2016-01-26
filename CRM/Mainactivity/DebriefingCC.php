@@ -37,7 +37,7 @@ class CRM_Mainactivity_DebriefingCC {
     }
 
     foreach($case_definition[$case_type_name] as $key => $act) {
-      if (!$act['is_debriefing_cc']) {
+      if (!$act['is_debriefing_cc'] || !$act['summary_field_name'] || !$act['follow_up_field_name']) {
         continue;
       }
       $activity_type_id = $defintion[$key]['activity_type_id'];

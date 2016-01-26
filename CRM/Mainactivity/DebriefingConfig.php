@@ -204,8 +204,8 @@ class CRM_Mainactivity_DebriefingConfig {
             'relationship_type' => 'Country Coordinator is',
             'is_debriefing_cc' => true,
             'custom_group_name' => 'Business_Debriefing_CC',
-            'summary_field_name' => 'Summary',
-            'follow_up_field_name' => 'Follow_up_Activities',
+            'summary_field_name' => false,
+            'follow_up_field_name' => false,
           ),
           array(
             'activity_type' => 'Business Debriefing Customer',
