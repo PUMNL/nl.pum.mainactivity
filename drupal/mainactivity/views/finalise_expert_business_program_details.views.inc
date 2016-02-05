@@ -156,10 +156,6 @@ $handler->display->display_options['fields']['php']['alter']['path'] = 'expert/f
 $handler->display->display_options['fields']['php']['alter']['absolute'] = TRUE;
 $handler->display->display_options['fields']['php']['use_php_setup'] = 0;
 $handler->display->display_options['fields']['php']['php_value'] = '$config = businessconfig::singleton();
-$submitted_status = $config->submitted_status[\'value\'];
-if ($row->status = $submitted_status) {
-  return \'\';
-}
 return \'Edit\'';
 $handler->display->display_options['fields']['php']['use_php_click_sortable'] = '0';
 $handler->display->display_options['fields']['php']['php_click_sortable'] = '';
