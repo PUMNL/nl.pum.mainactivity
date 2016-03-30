@@ -47,6 +47,9 @@ class CRM_Mainactivity_DebriefingConfig {
     $optionValueName = $seminar['label']." Debriefing Expert";
     $optionValueParams = array('option_group_id' => 2, 'name' => $optionValueName, 'return' => 'value');
     $this->debriefingExpertActivityTypes[$seminar['value']] = civicrm_api3('OptionValue', 'Getvalue', $optionValueParams);
+    $optionValueName = $Business['label']." Debriefing Expert";
+    $optionValueParams = array('option_group_id' => 2, 'name' => $optionValueName, 'return' => 'value');
+    $this->debriefingExpertActivityTypes[$Business['value']] = civicrm_api3('OptionValue', 'Getvalue', $optionValueParams);
 
     $this->loadDebriefingActivities();
   }
