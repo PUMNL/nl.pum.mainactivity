@@ -10,11 +10,16 @@ class CRM_Mainactivity_AutomaticCaseStatus {
   protected $main_activity_info;
   protected $start_date;
   protected $end_date;
+  protected $grant_case_type_id;
   
-  public function __construct() {     
-     $this->main_activity_info = civicrm_api3('CustomGroup', 'getsingle', array('name' => 'main_activity_info'));
-     $this->start_date = civicrm_api3('CustomField', 'getsingle', array('name' => 'main_activity_start_date', 'custom_group_id' => $this->main_activity_info['id']));
-     $this->end_date = civicrm_api3('CustomField', 'getsingle', array('name' => 'main_activity_end_date', 'custom_group_id' => $this->main_activity_info['id']));
+  public function __construct() {
+    $this->main_activity_info = civicrm_api3('CustomGroup', 'getsingle', array('name' => 'main_activity_info'));
+    $this->start_date = civicrm_api3('CustomField', 'getsingle', array('name' => 'main_activity_start_date', 'custom_group_id' => $this->main_activity_info['id']));
+    $this->end_date = civicrm_api3('CustomField', 'getsingle', array('name' => 'main_activity_end_date', 'custom_group_id' => $this->main_activity_info['id']));
+    $case_type_option_group_id = civicrm_api3('OptionGroup', 'Getvalue', array('name' => 'case_type', 'return' => 'id'));
+    $grant_case_type_id = civicrm_api3('OptionValue', 'Getvalue',
+      array('option_group_id' => $case_type_option_group_id, 'name' => 'Grant', 'return' => 'value'));
+    $this->grant_case_type_id = CRM_Core_DAO::VALUE_SEPARATOR.$grant_case_type_id.CRM_Core_DAO::VALUE_SEPARATOR;
   }
   
   public function parseFromPreperationToExecution() {
@@ -28,10 +33,13 @@ class CRM_Mainactivity_AutomaticCaseStatus {
   }
   
   protected function parseCaseStatus($current_status, $join_table, $join_field, $date_field, $new_status) {
+
+    // issue 3111 make sure cases with case type Grant are not updated automatically
     $sql = "SELECT `civicrm_case`.`id` AS `case_id`, civicrm_case.case_type_id  FROM `civicrm_case`
       INNER JOIN `{$join_table}` `ct` ON `civicrm_case`.`id` = `ct`.`{$join_field}`
       WHERE `civicrm_case`.`status_id` = '{$current_status}' 
       AND `ct`.`{$date_field}` IS NOT NULL
+      AND `civicrm_case`.`case_type_id` != '{$this->grant_case_type_id}' 
       AND DATE(`ct`.`{$date_field}`) <= CURDATE()";
 
     $dao = CRM_Core_DAO::executeQuery($sql);
