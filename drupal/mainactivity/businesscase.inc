@@ -29,7 +29,12 @@ class businesscase {
     $parameters['case_type_id'] = $config->getCaseType('value');
     $parameters['subject'] = '{contactName}-{caseType}-{caseId}';
     $case = civicrm_api3('Case', 'create', $parameters);
+    // issue 3258 set default travel case status for business
+    if (method_exists('CRM_Travelcase_Utils_SetDefaultValues', 'businessTravelStatus')) {
+      CRM_Travelcase_Utils_SetDefaultValues::businessTravelStatus($case['id'], $parameters['case_type_id']);
+    }
 
+    // set link to case field
     $custom['entity_id'] = $case['id'];
     $custom['entity_table'] = 'civicrm_case';
     $custom['custom_'.$config->getCustomFieldCaseId('id')] = $this->case_id;
