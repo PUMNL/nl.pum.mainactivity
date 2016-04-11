@@ -123,11 +123,6 @@ class CRM_Mainactivity_DebriefingConfig {
             'is_debriefing_cc' => false,
           ),
           array(
-            'activity_type' => 'Advice Debriefing PrOf',
-            'relationship_type' => 'Project Officer for',
-            'is_debriefing_cc' => false,
-          ),
-          array(
             'activity_type' => 'Advice Debriefing Representative',
             'relationship_type' => 'Representative is',
             'is_debriefing_cc' => false,
@@ -151,11 +146,6 @@ class CRM_Mainactivity_DebriefingConfig {
           array(
             'activity_type' => 'Seminar Debriefing Customer',
             'relationship_type' => 'Has authorised',
-            'is_debriefing_cc' => false,
-          ),
-          array(
-            'activity_type' => 'Seminar Debriefing PrOf',
-            'relationship_type' => 'Project Officer for',
             'is_debriefing_cc' => false,
           ),
           array(
@@ -185,11 +175,6 @@ class CRM_Mainactivity_DebriefingConfig {
             'is_debriefing_cc' => false,
           ),
           array(
-            'activity_type' => 'Remote Coaching Debriefing PrOf',
-            'relationship_type' => 'Project Officer for',
-            'is_debriefing_cc' => false,
-          ),
-          array(
             'activity_type' => 'Remote Coaching Debriefing Representative',
             'relationship_type' => 'Representative is',
             'is_debriefing_cc' => false,
@@ -213,11 +198,6 @@ class CRM_Mainactivity_DebriefingConfig {
           array(
             'activity_type' => 'Business Debriefing Customer',
             'relationship_type' => 'Has authorised',
-            'is_debriefing_cc' => false,
-          ),
-          array(
-            'activity_type' => 'Business Debriefing PrOf',
-            'relationship_type' => 'Project Officer for',
             'is_debriefing_cc' => false,
           ),
           array(
