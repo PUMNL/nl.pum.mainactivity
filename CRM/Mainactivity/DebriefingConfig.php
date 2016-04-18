@@ -184,6 +184,11 @@ class CRM_Mainactivity_DebriefingConfig {
             'relationship_type' => 'Sector Coordinator',
             'is_debriefing_cc' => false,
           ),
+          array(
+            'activity_type' => 'Remote Coaching Debriefing Expert',
+            'relationship_type' => 'Expert',
+            'is_debriefing_cc' => false,
+          ),
         ),
       'Business' =>
         array(
