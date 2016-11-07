@@ -2,7 +2,7 @@ name = nl.pum.mainactivity
 description = Functionality for the main activity
 core = 7.x
 package = PUM
-version = "7.x-1.1"
+version = "7.x-1.16"
 dependencies[] = civicrm (>=4.4)
 dependencies[] = webform_civicrm (>=4.5)
 dependencies[] = webform (>=4.0-beta1)
