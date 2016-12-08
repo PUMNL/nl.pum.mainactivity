@@ -2,9 +2,6 @@
 
 require_once('debriefing.inc');
 require_once('businesslink.inc');
-require_once('businesslink_programme.inc');
-require_once('businesslink_request_approval.inc');
-require_once('finalise_businesslink_programme.inc');
 
 function _mainactivity_dis_agree_expert_link($case_type)
 {
@@ -201,54 +198,6 @@ function mainactivity_module_implements_alter(&$module_list, $context)
 function mainactivity_menu()
 {
     $items = array();
-    $items['expert/business-programme-proposal/request-approval/%'] = array( //this creates a URL that will call this form at "examples/form-example"
-      'title' => 'Request approval', //page title
-      'description' => 'Request approval for business programme',
-      'page callback' => 'drupal_get_form', //this is the function that will be called when the page is accessed.  for a form, use drupal_get_form
-      'page arguments' => array('businesslink_request_approval_for_programme', 3), //put the name of the form here
-      'access callback' => 'mainactivity_user_has_role',
-      'access arguments' => array(array('Expert')), // arg 1 loads the user, arg 2 is the role name
-    );
-    $items['expert/business-programme-proposal/add/%'] = array( //this creates a URL that will call this form at "examples/form-example"
-        'title' => 'Add visit for business programme', //page title
-        'description' => 'Add visit for business programme',
-        'page callback' => 'drupal_get_form', //this is the function that will be called when the page is accessed.  for a form, use drupal_get_form
-        'page arguments' => array('businesslink_programme_proposal', 3), //put the name of the form here
-        'access callback' => 'mainactivity_user_has_role',
-        'access arguments' => array(array('Expert')), // arg 1 loads the user, arg 2 is the role name
-    );
-    $items['expert/business-programme-proposal/edit/%'] = array( //this creates a URL that will call this form at "examples/form-example"
-        'title' => 'Edit visit for business programme', //page title
-        'description' => 'Edit visit for business programme',
-        'page callback' => 'drupal_get_form', //this is the function that will be called when the page is accessed.  for a form, use drupal_get_form
-        'page arguments' => array('businesslink_programme_proposal_edit', 3), //put the name of the form here
-        'access callback' => 'mainactivity_user_has_role',
-        'access arguments' => array(array('Expert')), // arg 1 loads the user, arg 2 is the role name
-    );
-    $items['expert/business-programme-proposal/delete/%'] = array( //this creates a URL that will call this form at "examples/form-example"
-        'title' => 'Remove visit from business programme', //page title
-        'description' => 'Remove visit from business programme',
-        'page callback' => 'drupal_get_form', //this is the function that will be called when the page is accessed.  for a form, use drupal_get_form
-        'page arguments' => array('businesslink_programme_proposal_delete', 3), //put the name of the form here
-        'access callback' => 'mainactivity_user_has_role',
-        'access arguments' => array(array('Expert')), // arg 1 loads the user, arg 2 is the role name
-    );
-    $items['expert/finalise-business-programme-proposal/add/%'] = array( //this creates a URL that will call this form at "examples/form-example"
-      'title' => 'Add visit for business programme', //page title
-      'description' => 'Add visit for business programme',
-      'page callback' => 'drupal_get_form', //this is the function that will be called when the page is accessed.  for a form, use drupal_get_form
-      'page arguments' => array('finalise_businesslink_programme_proposal', 3), //put the name of the form here
-      'access callback' => 'mainactivity_user_has_role',
-      'access arguments' => array(array('Expert')), // arg 1 loads the user, arg 2 is the role name
-    );
-    $items['expert/finalise-business-programme-proposal/edit/%'] = array( //this creates a URL that will call this form at "examples/form-example"
-      'title' => 'Edit visit for business programme', //page title
-      'description' => 'Edit visit for business programme',
-      'page callback' => 'drupal_get_form', //this is the function that will be called when the page is accessed.  for a form, use drupal_get_form
-      'page arguments' => array('finalise_businesslink_programme_proposal_edit', 3), //put the name of the form here
-      'access callback' => 'mainactivity_user_has_role',
-      'access arguments' => array(array('Expert')), // arg 1 loads the user, arg 2 is the role name
-    );
     $items['customer/business/participants/%'] = array( //this creates a URL that will call this form at "examples/form-example"
         'title' => 'Register participants', //page title
         'description' => 'Register participants for business',
