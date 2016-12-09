@@ -94,6 +94,13 @@ class CRM_Mainactivity_Upgrader extends CRM_Mainactivity_Upgrader_Base {
 
     return true;
   }
+
+  public function upgrade_1008() {
+    // Remove group with business coordinators.
+    $group = civicrm_api3('Group', 'getsingle', array('title' => 'Business Link Coordinators'));
+    civicrm_api3('Group', 'delete', $group);
+    return true;
+  }
   
   private function getCaseTypeIds($case_types) {
     if (empty($this->case_type_id)) {

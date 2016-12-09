@@ -205,11 +205,6 @@ class CRM_Mainactivity_DebriefingConfig {
             'relationship_type' => 'Has authorised',
             'is_debriefing_cc' => false,
           ),
-          array(
-            'activity_type' => 'Business Debriefing BC',
-            'relationship_type' => 'Business Coordinator',
-            'is_debriefing_cc' => false,
-          ),
         ),
       );
   }
