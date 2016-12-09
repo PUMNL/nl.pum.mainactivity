@@ -2,11 +2,6 @@
 
 require_once 'mainactivity.civix.php';
 
-function mainactivity_civicrm_post($op, $objectName, $objectId, &$objectRef) {
-  if ($objectName == 'Tag') {
-    CRM_Cvmutation_EnhancedTags::clearSectorTreeFromCache();
-  }
-}
 
 function mainactivity_civicrm_buildForm($formName, &$form) {
   if ($formName == 'CRM_Case_Form_Activity') {
