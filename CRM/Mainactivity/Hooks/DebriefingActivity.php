@@ -29,6 +29,7 @@ class CRM_Mainactivity_Hooks_DebriefingActivity {
     }
 
     $date = new DateTime();
+    $case = civicrm_api3('Case', 'getsingle', array('id' => $id));
     foreach($config->getDebriefingActivityDefinition($case_type_id) as $act) {
       $role_contact_id = false;
       try {
@@ -46,6 +47,7 @@ class CRM_Mainactivity_Hooks_DebriefingActivity {
       $act_params = array();
       $act_params['activity_type_id'] = $act['activity_type_id'];
       $act_params['case_id'] = $id;
+      $act_params['target_id'] = $case['client_id'];
 
       // only create debriefing activity if no activity of the type on the case
       $activityCount = civicrm_api3("CaseActivity", "Getcount", $act_params);
