@@ -49,10 +49,20 @@ class CRM_Mainactivity_AutomaticCaseStatus {
       $params = array();
       $params['id'] = $dao->case_id;
       $params['status_id'] = $new_status;
-      civicrm_api3('Case', 'create', $params);
 
       //the pre hook doesn't get called when we use the api for updating
-      //so make sure the debriefing activities are loaded as soon as a case reaches debriefing status
+      CRM_Utils_Hook::pre('edit', 'Case', $params['id'], $params);
+
+      civicrm_api3('Case', 'create', $params);
+
+      //the post hook doesn't get called when we use the api for updating
+      $caseObject = new CRM_Case_BAO_Case();
+      $caseObject->id = $params['id'];
+      if ($caseObject->find()) {
+        CRM_Utils_Hook::post('edit', 'Case', $caseObject->id, $caseObject);
+      }
+
+      //also make sure the debriefing activities are loaded as soon as a case reaches debriefing status
       CRM_Mainactivity_Hooks_DebriefingActivity::createDebriefingActivities($new_status, $current_status, $case['case_type_id'], $dao->case_id);
     }
         
