@@ -101,6 +101,12 @@ class CRM_Mainactivity_Upgrader extends CRM_Mainactivity_Upgrader_Base {
     civicrm_api3('Group', 'delete', $group);
     return true;
   }
+
+  public function upgrade_1009() {
+    CRM_Core_DAO::executeQuery("UPDATE `civicrm_option_value` SET `name` = 'Business Debriefing SC', `label` = 'Business Debriefing SC' WHERE `name` = 'Business Debriefing BC'");
+    CRM_Core_DAO::executeQuery("UPDATE `civicrm_custom_group` SET `title` = 'Business Debriefing SC' WHERE `name` = 'Business_Debriefing_SC'");
+    return true;
+  }
   
   private function getCaseTypeIds($case_types) {
     if (empty($this->case_type_id)) {
