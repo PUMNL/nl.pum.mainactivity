@@ -6,6 +6,8 @@ require_once 'mainactivity.civix.php';
 function mainactivity_civicrm_buildForm($formName, &$form) {
   if ($formName == 'CRM_Case_Form_Activity') {
     CRM_Mainactivity_Hooks_BriefingExpertDefaultAssigned::buildForm($formName, $form);
+    // Erik Hommel, 15 Feb 2017, issue 3740 <https://redmine.pum.nl/issues/3740>
+    CRM_Mainactivity_Hooks_ApproveCustomerByExpertDefaultsAssigned::buildForm($form);
   }
 }
 
