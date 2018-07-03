@@ -107,7 +107,18 @@ class CRM_Mainactivity_Upgrader extends CRM_Mainactivity_Upgrader_Base {
     CRM_Core_DAO::executeQuery("UPDATE `civicrm_custom_group` SET `title` = 'Business Debriefing SC' WHERE `name` = 'Business_Debriefing_SC'");
     return true;
   }
-  
+
+  public function upgrade_1010() {
+    $case_types_main_activity_info = array('Advice', 'Business', 'RemoteCoaching', 'Seminar', 'CTM', 'PDV', 'FactFinding');
+    $case_types = $this->getCaseTypeIds($case_types_main_activity_info);
+    $case_type_ids = CRM_Core_DAO::VALUE_SEPARATOR . implode(CRM_Core_DAO::VALUE_SEPARATOR, $case_types) . CRM_Core_DAO::VALUE_SEPARATOR;
+    $sql = "UPDATE `civicrm_custom_group` SET `extends_entity_column_value` = '".$case_type_ids."' WHERE `name` = 'main_activity_info'";
+    CRM_Core_DAO::executeQuery($sql);
+    return true;
+  }
+
+
+
   private function getCaseTypeIds($case_types) {
     if (empty($this->case_type_id)) {
       $this->case_type_id = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'name' => 'case_type'));
