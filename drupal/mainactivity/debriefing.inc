@@ -11,6 +11,8 @@ class mainactivity_debriefing {
   public $seminar;
   
   public $business;
+
+  public $factfinding;
   
   public $business_debriefing_expert;
   
@@ -52,6 +54,7 @@ class mainactivity_debriefing {
     $this->advice = civicrm_api3('OptionValue', 'getvalue', array('name' => 'Advice', 'option_group_id' => $case_type_id, 'return' => 'value'));
     $this->seminar = civicrm_api3('OptionValue', 'getvalue', array('name' => 'Seminar', 'option_group_id' => $case_type_id, 'return' => 'value'));
     $this->business = civicrm_api3('OptionValue', 'getvalue', array('name' => 'Business', 'option_group_id' => $case_type_id, 'return' => 'value'));
+    $this->factfinding = civicrm_api3('OptionValue', 'getvalue', array('name' => 'FactFinding', 'option_group_id' => $case_type_id, 'return' => 'value'));
     $this->remote_coaching = civicrm_api3('OptionValue', 'getvalue', array('name' => 'RemoteCoaching', 'option_group_id' => $case_type_id, 'return' => 'value'));
     $this->business_debriefing_expert = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Business Debriefing Expert', 'option_group_id' => 2));
     $this->business_debriefing_customer = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Business Debriefing Customer', 'option_group_id' => 2));
@@ -74,6 +77,7 @@ class mainactivity_debriefing {
       $this->remote_coaching => $this->remote_coaching,
       $this->seminar => $this->seminar,
       $this->business => $this->business,
+      $this->factfinding => $this->factfinding,
     );
   }
   
