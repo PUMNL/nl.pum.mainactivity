@@ -1,45 +1,45 @@
 <?php
 
 class mainactivity_debriefing {
-  
+
   protected static $singleton;
-  
+
   public $advice;
-  
+
   public $remote_coaching;
-  
+
   public $seminar;
-  
+
   public $business;
 
   public $factfinding;
-  
+
   public $business_debriefing_expert;
-  
+
   public $business_debriefing_customer;
-  
+
   public $advice_debriefing_expert;
-  
+
   public $advice_debriefing_customer;
-  
+
   public $advice_debriefing_rep;
-  
+
   public $seminar_debriefing_expert;
-  
+
   public $seminar_debriefing_customer;
-  
+
   public $seminar_debriefing_rep;
-  
+
   public $remote_coaching_debriefing_expert;
-  
+
   public $remote_coaching_debriefing_customer;
-  
+
   public $remote_coaching_debriefing_rep;
-  
+
   public $briefing_expert_act;
-  
+
   /**
-   * 
+   *
    * @return mainactivity_debriefing
    */
   public static function singleton() {
@@ -48,29 +48,70 @@ class mainactivity_debriefing {
     }
     return self::$singleton;
   }
-  
+
   protected function __construct() {
+    $og_casetype = civicrm_api3('OptionValue', 'get', array('option_group_name' => 'case_type', 'rowCount'=>0));
+    $og_activitytype = civicrm_api3('OptionValue', 'get', array('option_group_name' => 'activity_type', 'rowCount'=>0));
     $case_type_id = civicrm_api3('OptionGroup', 'getvalue', array('return' => 'id', 'name' => 'case_type'));
-    $this->advice = civicrm_api3('OptionValue', 'getvalue', array('name' => 'Advice', 'option_group_id' => $case_type_id, 'return' => 'value'));
-    $this->seminar = civicrm_api3('OptionValue', 'getvalue', array('name' => 'Seminar', 'option_group_id' => $case_type_id, 'return' => 'value'));
-    $this->business = civicrm_api3('OptionValue', 'getvalue', array('name' => 'Business', 'option_group_id' => $case_type_id, 'return' => 'value'));
-    $this->factfinding = civicrm_api3('OptionValue', 'getvalue', array('name' => 'FactFinding', 'option_group_id' => $case_type_id, 'return' => 'value'));
-    $this->remote_coaching = civicrm_api3('OptionValue', 'getvalue', array('name' => 'RemoteCoaching', 'option_group_id' => $case_type_id, 'return' => 'value'));
-    $this->business_debriefing_expert = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Business Debriefing Expert', 'option_group_id' => 2));
-    $this->business_debriefing_customer = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Business Debriefing Customer', 'option_group_id' => 2));
-    $this->advice_debriefing_expert = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Advice Debriefing Expert', 'option_group_id' => 2));
-    $this->advice_debriefing_customer = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Advice Debriefing Customer', 'option_group_id' => 2));
-    $this->advice_debriefing_rep = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Advice Debriefing Representative', 'option_group_id' => 2));
-    $this->seminar_debriefing_expert = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Seminar Debriefing Expert', 'option_group_id' => 2));
-    $this->seminar_debriefing_customer = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Seminar Debriefing Customer', 'option_group_id' => 2));
-    $this->seminar_debriefing_rep = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Seminar Debriefing Representative', 'option_group_id' => 2));
-    $this->remote_coaching_debriefing_expert = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Remote Coaching Debriefing Expert', 'option_group_id' => 2));
-    $this->remote_coaching_debriefing_customer = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Remote Coaching Debriefing Customer', 'option_group_id' => 2));
-    $this->remote_coaching_debriefing_rep = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Remote Coaching Debriefing Representative', 'option_group_id' => 2));
-    
-    $this->briefing_expert_act = civicrm_api3('OptionValue', 'getvalue', array('return' => 'value', 'name' => 'Briefing Expert', 'option_group_id' => 2));
+
+    foreach($og_casetype['values'] as $key => $value){
+      if($value['name'] == 'Advice'){
+        $this->advice = $value['value'];
+      }
+      if($value['name'] == 'Seminar'){
+        $this->seminar = $value['value'];
+      }
+      if($value['name'] == 'Business'){
+        $this->business = $value['value'];
+      }
+      if($value['name'] == 'FactFinding'){
+        $this->factfinding = $value['value'];
+      }
+      if($value['name'] == 'RemoteCoaching'){
+        $this->remote_coaching = $value['value'];
+      }
+    }
+
+    foreach($og_activitytype['values'] as $key => $value){
+      if($value['name'] == 'Business Debriefing Expert'){
+        $this->business_debriefing_expert = $value['value'];
+      }
+      if($value['name'] == 'Business Debriefing Customer'){
+        $this->business_debriefing_customer = $value['value'];
+      }
+      if($value['name'] == 'Advice Debriefing Expert'){
+        $this->advice_debriefing_expert = $value['value'];
+      }
+      if($value['name'] == 'Advice Debriefing Customer'){
+        $this->advice_debriefing_customer = $value['value'];
+      }
+      if($value['name'] == 'Advice Debriefing Representative'){
+        $this->advice_debriefing_rep = $value['value'];
+      }
+      if($value['name'] == 'Seminar Debriefing Expert'){
+        $this->seminar_debriefing_expert = $value['value'];
+      }
+      if($value['name'] == 'Seminar Debriefing Customer'){
+        $this->seminar_debriefing_customer = $value['value'];
+      }
+      if($value['name'] == 'Seminar Debriefing Representative'){
+        $this->seminar_debriefing_rep = $value['value'];
+      }
+      if($value['name'] == 'Remote Coaching Debriefing Expert'){
+        $this->remote_coaching_debriefing_expert = $value['value'];
+      }
+      if($value['name'] == 'Remote Coaching Debriefing Customer'){
+        $this->remote_coaching_debriefing_customer = $value['value'];
+      }
+      if($value['name'] == 'Remote Coaching Debriefing Representative'){
+        $this->remote_coaching_debriefing_rep = $value['value'];
+      }
+      if($value['name'] == 'Briefing Expert'){
+        $this->briefing_expert_act = $value['value'];
+      }
+    }
   }
-  
+
   public function getValidCaseTypesForView() {
     return array (
       $this->advice => $this->advice,
@@ -80,7 +121,7 @@ class mainactivity_debriefing {
       $this->factfinding => $this->factfinding,
     );
   }
-  
+
   public function getValidDebriefingActivityTypesForView() {
     return array (
       $this->business_debriefing_expert => $this->business_debriefing_expert,
@@ -96,7 +137,7 @@ class mainactivity_debriefing {
       $this->remote_coaching_debriefing_rep => $this->remote_coaching_debriefing_rep,
       );
   }
-  
+
   public function validCaseTypes($case_types) {
     foreach($case_types as $case_type) {
       if (in_array($case_type, $this->getValidCaseTypesForView())) {
@@ -104,6 +145,6 @@ class mainactivity_debriefing {
       }
     }
   }
-  
+
 }
 
